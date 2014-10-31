@@ -1,0 +1,2 @@
+INSERT INTO applications
+SELECT 1 AS application_id, 2 AS first_name, 3 AS last_name

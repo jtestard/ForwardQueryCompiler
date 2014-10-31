@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <data_tree>
+        <root>
+            <element>
+                <application_id>1</application_id>
+                <first_name>John</first_name>
+                <last_name>Doe</last_name>
+            </element>
+            <element>
+                <application_id>2</application_id>
+                <first_name>John</first_name>
+                <last_name>Grant</last_name>
+            </element>
+            <element>
+                <application_id>3</application_id>
+                <first_name>Peter</first_name>
+                <last_name>Grant</last_name>
+            </element>
+        </root>
+    </data_tree>
+    <schema_tree>
+        <root type="collection">
+            <element type="tuple">
+                <application_id type="integer" />
+                <first_name type="string" />
+                <last_name type="string" />
+            </element>
+            <constraints>
+                <local-key>
+                    <attribute path="tuple/application_id" />
+                </local-key>
+                <order>
+                    <attribute path="tuple/first_name" spec="ASC" nulls="LAST" />
+                    <attribute path="tuple/last_name" spec="ASC" nulls="LAST" />
+                </order>
+            </constraints>
+        </root>
+    </schema_tree>
+</root>

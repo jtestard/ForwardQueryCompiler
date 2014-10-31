@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <ivm_prov>{=SINGLETON, tuple/foo/baz=[[tuple/eid]]}</ivm_prov>
+    <uas>
+        <data_object name="ceo" execution_data_source="session">
+            <data_tree>
+                <root>
+                </root>
+            </data_tree>
+            <schema_tree>
+                <root type="tuple">
+                    <fname type="string" />
+                    <lname type="string" />
+                    <employees type="collection">
+                        <element type="tuple">
+                            <eid type="string" />
+                            <ename type="string" />
+                        </element>
+                        <constraints>
+                            <local-key>
+                                <attribute path="tuple/eid" />
+                            </local-key>
+                        </constraints>
+                    </employees>
+                </root>
+            </schema_tree>
+        </data_object>
+    </uas>
+    <query_plan wrapping="false">
+        <Project cardinality_estimate="UNKNOWN">
+            <arguments>
+                <Item alias="fname">
+                    <Variable name="fname" />
+                </Item>
+                <Item alias="foo">
+                    <FunctionCall name="TUPLE">
+                        <Variable name="lname" />
+                        <Constant>
+                            <String>bar</String>
+                        </Constant>
+                        <Variable name="employees" />
+                        <Constant>
+                            <String>baz</String>
+                        </Constant>
+                    </FunctionCall>
+                </Item>
+            </arguments>
+            <Scan cardinality_estimate="UNKNOWN" alias="ceo">
+                <arguments>
+                    <Variable data_source="session" mode="ABSOLUTE" schema_object="ceo" />
+                    <Attribute>
+                        <QueryPath steps="employees" />
+                        <Variable name="employees" />
+                    </Attribute>
+                    <Attribute>
+                        <QueryPath steps="fname" />
+                        <Variable name="fname" />
+                    </Attribute>
+                    <Attribute>
+                        <QueryPath steps="lname" />
+                        <Variable name="lname" />
+                    </Attribute>
+                </arguments>
+                <Ground cardinality_estimate="UNKNOWN">
+                    <arguments />
+                </Ground>
+            </Scan>
+        </Project>
+    </query_plan>
+    <retouched>
+        <query_plan wrapping="false">
+            <Project cardinality_estimate="UNKNOWN">
+                <arguments>
+                    <Item alias="fname">
+                        <Variable name="fname" />
+                    </Item>
+                    <Item alias="foo">
+                        <FunctionCall name="TUPLE">
+                            <Variable name="lname" />
+                            <Constant>
+                                <String>bar</String>
+                            </Constant>
+                            <Variable name="employees" />
+                            <Constant>
+                                <String>baz</String>
+                            </Constant>
+                        </FunctionCall>
+                    </Item>
+                </arguments>
+                <Scan cardinality_estimate="UNKNOWN" alias="ceo">
+                    <arguments>
+                        <Variable data_source="session" mode="ABSOLUTE" schema_object="ceo" />
+                        <Attribute>
+                            <QueryPath steps="employees" />
+                            <Variable name="employees" />
+                        </Attribute>
+                        <Attribute>
+                            <QueryPath steps="fname" />
+                            <Variable name="fname" />
+                        </Attribute>
+                        <Attribute>
+                            <QueryPath steps="lname" />
+                            <Variable name="lname" />
+                        </Attribute>
+                    </arguments>
+                    <Ground cardinality_estimate="UNKNOWN">
+                        <arguments />
+                    </Ground>
+                </Scan>
+            </Project>
+        </query_plan>
+    </retouched>
+    <schema_tree>
+        <root type="collection">
+            <element type="tuple">
+                <fname type="string" />
+                <foo type="tuple">
+                    <bar type="string" />
+                    <baz type="collection">
+                        <element type="tuple">
+                            <eid type="string" />
+                            <ename type="string" />
+                        </element>
+                        <constraints>
+                            <local-key>
+                                <attribute path="tuple/eid" />
+                            </local-key>
+                        </constraints>
+                    </baz>
+                </foo>
+            </element>
+        </root>
+    </schema_tree>
+</test_case>

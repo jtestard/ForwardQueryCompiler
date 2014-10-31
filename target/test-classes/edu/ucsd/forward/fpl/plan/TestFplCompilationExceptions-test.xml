@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <action_statement>
+        <![CDATA[
+create action duplicate_exception_declaration() as 
+declare
+    expected_exception exception;
+    expected_exception exception;
+begin             
+    return; 
+end;
+        ]]>
+    </action_statement>
+    <action_statement>
+        <![CDATA[
+create action undeclared_exception() as 
+begin     
+    raise undeclared_exception;        
+    return; 
+end;
+        ]]>
+    </action_statement>
+    <action_statement>
+        <![CDATA[
+create action unhandled_exception() as 
+declare
+    unhandled exception;
+begin             
+    return; 
+end;
+        ]]>
+    </action_statement>
+    <action_statement>
+        <![CDATA[
+create action duplicate_function() as 
+begin             
+    return; 
+end;
+create action duplicate_function() as 
+begin             
+    return; 
+end;
+        ]]>
+    </action_statement>
+    <action_statement>
+        <![CDATA[
+create action duplicate_parameter(IN p string, IN p integer) as  
+begin             
+    return; 
+end;
+        ]]>
+    </action_statement>
+    <action_statement>
+        <![CDATA[
+create action duplicate_variable() as
+declare
+    v integer;
+    v string;  
+begin             
+    return; 
+end;
+        ]]>
+    </action_statement>
+    <action_statement>
+        <![CDATA[
+create action invalid_return_type1() as
+begin             
+    return 1; 
+end;
+        ]]>
+    </action_statement>
+    <action_statement>
+        <![CDATA[
+create action invalid_return_type2() returns integer as  
+begin             
+    return; 
+end;
+        ]]>
+    </action_statement>
+    <action_statement>
+        <![CDATA[
+create action invalid_return_type3() returns integer as 
+begin             
+    return '1'; 
+end;
+        ]]>
+    </action_statement>
+    <action_statement>
+        <![CDATA[
+create action invalid_if_condition_type3() returns integer as 
+begin             
+    IF 'string' THEN
+    return '1';
+    END IF; 
+end;
+        ]]>
+    </action_statement>
+    <action_statement>
+        <![CDATA[
+create action unreachable_statement1() returns integer as 
+begin             
+    return 0;
+    return 1;
+end;
+        ]]>
+    </action_statement>
+    <action_statement>
+        <![CDATA[
+create action unreachable_statement2() returns integer as
+declare 
+    expected_exception exception; 
+begin             
+    raise expected_exception;
+    return 1;
+exception    
+when expected_exception then
+    return 0;    
+end;
+        ]]>
+    </action_statement>
+    <action_statement>
+        <![CDATA[
+create action unreachable_statement3() returns integer as 
+begin
+    IF 1=1 THEN
+    return 1;
+    return 0;
+    END IF;                  
+    return 1;
+end;
+        ]]>
+    </action_statement>
+    <action_statement>
+        <![CDATA[
+create action unreachable_statement4() returns integer as
+declare 
+    expected_exception exception; 
+begin
+    IF 1=1 THEN return 1;
+    ELSIF 2=2 THEN
+       IF 1=1 THEN RAISE expected_exception;
+       ELSE return 2;
+       END IF;  
+    ELSE return 0;
+    END IF;                  
+    return 3;
+exception     
+when expected_exception then
+    return 0;     
+end;
+        ]]>
+    </action_statement>    
+    <action_statement>
+        <![CDATA[
+create action invalid_variable_default_type() as
+declare
+    v integer := 1=1; 
+begin             
+    return; 
+end;
+        ]]>
+    </action_statement>
+    <action_statement>
+        <![CDATA[
+create action unmatch_assignment_type() as
+declare
+    v integer;
+begin
+    v := 1=1;
+    return;
+end;
+        ]]>
+    </action_statement>
+    <action_statement>
+        <![CDATA[
+create action not_returned_function() returns integer as
+begin
+end;
+        ]]>
+    </action_statement>
+    <action_statement>
+        <![CDATA[
+create action not_returned_handler() returns integer as
+declare
+    e exception;
+begin
+    raise e;
+exception
+when e then
+end;
+        ]]>
+    </action_statement>
+</test_case>

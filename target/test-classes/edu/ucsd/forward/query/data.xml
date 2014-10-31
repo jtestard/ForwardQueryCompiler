@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data_model>
+    <type>
+        <dataset>
+            <element>
+                <attribute name="vadminteam">
+                    <relation>
+                        <element>
+                            <attribute name="staffid">
+                                <integer />
+                            </attribute>
+                            <attribute name="firstname">
+                                <string />
+                            </attribute>
+                            <attribute name="lastname">
+                                <string />
+                            </attribute>
+                        </element>
+                    </relation>
+                </attribute>
+                <attribute name="vcommittees">
+                    <relation>
+                        <element>
+                            <attribute name="facultyid">
+                                <integer />
+                            </attribute>
+                            <attribute name="firstname">
+                                <string />
+                            </attribute>
+                            <attribute name="lastname">
+                                <string />
+                            </attribute>
+                            <attribute name="unixuser">
+                                <string />
+                            </attribute>
+                            <attribute name="ischair">
+                                <boolean />
+                            </attribute>
+                        </element>
+                    </relation>
+                </attribute>
+                <attribute name="vapplicantseducation">
+                    <relation>
+                        <element>
+                            <attribute name="aid">
+                                <integer />
+                            </attribute>
+                            <attribute name="localid">
+                                <integer />
+                            </attribute>
+                            <attribute name="schoolname">
+                                <string />
+                            </attribute>
+                            <attribute name="schoollocation">
+                                <string />
+                            </attribute>
+                            <attribute name="schoolcountry">
+                                <string />
+                            </attribute>
+                            <attribute name="datesattended">
+                                <string />
+                            </attribute>
+                            <attribute name="degree">
+                                <string />
+                            </attribute>
+                            <attribute name="major1">
+                                <string />
+                            </attribute>
+                            <attribute name="major2">
+                                <string />
+                            </attribute>
+                        </element>
+                    </relation>
+                </attribute>
+                <attribute name="vapplicantspersonalinfo">
+                    <relation>
+                        <element>
+                            <attribute name="aid">
+                                <integer />
+                            </attribute>
+                            <attribute name="dob">
+                                <timestamp />
+                            </attribute>
+                            <attribute name="gender">
+                                <string />
+                            </attribute>
+                            <attribute name="ethnicity">
+                                <string />
+                            </attribute>
+                            <attribute name="birthcity">
+                                <string />
+                            </attribute>
+                            <attribute name="citizenship">
+                                <string />
+                            </attribute>
+                        </element>
+                    </relation>
+                </attribute>
+                <attribute name="vapplicantsreferences">
+                    <relation>
+                        <element>
+                            <attribute name="aid">
+                                <integer />
+                            </attribute>
+                            <attribute name="localid">
+                                <integer />
+                            </attribute>
+                            <attribute name="referencename">
+                                <string />
+                            </attribute>
+                            <attribute name="referenceemail">
+                                <string />
+                            </attribute>
+                            <attribute name="referenceorganization">
+                                <string />
+                            </attribute>
+                            <attribute name="referencetitle">
+                                <string />
+                            </attribute>
+                            <attribute name="referencerelation">
+                                <string />
+                            </attribute>
+                            <attribute name="rating">
+                                <string />
+                            </attribute>
+                            <attribute name="letter">
+                                <string />
+                            </attribute>
+                        </element>
+                    </relation>
+                </attribute>
+                <attribute name="vapplicantsstmt">
+                    <relation>
+                        <element>
+                            <attribute name="aid">
+                                <integer />
+                            </attribute>
+                            <attribute name="stmt">
+                                <string />
+                            </attribute>
+                            <attribute name="cv">
+                                <string />
+                            </attribute>
+                            <attribute name="cscourses">
+                                <string />
+                            </attribute>
+                            <attribute name="mathcourses">
+                                <string />
+                            </attribute>
+                            <attribute name="complanguages">
+                                <string />
+                            </attribute>
+                        </element>
+                    </relation>
+                </attribute>
+                <attribute name="vapplicantsscoresgre">
+                    <relation>
+                        <element>
+                            <attribute name="aid">
+                                <integer />
+                            </attribute>
+                            <attribute name="source">
+                                <string />
+                            </attribute>
+                            <attribute name="gredate">
+                                <date />
+                            </attribute>
+                            <attribute name="grev">
+                                <decimal />
+                            </attribute>
+                            <attribute name="greq">
+                                <decimal />
+                            </attribute>
+                            <attribute name="grea">
+                                <decimal />
+                            </attribute>
+                        </element>
+                    </relation>
+                </attribute>
+                <attribute name="applicants">
+                    <relation>
+                        <element>
+                            <attribute name="aid">
+                                <integer />
+                            </attribute>
+                            <attribute name="firstname">
+                                <string />
+                            </attribute>
+                            <attribute name="lastname">
+                                <string />
+                            </attribute>
+                            <attribute name="reviewstatusid">
+                                <string />
+                            </attribute>
+                        </element>
+                    </relation>
+                </attribute>
+                <attribute name="reviewsqueue">
+                    <relation>
+                        <element>
+                            <attribute name="aid">
+                                <integer />
+                            </attribute>
+                            <attribute name="facultyid">
+                                <integer />
+                            </attribute>
+                            <attribute name="comments">
+                                <string />
+                            </attribute>
+                            <attribute name="grade">
+                                <decimal />
+                            </attribute>
+                        </element>
+                    </relation>
+                </attribute>
+                <attribute name="missingdata">
+                    <relation>
+                        <element>
+                            <attribute name="aid">
+                                <integer />
+                            </attribute>
+                            <attribute name="staffid">
+                                <integer />
+                            </attribute>
+                        </element>
+                    </relation>
+                </attribute>
+                <attribute name="adminnotification">
+                    <relation>
+                        <element>
+                            <attribute name="aid">
+                                <integer />
+                            </attribute>
+                            <attribute name="staffid">
+                                <integer />
+                            </attribute>
+                        </element>
+                    </relation>
+                </attribute>
+                <attribute name="chairnotification">
+                    <relation>
+                        <element>
+                            <attribute name="aid">
+                                <integer />
+                            </attribute>
+                            <attribute name="facultyid">
+                                <integer />
+                            </attribute>
+                        </element>
+                    </relation>
+                </attribute>
+                <attribute name="vreviewsqueuesummary">
+                    <relation>
+                        <element>
+                            <attribute name="aid">
+                                <integer />
+                            </attribute>
+                            <attribute name="facultyid">
+                                <integer />
+                            </attribute>
+                            <attribute name="firstname">
+                                <string />
+                            </attribute>
+                            <attribute name="lastname">
+                                <string />
+                            </attribute>
+                            <attribute name="grade">
+                                <decimal />
+                            </attribute>
+                            <attribute name="applicanttype">
+                                <string />
+                            </attribute>
+                            <attribute name="country">
+                                <string />
+                            </attribute>
+                            <attribute name="degree">
+                                <string />
+                            </attribute>
+                            <attribute name="area1">
+                                <string />
+                            </attribute>
+                            <attribute name="area2">
+                                <string />
+                            </attribute>
+                            <attribute name="facultylist">
+                                <string />
+                            </attribute>
+                            <attribute name="aidrequest">
+                                <string />
+                            </attribute>
+                            <attribute name="reviewstatusid">
+                                <string />
+                            </attribute>
+                            <attribute name="comments">
+                                <string />
+                            </attribute>
+                            <attribute name="grade">
+                                <decimal />
+                            </attribute>
+                        </element>
+                    </relation>
+                </attribute>
+            </element>
+        </dataset>
+    </type>
+    <constraints>
+        <local-key>
+            <attribute path="vcommittees/tuple/facultyid" />
+        </local-key>
+        <local-key>
+            <attribute path="vadminteam/tuple/staffid" />
+        </local-key>
+        <local-key>
+            <attribute path="vapplicantsstmt/tuple/aid" />
+        </local-key>
+        <local-key>
+            <attribute path="vapplicantsreferences/tuple/aid" />
+            <attribute path="vapplicantsreferences/tuple/localid" />
+        </local-key>
+        <local-key>
+            <attribute path="vreviewsqueuesummary/tuple/aid" />
+            <attribute path="vreviewsqueuesummary/tuple/facultyid" />
+        </local-key>
+        <local-key>
+            <attribute path="vapplicantspersonalinfo/tuple/aid" />
+        </local-key>
+        <local-key>
+            <attribute path="vapplicantseducation/tuple/aid" />
+            <attribute path="vapplicantseducation/tuple/localid" />
+        </local-key>
+        <local-key>
+            <attribute path="vapplicantsscoresgre/tuple/aid" />
+            <attribute path="vapplicantsscoresgre/tuple/gredate" />
+            <attribute path="vapplicantsscoresgre/tuple/source" />
+        </local-key>
+        <local-key>
+            <attribute path="reviewsqueue/tuple/aid" />
+            <attribute path="reviewsqueue/tuple/facultyid" />
+        </local-key>
+        <local-key>
+            <attribute path="missingdata/tuple/aid" />
+            <attribute path="missingdata/tuple/staffid" />
+        </local-key>
+        <local-key>
+            <attribute path="adminnotification/tuple/aid" />
+            <attribute path="adminnotification/tuple/staffid" />
+        </local-key>
+        <local-key>
+            <attribute path="chairnotification/tuple/aid" />
+            <attribute path="chairnotification/tuple/facultyid" />
+        </local-key>
+        <local-key>
+            <attribute path="applicants/tuple/aid" />
+        </local-key>
+    </constraints>
+</data_model>

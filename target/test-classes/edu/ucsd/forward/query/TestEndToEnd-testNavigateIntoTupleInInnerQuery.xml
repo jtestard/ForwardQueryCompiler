@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_expression>
+        <![CDATA[       
+   SELECT 
+      d.l.id      
+   FROM
+      (
+         SELECT ALL
+            CAST((SELECT 1 AS id) AS tuple) AS l
+      ) AS d
+        ]]>
+    </query_expression>
+    <!-- <data_source name="jdbc" storage_system="JDBC" data_model="RELATIONAL"> <properties user="postgres" password="postgres" maxPoolSize="20" 
+        unreturnedConnectionTimeout="0" debugUnreturnedConnectionStackTraces="true" driver="postgresql" host="localhost" port="5432" database="gradvote-vldb" 
+        /> </data_source> <data_model> <data_source name="datamart" storage_system="JDBC" data_model="RELATIONAL"> <properties environment="development" 
+        driver="postgresql" host="localhost" port="5432" database="bioheatmap" schema="datamart" user="postgres" password="postgres" maxPoolSize="20" 
+        unreturnedConnectionTimeout="0" debugUnreturnedConnectionStackTraces="true" /> <properties environment="testing" driver="postgresql" 
+        host="localhost" port="5432" database="bioheatmap" schema="datamart" user="postgres" password="postgres" maxPoolSize="20" unreturnedConnectionTimeout="0" 
+        debugUnreturnedConnectionStackTraces="true" /> <properties environment="production" driver="postgresql" host="localhost" port="5432" 
+        database="bioheatmap" schema="datamart" user="ubuntu" password="ubuntu" maxPoolSize="20" unreturnedConnectionTimeout="0" debugUnreturnedConnectionStackTraces="true" 
+        /> </data_source> </data_model> -->
+    <data_object name="output" execution_data_source="output">
+        <data_tree>
+            <root>
+                <element>
+                    <id>1</id>
+                </element>
+            </root>
+        </data_tree>
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <id type="integer" />
+                </element>
+            </root>
+        </schema_tree>
+    </data_object>
+</test_case>

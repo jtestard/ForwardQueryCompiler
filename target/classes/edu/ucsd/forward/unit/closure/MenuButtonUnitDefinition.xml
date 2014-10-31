@@ -1,0 +1,21 @@
+<doc>
+    <entry path="/MenuButton">A menu button control. Extends goog.ui.Button by composing a button with a dropdown arrow and a popup menu.</entry>
+    <entry path="/MenuButton/style">This is a CSS styling attribute as defined by the CSS Styling Attribute Syntax specification.</entry>
+    <entry path="/MenuButton/visible">Shows or hides the container. Does nothing if the container already has the requested visibility. Otherwise, dispatches a SHOW or HIDE event as appropriate, giving listeners a chance to prevent the visibility change.</entry>
+    <entry path="/MenuButton/render">Registers the given renderer with the container. Changing renderers after the container has already been rendered or decorated is an error.</entry>
+    <entry path="/MenuButton/menu/options/option">A MenuButton Item within the MenuButton.</entry>
+    <entry path="/MenuButton/menu/options/option/content">Sets the content of the MenuButton.</entry>
+    <entry path="/MenuButton/menu/options/option/enabled">Enables/disables the container based on the enable argument. Dispatches an ENABLED or DISABLED event prior to changing the container&amp;amp;#39;s state, which may be caught and canceled to prevent the container from changing state. Also enables/disables child controls.</entry>
+    <entry path="/MenuButton/menu/options/option/is_separator">Defines whether the option is a MenuButton separator or not.</entry>
+    <entry path="/MenuButton/menu/options/option/caption">Sets the text caption of the component.</entry>
+    <entry path="/MenuButton/menu/options/option/checkable">Sets the MenuButton item to be checkable or not. Set to true for MenuButton items that represent checkable options.</entry>
+    <entry path="/MenuButton/menu/options/option/option_highlight">Highlights or unhighlights the component. Does nothing if this state transition is disallowed.</entry>
+    <entry path="/MenuButton/position">Sets the position of the MenuButton relative to the view port.</entry>
+    <entry path="/MenuButton/enabled">Enables or disables the component. Does nothing if this state transition is disallowed. If the component is both visible and focusable, updates its focused state and tab index as needed. If the component is being disabled, ensures that it is also deactivated and un-highlighted first. Note that the component&#39;s enabled/disabled state is &quot;locked&quot; as long as it is hosted in a goog.ui.Container that is itself disabled; this is to prevent clients from accidentally re-enabling a control that is in a disabled container.</entry>
+    <entry path="/MenuButton/scroll_on_overflow">Sets whether the menu should scroll when it's too big to fix vertically on the screen. The css of the menu element should have overflow set to auto. Note: Adding or removing items while the menu is open will not work correctly if scrollOnOverflow is on.</entry>
+    <entry path="/MenuButton/selected">Selects or unselects the component. Does nothing if this state transition is disallowed.</entry>
+    <entry path="/MenuButton/menu_caption">Sets the text caption of the component.</entry>
+    <entry path="/MenuButton/collapsed">Collapses the border on one or both sides of the button, allowing it to be combined with the adjancent button(s), forming a single UI componenet with multiple targets.</entry>
+    <entry path="/MenuButton/highlight">Highlights or unhighlights the component. Does nothing if this state transition is disallowed.</entry>
+</doc>
+

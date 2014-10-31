@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module rename-to='action'>
+
+    <!-- Inherit the core Web Toolkit stuff. -->
+    <inherits name='com.google.gwt.user.User' />
+
+    <source path='fpl'>
+        <exclude name='*/**/*' />
+        <exclude name='Test*.java' />
+        <exclude name='*TestCase*.java' />
+    </source>
+
+    <source path='fpl/ast'>
+        <exclude name='*/**/*' />
+        <exclude name='Test*.java' />
+        <exclude name='*TestCase*.java' />
+    </source>
+
+    <source path='fpl/ast/visitors'>
+        <exclude name='*/**/*' />
+        <exclude name='Test*.java' />
+        <exclude name='*TestCase*.java' />
+    </source>
+
+    <source path='fpl/explain'>
+        <exclude name='*/**/*' />
+        <exclude name='Test*.java' />
+        <exclude name='*TestCase*.java' />
+    </source>
+
+    <source path='fpl/plan'>
+        <exclude name='*/**/*' />
+        <exclude name='Test*.java' />
+        <exclude name='*TestCase*.java' />
+    </source>
+
+    <source path='fpl/plan/xml'>
+        <exclude name='*/**/*' />
+        <exclude name='Test*.java' />
+        <exclude name='*TestCase*.java' />
+    </source>
+</module>

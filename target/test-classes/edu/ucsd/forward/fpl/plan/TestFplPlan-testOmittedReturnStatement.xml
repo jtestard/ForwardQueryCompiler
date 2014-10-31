@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <action_statement>
+        <![CDATA[
+create action test_omitted_return_statement() as    
+declare 
+    e1 exception;
+    e2 exception;
+begin
+    if actual.actual = 3 then actual.actual := 2;
+    elsif actual.actual = 2 then raise e1;
+    else raise e2;    
+    end if;
+exception
+when e1 then
+    actual.actual := 4;
+when e2 then
+    actual.actual := 5;    
+end;
+        ]]>
+    </action_statement>
+    <query_expression>test_omitted_return_statement();</query_expression>
+    <data_object name="actual" execution_data_source="actual" cardinality_estimate="SMALL" storage_system="INMEMORY">
+        <schema_tree>
+            <root type="integer" />
+        </schema_tree>
+        <data_tree>
+            <root>
+                <integer>2</integer>
+            </root>
+        </data_tree>
+    </data_object>
+    <data_object name="expected" execution_data_source="expected" cardinality_estimate="SMALL" storage_system="INMEMORY">
+        <schema_tree>
+            <root type="integer" />
+        </schema_tree>
+        <data_tree>
+            <root>
+                <integer>4</integer>
+            </root>
+        </data_tree>
+    </data_object>
+</test_case>

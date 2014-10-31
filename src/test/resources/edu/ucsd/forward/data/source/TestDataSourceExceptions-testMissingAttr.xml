@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <data_source storage_system="JDBC" data_model="RELATIONAL" />
+</test_case>

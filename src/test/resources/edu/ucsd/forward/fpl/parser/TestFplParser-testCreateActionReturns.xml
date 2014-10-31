@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <action_statement>
+        <![CDATA[
+            CREATE ACTION public/admin/a1() RETURNS
+                switch (
+                    sent tuple (
+                        sent_timestamp  timestamp
+                    ),
+                    not_sent tuple (
+                        error string
+                    )
+                )
+            AS BEGIN END;
+        ]]>
+    </action_statement>
+    <action_statement>
+        <![CDATA[
+            CREATE ACTION public/admin/a1() RETURNS
+                switch (
+                    sent tuple (
+                        sent_timestamp  timestamp
+                    ),
+                    not_sent tuple (
+                        error string
+                    )
+                )
+            AS BEGIN END;
+        ]]>
+    </action_statement>
+</test_case>

@@ -1,0 +1,3 @@
+UPDATE applications
+WHERE application_id = 1
+SET application_id = 2,application_id = 3

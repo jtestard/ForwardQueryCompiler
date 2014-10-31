@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_plan wrapping="false">
+        <Scan alias="a" cardinality_estimate="UNKNOWN">
+            <arguments>
+                <Variable data_source="session" mode="ABSOLUTE" schema_object="bag" />
+            </arguments>
+            <Scan alias="b" cardinality_estimate="UNKNOWN">
+                <arguments>
+                    <Variable data_source="session" mode="ABSOLUTE" schema_object="departments" />
+                </arguments>
+                <Ground cardinality_estimate="UNKNOWN">
+                    <arguments />
+                </Ground>
+            </Scan>
+        </Scan>
+    </query_plan>
+    <output_schema>
+        <root type="collection">
+            <element type="tuple">
+                <b type="tuple">
+                    <did type="integer" />
+                    <dname type="string" />
+                    <employees type="collection">
+                        <element type="tuple">
+                            <eid type="string" />
+                            <ename type="string" />
+                        </element>
+                        <constraints>
+                            <local-key collection="/tuple/employees">
+                                <attribute path="tuple/eid" />
+                            </local-key>
+                        </constraints>
+                    </employees>
+                </b>
+                <a type="tuple">
+                    <item type="string" />
+                    <labels type="collection">
+                        <element type="tuple">
+                            <text type="string" />
+                        </element>
+                        <constraints>
+                            <local-key collection="/tuple/labels">
+                                <attribute path="tuple/text" />
+                            </local-key>
+                        </constraints>
+                    </labels>
+                </a>
+            </element>
+        </root>
+        <constraints />
+    </output_schema>
+</test_case>

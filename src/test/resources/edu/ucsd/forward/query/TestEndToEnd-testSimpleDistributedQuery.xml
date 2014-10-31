@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_expression>
+        <![CDATA[
+        SELECT name, l.value, i.income FROM 
+                mem1.income as i
+            JOIN
+                (SELECT a.name AS name, AVG(v.value) AS value FROM 
+                    db.patient as a
+                JOIN 
+                    mem1.mvalues as v
+                ON 
+                    (a.account_number = v.account_number)
+                GROUP BY 
+                    name    
+                ) as l
+             ON (i.value = l.value)
+        ]]>
+    </query_expression>
+    <data_source name="db" storage_system="JDBC" data_model="RELATIONAL">
+        <properties environment="testing" overwrite="false" user="postgres" password="postgres" maxPoolSize="20"
+            unreturnedConnectionTimeout="0" debugUnreturnedConnectionStackTraces="true" driver="postgresql" host="localhost" port="5432"
+            database="test" schema="patient" />
+    </data_source>
+    
+    <data_source name="mem1" storage_system="INMEMORY" data_model="RELATIONAL" />
+    <data_object name="mvalues" execution_data_source="mem1" cardinality_estimate="SMALL">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <account_number type="integer" />
+                    <value type="integer" />
+                </element>
+                <constraints>
+                    <local-key collection="/">
+                        <attribute path="tuple/account_number" />
+                    </local-key>
+                </constraints>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <account_number>58</account_number>
+                    <value>4</value>
+                </element>
+                <element>
+                    <account_number>142</account_number>
+                    <value>1</value>
+                </element>
+                <element>
+                    <account_number>5697</account_number>
+                    <value>5</value>
+                </element>
+                <element>
+                    <account_number>58</account_number>
+                    <value>2</value>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+    
+    <data_object name="income" execution_data_source="mem1" cardinality_estimate="SMALL">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <income type="integer" />
+                    <value type="integer" />
+                </element>
+                <constraints>
+                    <local-key collection="/">
+                        <attribute path="tuple/value" />
+                    </local-key>
+                </constraints>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <income>12</income>
+                    <value>1</value>
+                </element>
+                <element>
+                    <income>13</income>
+                    <value>3</value>
+                </element>
+                <element>
+                    <income>14</income>
+                    <value>5</value>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+</test_case>

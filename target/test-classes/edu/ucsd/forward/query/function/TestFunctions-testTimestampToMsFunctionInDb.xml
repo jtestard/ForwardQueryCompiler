@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_expression>
+        <![CDATA[
+        	select timestamp_to_ms(ts) as a
+            from   src_1.x
+        ]]>
+    </query_expression>
+    <data_source name="src_1" storage_system="JDBC" data_model="RELATIONAL">
+        <properties environment="development" overwrite="true" user="postgres" password="postgres" maxPoolSize="20"
+            unreturnedConnectionTimeout="0" debugUnreturnedConnectionStackTraces="true" driver="postgresql" host="localhost" port="5432"
+            database="forward" schema="public" />
+        <properties environment="testing" overwrite="true" user="postgres" password="postgres" maxPoolSize="20"
+            unreturnedConnectionTimeout="0" debugUnreturnedConnectionStackTraces="true" driver="postgresql" host="localhost" port="5432"
+            database="forward" schema="public" />
+        <properties environment="jenkins" overwrite="true" user="postgres" password="postgres" maxPoolSize="20"
+            unreturnedConnectionTimeout="0" debugUnreturnedConnectionStackTraces="true" driver="postgresql" host="localhost" port="5432"
+            database="forward" schema="public" />
+    </data_source>
+    <data_object name="x" execution_data_source="src_1" cardinality_estimate="LARGE">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <ts type="timestamp" />
+                </element>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <ts>July 1, 2014 1:34:47 PM PDT</ts>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+    <data_object name="output" execution_data_source="output">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <a type="long" />
+                </element>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <a>1404246887000</a>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+</test_case>

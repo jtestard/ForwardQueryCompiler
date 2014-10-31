@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_plan>
+        <SendPlan cardinality_estimate="SMALL" execution_data_source="mediator" impl="SendPlanImplInMemory">
+            <arguments>
+                <Insert target_data_source="db" cardinality_estimate="SMALL" execution_data_source="mediator" impl="InsertImplJdbc">
+                    <arguments>
+                        <target>
+                            <Variable mode="ABSOLUTE" data_source="db" schema_object="customers" />
+                        </target>
+                        <attributes>
+                            <attribute name="cid" />
+                            <attribute name="name" />
+                        </attributes>
+                        <query_plan>
+                            <SendPlan cardinality_estimate="SMALL" execution_data_source="db" impl="SendPlanImplJdbc">
+                                <arguments>
+                                    <Project cardinality_estimate="SMALL" execution_data_source="db" impl="ProjectImpl">
+                                        <arguments>
+                                            <Item alias="cid">
+                                                <Variable name="cid" />
+                                            </Item>
+                                            <Item alias="name">
+                                                <Variable name="name" />
+                                            </Item>
+                                        </arguments>
+                                        <Navigate alias="cid" cardinality_estimate="SMALL" execution_data_source="db"
+                                            impl="NavigateImpl">
+                                            <arguments>
+                                                <QueryPath steps="cid">
+                                                    <Variable name="customers" />
+                                                </QueryPath>
+                                            </arguments>
+                                            <Navigate alias="name" cardinality_estimate="SMALL" execution_data_source="db"
+                                                impl="NavigateImpl">
+                                                <arguments>
+                                                    <QueryPath steps="name">
+                                                        <Variable name="customers" />
+                                                    </QueryPath>
+                                                </arguments>
+                                                <Scan alias="customers" cardinality_estimate="SMALL" execution_data_source="db"
+                                                    impl="ScanImpl">
+                                                    <arguments>
+                                                        <Variable mode="ABSOLUTE" data_source="db" schema_object="customers" />
+                                                    </arguments>
+                                                    <Ground execution_data_source="db" impl="GroundImpl"
+                                                        cardinality_estimate="ONE" />
+                                                </Scan>
+                                            </Navigate>
+                                        </Navigate>
+                                    </Project>
+                                </arguments>
+                            </SendPlan>
+                        </query_plan>
+                    </arguments>
+                    <Ground cardinality_estimate="ONE" execution_data_source="mediator" impl="GroundImpl" />
+                </Insert>
+            </arguments>
+        </SendPlan>
+    </query_plan>
+    <query_plan>
+        <SendPlan execution_data_source="db" impl="SendPlanImplJdbc">
+            <arguments>
+                <Scan alias="customers" execution_data_source="db" cardinality_estimate="SMALL">
+                    <arguments>
+                        <Variable mode="ABSOLUTE" data_source="db" schema_object="customers" />
+                    </arguments>
+                    <Ground execution_data_source="db" cardinality_estimate="SMALL" />
+                </Scan>
+            </arguments>
+        </SendPlan>
+    </query_plan>
+    <data_source name="db" storage_system="JDBC">
+        <properties environment="jenkins" overwrite="true" user="postgres" password="postgres" maxPoolSize="1"
+            unreturnedConnectionTimeout="0" debugUnreturnedConnectionStackTraces="true" driver="postgresql" host="localhost" port="5432"
+            database="forward" schema="public" />
+        <properties environment="testing" overwrite="true" user="postgres" password="postgres" maxPoolSize="1"
+            unreturnedConnectionTimeout="0" debugUnreturnedConnectionStackTraces="true" driver="postgresql" host="localhost" port="5432"
+            database="forward" schema="public" />
+    </data_source>
+    <data_object name="customers" execution_data_source="db" cardinality_estimate="SMALL">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <cid type="integer" />
+                    <name type="string" />
+                </element>
+                <constraints>
+                    <local-key>
+                        <attribute path="tuple/cid" />
+                    </local-key>
+                </constraints>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <cid>1</cid>
+                    <name>John</name>
+                </element>
+                <element>
+                    <cid>2</cid>
+                    <name>Mary</name>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+    <data_object name="output" execution_data_source="output">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <customers type="tuple">
+                        <cid type="integer" />
+                        <name type="string" />
+                    </customers>
+                </element>
+                <constraints>
+                    <local-key>
+                        <attribute path="tuple/customers/cid" />
+                    </local-key>
+                </constraints>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <customers>
+                        <cid>1</cid>
+                        <name>John</name>
+                    </customers>
+                </element>
+                <element>
+                    <customers>
+                        <cid>2</cid>
+                        <name>Mary</name>
+                    </customers>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+</test_case>

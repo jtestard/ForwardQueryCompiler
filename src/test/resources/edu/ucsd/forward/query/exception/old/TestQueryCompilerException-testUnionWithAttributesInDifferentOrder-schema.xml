@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data_model>
+    <data>
+        <dataset>
+            <element>
+                <attribute name="proposals">
+                    <relation>
+                        <element>
+                            <attribute name="proposal_id">
+                                <integer>1</integer>
+                            </attribute>
+                            <attribute name="title">
+                                <string>Invisible cloak</string>
+                            </attribute>
+                            <attribute name="reviews">
+                                <relation></relation>
+                            </attribute>
+                        </element>
+                        <element>
+                            <attribute name="proposal_id">
+                                <integer>2</integer>
+                            </attribute>
+                            <attribute name="title">
+                                <string>Flying cars</string>
+                            </attribute>
+                            <attribute name="reviews">
+                                <relation></relation>
+                            </attribute>
+                        </element>                        
+                    </relation>
+                </attribute>
+            </element>
+        </dataset>
+    </data>
+    <type>
+        <dataset>
+            <element>
+                <attribute name="proposals">
+                    <relation>
+                        <element>
+                            <attribute name="proposal_id">
+                                <integer />
+                            </attribute>
+                            <attribute name="title">
+                                <string />
+                            </attribute>
+                            <attribute name="reviews">
+                                <relation>
+                                    <element>
+                                        <attribute name="review_id">
+                                            <integer />
+                                        </attribute>
+                                        <attribute name="comment">
+                                            <string />
+                                        </attribute>
+                                        <attribute name="grade">
+                                            <integer />
+                                        </attribute>
+                                        <attribute name="reviewer">
+                                            <string />
+                                        </attribute>
+                                    </element>
+                                </relation>
+                            </attribute>
+                        </element>
+                    </relation>
+                </attribute>
+            </element>
+        </dataset>
+    </type>
+    <constraints>
+        <local-key>
+            <attribute path="proposals/tuple/proposal_id" />
+        </local-key>
+        <local-key>
+            <attribute path="proposals/tuple/reviews/tuple/review_id" />
+        </local-key>
+    </constraints>
+</data_model>

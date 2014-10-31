@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <data_tree>
+        <root>
+            <user_id>john@doe.com</user_id>
+            <applications>
+                <element>
+                    <application_id>123</application_id>
+                    <name>
+                        <first_name>John</first_name>
+                        <last_name>Doe</last_name>
+                    </name>
+                    <applying_for>
+                        <phd>
+                            <specialization>Databases</specialization>
+                            <advisor_choice>Prof. White Beard</advisor_choice>
+                        </phd>
+                    </applying_for>
+                    <degrees>
+                        <element>
+                            <degree_id>1</degree_id>
+                            <school>School of Hard Knocks</school>
+                            <year>1910</year>
+                        </element>
+                        <element>
+                            <degree_id>3</degree_id>
+                            <school>School of Rock</school>
+                            <year null="true" />
+                        </element>
+                    </degrees>
+                </element>
+            </applications>
+        </root>
+    </data_tree>
+    <schema_tree>
+        <root type="tuple">
+            <user_id type="string" />
+            <applications type="collection">
+                <element type="tuple">
+                    <application_id type="integer" />
+                    <name type="tuple">
+                        <first_name type="string" />
+                        <last_name type="string" />
+                    </name>
+                    <applying_for type="switch">
+                        <phd type="tuple">
+                            <specialization type="string" />
+                            <advisor_choice type="string" />
+                        </phd>
+                        <master type="tuple">
+                            <area_of_interest type="string" />
+                        </master>
+                    </applying_for>
+                    <degrees type="collection">
+                        <element type="tuple">
+                            <degree_id type="integer" />
+                            <school type="string" />
+                            <year type="integer" />
+                        </element>
+                        <constraints>
+                            <local-key>
+                                <attribute path="tuple/degree_id" />
+                            </local-key>
+                        </constraints>
+                    </degrees>
+                </element>
+                <constraints>
+                    <local-key>
+                        <attribute path="tuple/application_id" />
+                    </local-key>
+                </constraints>
+            </applications>
+        </root>
+    </schema_tree>
+</root>

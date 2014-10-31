@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_expression>
+        <![CDATA[
+            SELECT P1.proposal_id AS pid
+            FROM src1.proposals AS P1
+            UNION 
+            SELECT P1.proposal_id AS pid
+            FROM src1.proposals AS P1
+        ]]>
+    </query_expression>
+    <data_object name="proposals" execution_data_source="src1" cardinality_estimate="LARGE" data_model="RELATIONAL"
+        storage_system="INMEMORY">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <proposal_id type="integer" />
+                    <title type="string" />
+                </element>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <proposal_id>10</proposal_id>
+                    <title>A</title>
+                </element>
+                <element>
+                    <proposal_id>2</proposal_id>
+                    <title>B</title>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+
+    <query_plan wrapping="false">
+        <UNION cardinality_estimate="UNKNOWN" set_quantifier="DISTINCT">
+            <arguments />
+            <Project cardinality_estimate="UNKNOWN">
+                <arguments>
+                    <Item alias="pid">
+                        <Variable name="__v0" />
+                    </Item>
+                </arguments>
+                <Navigate alias="__v0" cardinality_estimate="UNKNOWN">
+                    <arguments>
+                        <QueryPath steps="proposal_id">
+                            <Variable mode="ELEMENT" name="P1" />
+                        </QueryPath>
+                    </arguments>
+                    <Scan alias="P1" cardinality_estimate="UNKNOWN">
+                        <arguments>
+                            <Variable data_source="src1" mode="ABSOLUTE" schema_object="proposals" />
+                        </arguments>
+                        <Ground cardinality_estimate="UNKNOWN">
+                            <arguments />
+                        </Ground>
+                    </Scan>
+                </Navigate>
+            </Project>
+            <Project cardinality_estimate="UNKNOWN">
+                <arguments>
+                    <Item alias="pid">
+                        <Variable name="__v1" />
+                    </Item>
+                </arguments>
+                <Navigate alias="__v1" cardinality_estimate="UNKNOWN">
+                    <arguments>
+                        <QueryPath steps="proposal_id">
+                            <Variable mode="ELEMENT" name="P1" />
+                        </QueryPath>
+                    </arguments>
+                    <Scan alias="P1" cardinality_estimate="UNKNOWN">
+                        <arguments>
+                            <Variable data_source="src1" mode="ABSOLUTE" schema_object="proposals" />
+                        </arguments>
+                        <Ground cardinality_estimate="UNKNOWN">
+                            <arguments />
+                        </Ground>
+                    </Scan>
+                </Navigate>
+            </Project>
+        </UNION>
+    </query_plan>
+
+    <query_plan wrapping="false">
+        <UNION cardinality_estimate="UNKNOWN" set_quantifier="DISTINCT">
+            <arguments />
+            <Subquery alias="__sqlwrap_0" cardinality_estimate="UNKNOWN">
+                <arguments />
+                <Project cardinality_estimate="UNKNOWN">
+                    <arguments>
+                        <Item alias="pid">
+                            <Variable name="__v0" />
+                        </Item>
+                    </arguments>
+                    <Navigate alias="__v0" cardinality_estimate="UNKNOWN">
+                        <arguments>
+                            <QueryPath steps="proposal_id">
+                                <Variable mode="ELEMENT" name="P1" />
+                            </QueryPath>
+                        </arguments>
+                        <Scan alias="P1" cardinality_estimate="UNKNOWN">
+                            <arguments>
+                                <Variable data_source="src1" mode="ABSOLUTE" schema_object="proposals" />
+                            </arguments>
+                            <Ground cardinality_estimate="UNKNOWN">
+                                <arguments />
+                            </Ground>
+                        </Scan>
+                    </Navigate>
+                </Project>
+            </Subquery>
+            <Project cardinality_estimate="UNKNOWN">
+                <arguments>
+                    <Item alias="pid">
+                        <Variable name="__v1" />
+                    </Item>
+                </arguments>
+                <Navigate alias="__v1" cardinality_estimate="UNKNOWN">
+                    <arguments>
+                        <QueryPath steps="proposal_id">
+                            <Variable mode="ELEMENT" name="P1" />
+                        </QueryPath>
+                    </arguments>
+                    <Scan alias="P1" cardinality_estimate="UNKNOWN">
+                        <arguments>
+                            <Variable data_source="src1" mode="ABSOLUTE" schema_object="proposals" />
+                        </arguments>
+                        <Ground cardinality_estimate="UNKNOWN">
+                            <arguments />
+                        </Ground>
+                    </Scan>
+                </Navigate>
+            </Project>
+        </UNION>
+    </query_plan>
+
+    <data_object name="output" execution_data_source="output">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <pid type="integer" />
+                </element>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <pid>10</pid>
+                </element>
+                <element>
+                    <pid>2</pid>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+</test_case>

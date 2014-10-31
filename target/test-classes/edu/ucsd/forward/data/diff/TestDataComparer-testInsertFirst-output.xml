@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<diffs>
+    <ReplaceDiff context="/">
+        <payload>
+            <element>
+                <proposal_id>1</proposal_id>
+                <title>My title</title>
+                <author>My author</author>
+            </element>
+            <element>
+                <proposal_id>2</proposal_id>
+                <title>My title 2</title>
+                <author>My author 2</author>
+            </element>
+            <element>
+                <proposal_id>3</proposal_id>
+                <title>My title 3</title>
+                <author>My author 3</author>
+            </element>
+        </payload>
+    </ReplaceDiff>
+</diffs>

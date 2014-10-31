@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_plan>
+        <SendPlan alias="__qoutput" cardinality_estimate="SMALL" execution_data_source="mediator" impl="SendPlanImplInMemory">
+            <arguments>
+                <union impl="UnionImpl" set_quantifier="ALL" execution_data_source="mediator" cardinality_estimate="SMALL">
+                    <SendPlan cardinality_estimate="SMALL" execution_data_source="src_1" impl="SendPlanImplInMemory">
+                        <arguments>
+                            <Scan alias="P" execution_data_source="src_1" cardinality_estimate="SMALL">
+                                <arguments>
+                                    <Variable mode="ABSOLUTE" data_source="src_1" schema_object="proposals1" />
+                                    <Attribute>
+                                        <QueryPath steps="proposal_id" />
+                                        <Variable name="proposal_id" />
+                                    </Attribute>
+                                </arguments>
+                                <Ground execution_data_source="src_1" cardinality_estimate="SMALL" />
+                            </Scan>
+                        </arguments>
+                    </SendPlan>
+                    <SendPlan cardinality_estimate="SMALL" execution_data_source="src_1" impl="SendPlanImplInMemory">
+                        <arguments>
+                            <Scan alias="R" execution_data_source="src_1" cardinality_estimate="SMALL">
+                                <arguments>
+                                    <Variable mode="ABSOLUTE" data_source="src_1" schema_object="proposals2" />
+                                    <Attribute>
+                                        <QueryPath steps="proposal_id" />
+                                        <Variable name="proposal_id" />
+                                    </Attribute>
+                                </arguments>
+                                <Ground execution_data_source="src_1" cardinality_estimate="SMALL" />
+                            </Scan>
+                        </arguments>
+                    </SendPlan>
+                </union>
+            </arguments>
+        </SendPlan>
+    </query_plan>
+    <data_object name="proposals1" execution_data_source="src_1">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <proposal_id type="integer" />
+                </element>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <proposal_id>1</proposal_id>
+                </element>
+                <element>
+                    <proposal_id>2</proposal_id>
+                </element>
+                <element>
+                    <proposal_id null="true" />
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+    <data_object name="proposals2" execution_data_source="src_1">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <proposal_id type="integer" />
+                </element>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <proposal_id>2</proposal_id>
+                </element>
+                <element>
+                    <proposal_id>3</proposal_id>
+                </element>
+                <element>
+                    <proposal_id null="true" />
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+    <data_object name="output" execution_data_source="output">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <proposal_id type="integer" />
+                </element>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <proposal_id>1</proposal_id>
+                </element>
+                <element>
+                    <proposal_id>2</proposal_id>
+                </element>
+                <element>
+                    <proposal_id null="true" />
+                </element>
+                <element>
+                    <proposal_id>2</proposal_id>
+                </element>
+                <element>
+                    <proposal_id>3</proposal_id>
+                </element>
+                <element>
+                    <proposal_id null="true" />
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+</test_case>

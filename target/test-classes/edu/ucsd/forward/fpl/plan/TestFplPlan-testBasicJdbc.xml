@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <action_statement>
+        <![CDATA[
+CREATE FUNCTION basic_jdbc()
+RETURNS string
+AS
+BEGIN
+    RETURN 'abc';
+END;
+        ]]>
+    </action_statement>
+    <query_expression>
+SELECT basic_jdbc() AS fpl
+FROM src_1.proposals p
+WHERE p.title = basic_jdbc();
+    </query_expression>
+    <data_source name="src_1" storage_system="JDBC">
+        <properties environment="jenkins" overwrite="true" user="postgres" password="postgres" maxPoolSize="20"
+            unreturnedConnectionTimeout="0" debugUnreturnedConnectionStackTraces="true" driver="postgresql" host="localhost" port="5432"
+            database="forward" schema="public" />
+        <properties environment="testing" overwrite="true" user="postgres" password="postgres" maxPoolSize="20"
+            unreturnedConnectionTimeout="0" debugUnreturnedConnectionStackTraces="true" driver="postgresql" host="localhost" port="5432"
+            database="forward" schema="public" />
+    </data_source>
+    <data_object name="proposals" execution_data_source="src_1">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <title type="string" />
+                    <proposal type="integer" />
+                </element>
+                <constraints>
+                    <local-key collection="/">
+                        <attribute path="tuple/proposal" />
+                    </local-key>
+                </constraints>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <title>john</title>
+                    <proposal>1</proposal>
+                </element>
+                <element>
+                    <title>tom</title>
+                    <proposal>2</proposal>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+    <data_object name="actual" execution_data_source="actual" cardinality_estimate="SMALL" storage_system="INMEMORY">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <fpl type="string" />
+                </element>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root/>
+        </data_tree>
+    </data_object>
+    <data_object name="expected" execution_data_source="expected" cardinality_estimate="SMALL" storage_system="INMEMORY">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <fpl type="string" />
+                </element>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root/>
+        </data_tree>
+    </data_object>
+</test_case>

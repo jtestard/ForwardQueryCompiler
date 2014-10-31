@@ -1,0 +1,3 @@
+SELECT title
+FROM proposals
+WHERE count(proposal_id) >1

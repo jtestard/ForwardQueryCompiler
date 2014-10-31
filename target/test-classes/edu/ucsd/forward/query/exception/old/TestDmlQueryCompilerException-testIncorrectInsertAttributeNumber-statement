@@ -1,0 +1,2 @@
+INSERT INTO applications
+VALUES(2,'Tom')

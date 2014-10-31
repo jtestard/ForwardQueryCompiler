@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_expression>
+        <![CDATA[            
+            SELECT TUPLE() AS t1, TUPLE(b.*) AS t2, TUPLE('a' AS tt2, b.*, 'a' AS tt1) AS t3                         
+            FROM b                  
+        ]]>
+    </query_expression>
+    <query_expression><![CDATA[SELECT ALL
+   TUPLE(
+   ) AS t1, 
+   TUPLE(
+      b.*
+   ) AS t2, 
+   TUPLE(
+      'a' AS tt2, 
+      b.*, 
+      'a' AS tt1
+   ) AS t3
+FROM
+   b]]>
+</query_expression>
+</test_case>

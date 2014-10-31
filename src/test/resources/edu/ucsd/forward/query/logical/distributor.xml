@@ -1,0 +1,15 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="suite">
+    <test name="all">
+        <groups>
+            <run>
+                <exclude name="normal_form_refactoring" />
+                <exclude name="failure" />
+            </run>
+        </groups>
+        <classes>
+            <class name="edu.ucsd.forward.query.logical.TestDistributedNormalForm" />
+        </classes>
+
+    </test>
+</suite>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<investigation>
+<new-plan>
+Assign(public) -> __temp_0
+        SendPlan(public)
+                InnerJoin(public) on (__v0 = __v1)
+                    Scan(public) on __v15 __v15 (__v15.__v0 as __v0)
+                        Ground(public)
+                    Scan(public) on public__nation n (n.n_name as __v2, n.n_nationkey as __v1)
+                        Ground(public)
+            Copy(mediator)
+                    SendPlan(mediator)
+                            Scan(mediator) on src__selected_nations s (s.nationkey as __v0)
+                                Ground(mediator)
+
+SendPlan(mediator)
+        Project(mediator)   __v1 as n_nationkey, __v2 as n_name, __v9 as aggregates
+            FunctionEval(mediator) COLLECTION_INIT(____v9) as __v9
+                OuterJoin(mediator) on (__v1 = __v13) left
+                    SendPlan(public)
+                            Scan(public) on temp_assign_source____temp_0 __alias_0 (temp_assign_source____temp_0.nationkey as __v0, temp_assign_source____temp_0.n_name as __v2, temp_assign_source____temp_0.n_nationkey as __v1)
+                                Ground(public)
+                    GroupBy(mediator) BY: __v13 ; AGG: NEST(ALL o_orderdate, sum_price, ) AS ____v9
+                        SendPlan(public)
+                                Project(public)   __v6 as o_orderdate, sum_call__v8 as sum_price, __v12 as __v13
+                                    PartitionBy(public) BY: __v12 ;  ORDER BY: edu.ucsd.forward.query.logical.Sort$Item@239bf795, 
+                                        GroupBy(public) BY: __v6, __v12 ; AGG: SUM(ALL __v7, ) AS sum_call__v8
+                                            InnerJoin(public) on (__v5 = __v12)
+                                                EliminateDuplicates(public)
+                                                    Scan(public) on temp_assign_source____temp_0 __alias_1 (temp_assign_source____temp_0.n_nationkey as __v12)
+                                                        Ground(public)
+                                                InnerJoin(public) on (__v3 = __v4)
+                                                    Scan(public) on public__orders o (o.o_totalprice as __v7, o.o_orderdate as __v6, o.o_custkey as __v3)
+                                                        Ground(public)
+                                                    Scan(public) on public__customers c (c.c_nationkey as __v5, c.c_custkey as __v4)
+                                                        Ground(public)
+</new-plan>
+<old-plan>
+SendPlan(mediator)
+        Project(mediator)   __v29 as agg_orders
+            GroupBy(mediator) BY: n_nationkey, n_name ; AGG: NEST(ALL sum_call__v28, ) AS __v29
+                Project(mediator)   sum_call__v28 as sum_call__v28, n_nationkey as n_nationkey, n_name as n_name
+                    DistributedOuterJoin(mediator)
+                            SendPlan(public)
+                                    Project(public)   nationkey as nationkey, o_orderdate as o_orderdate, sum_call__v28 as sum_call__v28
+                                        PartitionBy(public) BY: nationkey ;  ORDER BY: edu.ucsd.forward.query.logical.Sort$Item@64b9726e, 
+                                            GroupBy(public) BY: nationkey, o_orderdate ; AGG: SUM(ALL o_totalprice, ) AS sum_call__v28
+                                                InnerJoin(public) on (nationkey = c_nationkey)
+                                                    Scan(public) on __param_3 __param_3 (__param_3.n_nationkey as nationkey)
+                                                        Ground(public)
+                                                    InnerJoin(public) on (o_custkey = c_custkey)
+                                                        Scan(public) on public__orders o (o.o_custkey as o_custkey, o.o_totalprice as o_totalprice, o.o_orderdate as o_orderdate)
+                                                            Ground(public)
+                                                        Scan(public) on public__customers c (c.c_custkey as c_custkey, c.c_nationkey as c_nationkey)
+                                                            Ground(public)
+                        DistributedJoin(mediator)
+                                SendPlan(public)
+                                        Project(public)   n_nationkey as n_nationkey, n_name as n_name
+                                            InnerJoin(public) on (n_nationkey = key)
+                                                Scan(public) on __param_2 __param_2 (__param_2.key as key)
+                                                    Ground(public)
+                                                Scan(public) on public__nation n (n.n_nationkey as n_nationkey, n.n_name as n_name)
+                                                    Ground(public)
+                            SendPlan(mediator)
+                                    Scan(mediator) on src__selected_nations s (s.key as key)
+                                        Ground(mediator)
+
+</old-plan>
+</investigation>

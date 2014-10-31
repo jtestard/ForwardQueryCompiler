@@ -1,0 +1,11 @@
+<doc>
+    <entry path="/Dialog">Control for showing simple dialog boxes.</entry>
+    <entry path="/Dialog/style">This is a CSS styling attribute as defined by the CSS Styling Attribute Syntax specification.</entry>
+    <entry path="/Dialog/width">Sets the width of the dialog.</entry>
+    <entry path="/Dialog/height">Sets the height of the dialog.</entry>
+    <entry path="/Dialog/buttons">Sets the button set to use. Note: Passing in null will cause no button set to be rendered</entry>
+    <entry path="/Dialog/title">Sets the title.</entry>
+    <entry path="/Dialog/content">Allows arbitrary HTML to be set in the content element.</entry>
+    <entry path="/Dialog/visible">Sets the visibility of the dialog box and moves focus to the default button. Lazily renders the component if needed.</entry>
+</doc>
+

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <action_statement>
+        <![CDATA[
+            CREATE FUNCTION f1() AS BEGIN END;
+            CREATE ACTION public/concat FUNCTION f1;
+        ]]>
+    </action_statement>
+    <action_statement>
+        <![CDATA[
+            CREATE FUNCTION f1() AS BEGIN END;
+            CREATE ACTION public/concat FUNCTION f1;
+        ]]>
+    </action_statement>
+</test_case>

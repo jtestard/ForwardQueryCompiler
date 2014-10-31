@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?data_object CREATE DATA OBJECT request.input TUPLE (
+    username string,
+    password string
+)
+?>
+<!-- Placeholder program for the security-check -->
+<program>
+    <page>
+        <input>''</input>
+    </page>
+</program>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_expression>
+        <![CDATA[
+            SELECT * FROM jdbc.get_customers_table(mediator.params.arg1 + mediator.params.arg2);
+        ]]>
+    </query_expression>
+    <data_source name="jdbc" storage_system="JDBC">
+        <properties environment="jenkins" user="postgres" password="postgres" maxPoolSize="20"
+            unreturnedConnectionTimeout="0" driver="postgresql" host="localhost" port="5432" database="forward" schema="external" />
+        <properties environment="testing" user="postgres" password="postgres" maxPoolSize="20"
+            unreturnedConnectionTimeout="0" driver="postgresql" host="localhost" port="5432" database="forward" schema="external" />
+    </data_source>
+    <data_object name="params" execution_data_source="mediator" cardinality_estimate="SMALL">
+        <schema_tree>
+            <root type="tuple">
+                <arg1 type="integer" />
+                <arg2 type="integer" />
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <arg1>4</arg1>
+                <arg2>3</arg2>
+            </root>
+        </data_tree>
+    </data_object>
+    <query_plan wrapping="false">
+        <Project cardinality_estimate="UNKNOWN">
+            <arguments>
+                <Item alias="cid">
+                    <Variable name="__v2" />
+                </Item>
+                <Item alias="state">
+                    <Variable name="__v3" />
+                </Item>
+            </arguments>
+            <Navigate alias="__v3" cardinality_estimate="UNKNOWN">
+                <arguments>
+                    <QueryPath steps="state">
+                        <Variable name="get_customers_table" />
+                    </QueryPath>
+                </arguments>
+                <Navigate alias="__v2" cardinality_estimate="UNKNOWN">
+                    <arguments>
+                        <QueryPath steps="cid">
+                            <Variable name="get_customers_table" />
+                        </QueryPath>
+                    </arguments>
+                    <Scan alias="get_customers_table" cardinality_estimate="UNKNOWN">
+                        <arguments>
+                            <FunctionCall name="get_customers_table" target_data_source="jdbc">
+                                <FunctionCall name="+">
+                                    <Variable name="__v0" />
+                                    <Variable name="__v1" />
+                                </FunctionCall>
+                            </FunctionCall>
+                        </arguments>
+                        <Navigate alias="__v1" cardinality_estimate="UNKNOWN">
+                            <arguments>
+                                <QueryPath steps="arg2">
+                                    <Variable data_source="mediator" mode="ABSOLUTE" schema_object="params" />
+                                </QueryPath>
+                            </arguments>
+                            <Navigate alias="__v0" cardinality_estimate="UNKNOWN">
+                                <arguments>
+                                    <QueryPath steps="arg1">
+                                        <Variable data_source="mediator" mode="ABSOLUTE" schema_object="params" />
+                                    </QueryPath>
+                                </arguments>
+                                <Ground cardinality_estimate="UNKNOWN">
+                                    <arguments />
+                                </Ground>
+                            </Navigate>
+                        </Navigate>
+                    </Scan>
+                </Navigate>
+            </Navigate>
+        </Project>
+    </query_plan>
+</test_case>

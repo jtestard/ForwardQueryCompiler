@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module rename-to='runtime'>
+    <!-- Inherit the core Web Toolkit stuff. -->
+    <inherits name='com.google.gwt.user.User' />
+    <source path='servlet'>
+        <include name='ActionRefreshData.java' />
+        <include name='AbstractRequestData.java' />
+        <include name='RequestData.java' />
+    </source>
+    <source path='servlet/refresh'>
+        <include name='AbstractEvaluator.java' />
+        <include name='PageEvaluator.java' />
+        <include name='RefreshRequest.java' />
+        <include name='CompleteEvaluator.java' />
+        <include name='ContextEvaluator.java' />
+        <include name='AbstractRequestData.java' />
+        <include name='RequestData.java' />
+    </source>
+    <source path='servlet/refresh_new'>
+        <include name='RefreshRequest.java' />
+    </source>
+</module>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_expression>
+        <![CDATA[
+            SELECT NOT( TRUE OR ( FALSE OR TRUE ) OR NOT( TRUE ) AND NOT( TRUE ) ) AS test;
+        ]]>
+    </query_expression>
+    <query_expression>
+        <![CDATA[
+			SELECT ((NOT (true) AND (NOT (false) AND NOT (true))) AND (true OR true)) AS test;
+        ]]>
+    </query_expression>
+</test_case>

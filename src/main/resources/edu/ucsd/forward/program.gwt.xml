@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module rename-to='program'>
+    <!-- Inherit the core Web Toolkit stuff.                        -->
+    <inherits name='com.google.gwt.user.User' />
+    <source path='program'>
+        <exclude name='*/**/*' />
+        <exclude name='Test*.java' />
+        <exclude name='*TestCase*.java' />
+    </source>
+
+    <source path='service'>
+        <exclude name='*/**/*' />
+        <exclude name='Test*.java' />
+        <exclude name='*TestCase*.java' />
+    </source>
+
+    <source path='program/compiler'>
+        <include name='ProgramCompilationException.java' />        
+    </source>
+
+    <source path='service/config'>
+        <exclude name='*/**/*' />
+        <exclude name='Test*.java' />
+        <exclude name='*TestCase*.java' />
+    </source>
+
+    <source path='service/invoke'>
+        <exclude name='*/**/*' />
+        <exclude name='Test*.java' />
+        <exclude name='*TestCase*.java' />
+    </source>
+</module>

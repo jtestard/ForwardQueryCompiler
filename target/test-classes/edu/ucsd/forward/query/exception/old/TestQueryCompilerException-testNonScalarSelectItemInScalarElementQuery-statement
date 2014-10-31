@@ -1,0 +1,3 @@
+SELECT SCALAR_ELEMENT(SELECT reviews
+                      FROM proposals
+                     ) AS reviews

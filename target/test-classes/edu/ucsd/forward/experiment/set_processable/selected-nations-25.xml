@@ -1,0 +1,96 @@
+<test_case>
+    <data_object name="selected_nations" execution_data_source="src" cardinality_estimate="SMALL">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <nationkey type="integer" />
+                </element>
+                <constraints>
+                    <local-key>
+                        <attribute path="tuple/nationkey" />
+                    </local-key>
+                </constraints>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <nationkey>1</nationkey>
+                </element>
+                <element>
+                    <nationkey>2</nationkey>
+                </element>
+                <element>
+                    <nationkey>3</nationkey>
+                </element>
+                <element>
+                    <nationkey>4</nationkey>
+                </element>
+                <element>
+                    <nationkey>5</nationkey>
+                </element>
+                <element>
+                    <nationkey>6</nationkey>
+                </element>
+                <element>
+                    <nationkey>7</nationkey>
+                </element>
+                <element>
+                    <nationkey>8</nationkey>
+                </element>
+                <element>
+                    <nationkey>9</nationkey>
+                </element>
+                <element>
+                    <nationkey>10</nationkey>
+                </element>
+                <element>
+                    <nationkey>11</nationkey>
+                </element>
+                <element>
+                    <nationkey>12</nationkey>
+                </element>
+                <element>
+                    <nationkey>13</nationkey>
+                </element>
+                <element>
+                    <nationkey>14</nationkey>
+                </element>
+                <element>
+                    <nationkey>15</nationkey>
+                </element>
+                <element>
+                    <nationkey>16</nationkey>
+                </element>
+                <element>
+                    <nationkey>17</nationkey>
+                </element>
+                <element>
+                    <nationkey>18</nationkey>
+                </element>
+                <element>
+                    <nationkey>19</nationkey>
+                </element>
+                <element>
+                    <nationkey>20</nationkey>
+                </element>
+                <element>
+                    <nationkey>21</nationkey>
+                </element>
+                <element>
+                    <nationkey>22</nationkey>
+                </element>
+                <element>
+                    <nationkey>23</nationkey>
+                </element>
+                <element>
+                    <nationkey>24</nationkey>
+                </element>
+                <element>
+                    <nationkey>25</nationkey>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+
+</test_case>

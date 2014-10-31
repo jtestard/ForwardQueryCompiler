@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<diffs>
+    <ReplaceDiff context="/tuple[proposal_id=1]/title">
+        <payload>My new title</payload>
+    </ReplaceDiff>
+    <ReplaceDiff context="/tuple[proposal_id=2]/author">
+        <payload>My new author</payload>
+    </ReplaceDiff>
+</diffs>

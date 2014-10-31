@@ -1,0 +1,3 @@
+SELECT P.proposal_id AS id,P.proposal_id AS id
+FROM proposals AS P
+     

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <schema_tree>
+        <root type="tuple">
+            <integer type="integer" />
+            <string type="string" />
+            <tuple type="tuple">
+                <boolean type="boolean" />
+            </tuple>
+        </root>
+    </schema_tree>
+    <data_tree>
+        <root>
+            <integer>20</integer>
+            <string>test</string>
+            <tuple>
+                <boolean>false</boolean>
+            </tuple>
+        </root>
+    </data_tree>
+</root>

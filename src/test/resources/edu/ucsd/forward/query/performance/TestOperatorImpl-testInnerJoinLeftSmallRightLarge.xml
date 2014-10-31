@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_expression>
+        <![CDATA[
+            SELECT eid, firstname, lastname, email_id, M.sender, M.subject
+            FROM mem_src.employees AS E, mem_src.messages AS M
+            WHERE E.email_id = M.sender           
+                ]]>
+    </query_expression>
+    <query_expression>
+        <![CDATA[
+            SELECT eid, firstname, lastname, email_id, M.sender, M.subject
+            FROM employeelist AS E, message AS M
+            WHERE E.email_id = M.sender           
+                ]]>
+    </query_expression>
+    <data_source name="public" storage_system="JDBC" data_model="RELATIONAL">
+        <properties environment="testing" user="postgres" password="postgres" maxPoolSize="20" unreturnedConnectionTimeout="0"
+            debugUnreturnedConnectionStackTraces="true" driver="postgresql" host="localhost" port="5432" database="enron" />
+        <properties environment="jenkins" user="postgres" password="postgres" maxPoolSize="20" unreturnedConnectionTimeout="0"
+            debugUnreturnedConnectionStackTraces="true" driver="postgresql" host="localhost" port="5432" database="enron" />
+    </data_source>
+    <data_object name="employees" execution_data_source="mem_src">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <eid type="integer" />
+                    <firstname type="string" />
+                    <lastname type="string" />
+                    <email_id type="string" />
+                </element>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <query_expression execution_data_source="public">
+        <![CDATA[
+        SELECT * FROM employeelist
+                ]]>
+            </query_expression>
+        </data_tree>
+    </data_object>
+    <data_object name="messages" execution_data_source="mem_src">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <mid type="integer" />
+                    <sender type="string" />
+                    <subject type="string" />
+                </element>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <query_expression execution_data_source="public">
+        <![CDATA[
+        select mid, sender, subject 
+        FROM message
+                ]]>
+            </query_expression>
+        </data_tree>
+    </data_object>
+</test_case>

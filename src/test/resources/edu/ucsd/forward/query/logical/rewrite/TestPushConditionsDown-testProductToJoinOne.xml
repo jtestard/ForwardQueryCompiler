@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_expression>
+        <![CDATA[
+            SELECT P.proposal_id AS pid, R.proposal AS prop
+            FROM src1.proposals AS P, src1.reviews AS R
+            WHERE P.proposal_id = R.proposal
+            AND EXISTS(SELECT 1)
+            AND EXISTS(SELECT true FROM src1.reviews AS R WHERE P.proposal_id = R.proposal);
+        ]]>
+    </query_expression>
+    <data_object name="proposals" execution_data_source="src1" cardinality_estimate="LARGE" data_model="RELATIONAL"
+        storage_system="INMEMORY">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <proposal_id type="integer" />
+                    <title type="string" />
+                </element>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <proposal_id>10</proposal_id>
+                    <title>A</title>
+                </element>
+                <element>
+                    <proposal_id>2</proposal_id>
+                    <title>B</title>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+    <data_object name="reviews" execution_data_source="src1" cardinality_estimate="LARGE" data_model="RELATIONAL"
+        storage_system="INMEMORY">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <proposal type="integer" />
+                    <comment type="string" />
+                </element>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <proposal>20</proposal>
+                    <comment>Good</comment>
+                </element>
+                <element>
+                    <proposal>2</proposal>
+                    <comment>Fair</comment>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+
+    <query_plan wrapping="false">
+        <Project cardinality_estimate="UNKNOWN">
+            <arguments>
+                <Item alias="pid">
+                    <Variable name="__v6" />
+                </Item>
+                <Item alias="prop">
+                    <Variable name="__v7" />
+                </Item>
+            </arguments>
+            <Navigate alias="__v7" cardinality_estimate="UNKNOWN">
+                <arguments>
+                    <QueryPath steps="proposal">
+                        <Variable mode="ELEMENT" name="R" />
+                    </QueryPath>
+                </arguments>
+                <Navigate alias="__v6" cardinality_estimate="UNKNOWN">
+                    <arguments>
+                        <QueryPath steps="proposal_id">
+                            <Variable mode="ELEMENT" name="P" />
+                        </QueryPath>
+                    </arguments>
+                    <Select cardinality_estimate="UNKNOWN">
+                        <arguments>
+                            <FunctionCall name="=">
+                                <Variable name="__v0" />
+                                <Variable name="__v1" />
+                            </FunctionCall>
+                            <Variable name="__v2" />
+                            <Variable name="__v3" />
+                        </arguments>
+                        <Exists attr_name="__v3" cardinality_estimate="UNKNOWN">
+                            <arguments>
+                                <exec_condition>
+                                    <FunctionCall name="AND">
+                                        <FunctionCall name="=">
+                                            <Variable name="__v0" />
+                                            <Variable name="__v1" />
+                                        </FunctionCall>
+                                        <Variable name="__v2" />
+                                    </FunctionCall>
+                                </exec_condition>
+                                <Project cardinality_estimate="UNKNOWN">
+                                    <arguments>
+                                        <Item alias="constant">
+                                            <Constant>
+                                                <boolean>true</boolean>
+                                            </Constant>
+                                        </Item>
+                                    </arguments>
+                                    <Select cardinality_estimate="UNKNOWN">
+                                        <arguments>
+                                            <FunctionCall name="=">
+                                                <Variable name="__v4" />
+                                                <Variable name="__v5" />
+                                            </FunctionCall>
+                                        </arguments>
+                                        <Navigate alias="__v5" cardinality_estimate="UNKNOWN">
+                                            <arguments>
+                                                <QueryPath steps="proposal">
+                                                    <Variable mode="ELEMENT" name="R" />
+                                                </QueryPath>
+                                            </arguments>
+                                            <Navigate alias="__v4" cardinality_estimate="UNKNOWN">
+                                                <arguments>
+                                                    <QueryPath steps="proposal_id">
+                                                        <Parameter>
+                                                            <Variable mode="ELEMENT" name="P">
+                                                                <type type="tuple">
+                                                                    <proposal_id type="integer" />
+                                                                    <title type="string" />
+                                                                </type>
+                                                            </Variable>
+                                                        </Parameter>
+                                                    </QueryPath>
+                                                </arguments>
+                                                <Scan alias="R" cardinality_estimate="UNKNOWN">
+                                                    <arguments>
+                                                        <Variable data_source="src1" mode="ABSOLUTE" schema_object="reviews" />
+                                                    </arguments>
+                                                    <Ground cardinality_estimate="UNKNOWN">
+                                                        <arguments />
+                                                    </Ground>
+                                                </Scan>
+                                            </Navigate>
+                                        </Navigate>
+                                    </Select>
+                                </Project>
+                            </arguments>
+                            <Exists attr_name="__v2" cardinality_estimate="UNKNOWN">
+                                <arguments>
+                                    <exec_condition>
+                                        <FunctionCall name="=">
+                                            <Variable name="__v0" />
+                                            <Variable name="__v1" />
+                                        </FunctionCall>
+                                    </exec_condition>
+                                    <Project cardinality_estimate="UNKNOWN">
+                                        <arguments>
+                                            <Item alias="constant">
+                                                <Constant>
+                                                    <integer>1</integer>
+                                                </Constant>
+                                            </Item>
+                                        </arguments>
+                                        <Ground cardinality_estimate="UNKNOWN">
+                                            <arguments />
+                                        </Ground>
+                                    </Project>
+                                </arguments>
+                                <Navigate alias="__v1" cardinality_estimate="UNKNOWN">
+                                    <arguments>
+                                        <QueryPath steps="proposal">
+                                            <Variable mode="ELEMENT" name="R" />
+                                        </QueryPath>
+                                    </arguments>
+                                    <Navigate alias="__v0" cardinality_estimate="UNKNOWN">
+                                        <arguments>
+                                            <QueryPath steps="proposal_id">
+                                                <Variable mode="ELEMENT" name="P" />
+                                            </QueryPath>
+                                        </arguments>
+                                        <Product cardinality_estimate="UNKNOWN">
+                                            <arguments />
+                                            <Scan alias="P" cardinality_estimate="UNKNOWN">
+                                                <arguments>
+                                                    <Variable data_source="src1" mode="ABSOLUTE" schema_object="proposals" />
+                                                </arguments>
+                                                <Ground cardinality_estimate="UNKNOWN">
+                                                    <arguments />
+                                                </Ground>
+                                            </Scan>
+                                            <Scan alias="R" cardinality_estimate="UNKNOWN">
+                                                <arguments>
+                                                    <Variable data_source="src1" mode="ABSOLUTE" schema_object="reviews" />
+                                                </arguments>
+                                                <Ground cardinality_estimate="UNKNOWN">
+                                                    <arguments />
+                                                </Ground>
+                                            </Scan>
+                                        </Product>
+                                    </Navigate>
+                                </Navigate>
+                            </Exists>
+                        </Exists>
+                    </Select>
+                </Navigate>
+            </Navigate>
+        </Project>
+    </query_plan>
+
+
+    <query_plan wrapping="false">
+        <Project cardinality_estimate="UNKNOWN">
+            <arguments>
+                <Item alias="pid">
+                    <Variable name="__v6" />
+                </Item>
+                <Item alias="prop">
+                    <Variable name="__v7" />
+                </Item>
+            </arguments>
+            <Navigate alias="__v7" cardinality_estimate="UNKNOWN">
+                <arguments>
+                    <QueryPath steps="proposal">
+                        <Variable mode="ELEMENT" name="R" />
+                    </QueryPath>
+                </arguments>
+                <Navigate alias="__v6" cardinality_estimate="UNKNOWN">
+                    <arguments>
+                        <QueryPath steps="proposal_id">
+                            <Variable mode="ELEMENT" name="P" />
+                        </QueryPath>
+                    </arguments>
+                    <Select cardinality_estimate="UNKNOWN">
+                        <arguments>
+                            <Variable name="__v2" />
+                            <Variable name="__v3" />
+                        </arguments>
+                        <Exists attr_name="__v3" cardinality_estimate="UNKNOWN">
+                            <arguments>
+                                <exec_condition>
+                                    <FunctionCall name="AND">
+                                        <FunctionCall name="=">
+                                            <Variable name="__v0" />
+                                            <Variable name="__v1" />
+                                        </FunctionCall>
+                                        <Variable name="__v2" />
+                                    </FunctionCall>
+                                </exec_condition>
+                                <Project cardinality_estimate="UNKNOWN">
+                                    <arguments>
+                                        <Item alias="constant">
+                                            <Constant>
+                                                <boolean>true</boolean>
+                                            </Constant>
+                                        </Item>
+                                    </arguments>
+                                    <Select cardinality_estimate="UNKNOWN">
+                                        <arguments>
+                                            <FunctionCall name="=">
+                                                <Variable name="__v4" />
+                                                <Variable name="__v5" />
+                                            </FunctionCall>
+                                        </arguments>
+                                        <Navigate alias="__v5" cardinality_estimate="UNKNOWN">
+                                            <arguments>
+                                                <QueryPath steps="proposal">
+                                                    <Variable mode="ELEMENT" name="R" />
+                                                </QueryPath>
+                                            </arguments>
+                                            <Navigate alias="__v4" cardinality_estimate="UNKNOWN">
+                                                <arguments>
+                                                    <QueryPath steps="proposal_id">
+                                                        <Parameter>
+                                                            <Variable mode="ELEMENT" name="P">
+                                                                <type type="tuple">
+                                                                    <proposal_id type="integer" />
+                                                                    <title type="string" />
+                                                                </type>
+                                                            </Variable>
+                                                        </Parameter>
+                                                    </QueryPath>
+                                                </arguments>
+                                                <Scan alias="R" cardinality_estimate="UNKNOWN">
+                                                    <arguments>
+                                                        <Variable data_source="src1" mode="ABSOLUTE" schema_object="reviews" />
+                                                    </arguments>
+                                                    <Ground cardinality_estimate="UNKNOWN">
+                                                        <arguments />
+                                                    </Ground>
+                                                </Scan>
+                                            </Navigate>
+                                        </Navigate>
+                                    </Select>
+                                </Project>
+                            </arguments>
+                            <Exists attr_name="__v2" cardinality_estimate="UNKNOWN">
+                                <arguments>
+                                    <exec_condition>
+                                        <FunctionCall name="=">
+                                            <Variable name="__v0" />
+                                            <Variable name="__v1" />
+                                        </FunctionCall>
+                                    </exec_condition>
+                                    <Project cardinality_estimate="UNKNOWN">
+                                        <arguments>
+                                            <Item alias="constant">
+                                                <Constant>
+                                                    <integer>1</integer>
+                                                </Constant>
+                                            </Item>
+                                        </arguments>
+                                        <Ground cardinality_estimate="UNKNOWN">
+                                            <arguments />
+                                        </Ground>
+                                    </Project>
+                                </arguments>
+                                <Navigate alias="__v1" cardinality_estimate="UNKNOWN">
+                                    <arguments>
+                                        <QueryPath steps="proposal">
+                                            <Variable mode="ELEMENT" name="R" />
+                                        </QueryPath>
+                                    </arguments>
+                                    <Navigate alias="__v0" cardinality_estimate="UNKNOWN">
+                                        <arguments>
+                                            <QueryPath steps="proposal_id">
+                                                <Variable mode="ELEMENT" name="P" />
+                                            </QueryPath>
+                                        </arguments>
+                                        <InnerJoin cardinality_estimate="UNKNOWN">
+                                            <arguments>
+                                                <FunctionCall name="=">
+                                                    <Variable name="__pds_0" />
+                                                    <Variable name="__pds_1" />
+                                                </FunctionCall>
+                                            </arguments>
+                                            <Navigate alias="__pds_0" cardinality_estimate="UNKNOWN">
+                                                <arguments>
+                                                    <QueryPath steps="proposal_id">
+                                                        <Variable mode="ELEMENT" name="P" />
+                                                    </QueryPath>
+                                                </arguments>
+                                                <Scan alias="P" cardinality_estimate="UNKNOWN">
+                                                    <arguments>
+                                                        <Variable data_source="src1" mode="ABSOLUTE" schema_object="proposals" />
+                                                    </arguments>
+                                                    <Ground cardinality_estimate="UNKNOWN">
+                                                        <arguments />
+                                                    </Ground>
+                                                </Scan>
+                                            </Navigate>
+                                            <Navigate alias="__pds_1" cardinality_estimate="UNKNOWN">
+                                                <arguments>
+                                                    <QueryPath steps="proposal">
+                                                        <Variable mode="ELEMENT" name="R" />
+                                                    </QueryPath>
+                                                </arguments>
+                                                <Scan alias="R" cardinality_estimate="UNKNOWN">
+                                                    <arguments>
+                                                        <Variable data_source="src1" mode="ABSOLUTE" schema_object="reviews" />
+                                                    </arguments>
+                                                    <Ground cardinality_estimate="UNKNOWN">
+                                                        <arguments />
+                                                    </Ground>
+                                                </Scan>
+                                            </Navigate>
+                                        </InnerJoin>
+                                    </Navigate>
+                                </Navigate>
+                            </Exists>
+                        </Exists>
+                    </Select>
+                </Navigate>
+            </Navigate>
+        </Project>
+    </query_plan>
+
+
+    <data_object name="output" execution_data_source="output">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <pid type="integer" />
+                    <prop type="integer" />
+                </element>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <pid>2</pid>
+                    <prop>2</prop>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+</test_case>

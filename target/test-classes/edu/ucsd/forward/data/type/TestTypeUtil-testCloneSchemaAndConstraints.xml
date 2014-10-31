@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <data_tree>
+        <root>
+            <proposals />
+            <reviews />
+            <assignments />
+        </root>
+    </data_tree>
+    <schema_tree>
+        <root type="tuple">
+            <proposals type="collection">
+                <element type="tuple">
+                    <id type="integer" />
+                    <title type="string" />
+                    <authors type="collection">
+                        <element type="tuple">
+                            <id type="integer" />
+                            <name type="string" />
+                        </element>
+                        <constraints>
+                            <local-key>
+                                <attribute path="tuple/id" />
+                            </local-key>
+                        </constraints>
+                    </authors>
+                </element>
+                <constraints>
+                    <local-key>
+                        <attribute path="tuple/id" />
+                    </local-key>
+                </constraints>
+            </proposals>
+            <reviews type="collection">
+                <element type="tuple">
+                    <proposal type="integer" />
+                    <comment type="string" />
+                    <depth type="integer" />
+                    <impact type="integer" />
+                    <overall type="integer" />
+                    <reviewer type="string" />
+                </element>
+                <constraints>
+                    <local-key>
+                        <attribute path="tuple/reviewer" />
+                        <attribute path="tuple/proposal" />
+                    </local-key>
+                </constraints>
+            </reviews>
+            <assignments type="collection">
+                <element type="tuple">
+                    <reviewer type="string" />
+                    <proposal type="integer" />
+                    <grade type="integer" />
+                </element>
+                <constraints>
+                    <local-key>
+                        <attribute path="tuple/reviewer" />
+                        <attribute path="tuple/proposal" />
+                    </local-key>
+                </constraints>
+            </assignments>
+        </root>
+    </schema_tree>
+</root>

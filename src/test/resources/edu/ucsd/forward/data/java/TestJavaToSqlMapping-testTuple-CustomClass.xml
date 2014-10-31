@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <schema_tree>
+        <root type="tuple">
+            <integer type="integer" />
+            <string type="string" />
+            <xhtml type="xhtml" />
+            <boolean type="boolean" />
+            <long type="long" />
+            <float type="float" />
+            <double type="double" />
+            <decimal type="decimal" />
+            <date type="date" />
+            <time type="timestamp" />
+        </root>
+    </schema_tree>
+    <data_tree>
+        <root>
+            <integer>20</integer>
+            <string>test</string>
+            <xhtml xmlns="http://www.w3.org/1999/xhtml">
+                <xml />
+            </xhtml>
+            <boolean>true</boolean>
+            <long>10</long>
+            <float>1.5</float>
+            <double>2.0</double>
+            <decimal>0.1</decimal>
+            <date>Nov 4, 2003</date>
+            <time>Nov 4, 2003 11:02:03 PM PST</time>
+        </root>
+    </data_tree>
+</root>

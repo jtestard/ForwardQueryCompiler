@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <data_source name="jdbc" storage_system="JDBC">
+        <exclude>
+            <foreign-key table="reviewers" name="reviewer_fk" />
+            <foreign-key table="assignments" name="reviewer_fk2" />
+        </exclude>
+        <properties environment="jenkins" user="postgres" password="postgres" maxPoolSize="20"
+            unreturnedConnectionTimeout="0" debugUnreturnedConnectionStackTraces="true" driver="postgresql" host="localhost" port="5432"
+            database="forward" schema="introspect" />
+        <properties environment="testing" user="postgres" password="postgres" maxPoolSize="20"
+            unreturnedConnectionTimeout="0" debugUnreturnedConnectionStackTraces="true" driver="postgresql" host="localhost" port="5432"
+            database="forward" schema="introspect" />
+    </data_source>
+    <data_object name="faculty" execution_data_source="mediator">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <faculty_id type="integer" />
+                    <proposal_id type="integer" />
+                </element>
+                <constraints>
+                    <local-key>
+                        <attribute path="tuple/faculty_id" />
+                        <attribute path="tuple/proposal_id" />
+                    </local-key>
+                    <non-null />
+                    <foreign-key>
+                        <foreign data_object="faculty" data_source="mediator" path="/">
+                            <attribute path="tuple/proposal_id" />
+                        </foreign>
+                        <primary data_object="proposals" data_source="jdbc" path="/">
+                            <attribute path="tuple/id" />
+                        </primary>
+                    </foreign-key>
+                </constraints>
+            </root>
+        </schema_tree>
+        <data_tree />
+    </data_object>
+    <output>
+        <!-- introspect.proposals -->
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <id type="integer">
+                        <constraints>
+                            <non-null />
+                        </constraints>
+                    </id>
+                    <title type="string" />
+                </element>
+                <constraints>
+                    <local-key>
+                        <attribute path="tuple/id" />
+                    </local-key>
+                </constraints>
+            </root>
+        </schema_tree>
+        <!-- introspect.reviewers -->
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <reviewer_id type="integer">
+                        <constraints>
+                            <non-null />
+                        </constraints>
+                    </reviewer_id>
+                    <name type="string">
+                        <constraints>
+                            <non-null />
+                        </constraints>
+                    </name>
+                    <manager type="integer" />
+                </element>
+                <constraints>
+                    <local-key>
+                        <attribute path="tuple/reviewer_id" />
+                    </local-key>
+                </constraints>
+            </root>
+        </schema_tree>
+        <!-- introspect.assignments -->
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <proposal type="integer">
+                        <constraints>
+                            <non-null />
+                        </constraints>
+                    </proposal>
+                    <grade type="integer" />
+                    <reviewer type="integer">
+                        <constraints>
+                            <non-null />
+                        </constraints>
+                    </reviewer>
+                    <assigned_by type="integer" />
+                    <assigned_by_name type="string" />
+                </element>
+                <constraints>
+                    <local-key>
+                        <attribute path="tuple/proposal" />
+                        <attribute path="tuple/reviewer" />
+                    </local-key>
+                    <foreign-key>
+                        <foreign data_object="assignments" data_source="jdbc" path="/">
+                            <attribute path="tuple/proposal" />
+                        </foreign>
+                        <primary data_object="proposals" data_source="jdbc" path="/">
+                            <attribute path="tuple/id" />
+                        </primary>
+                    </foreign-key>
+                    <foreign-key>
+                        <foreign data_object="assignments" data_source="jdbc" path="/">
+                            <attribute path="tuple/reviewer" />
+                        </foreign>
+                        <primary data_object="reviewers" data_source="jdbc" path="/">
+                            <attribute path="tuple/reviewer_id" />
+                        </primary>
+                    </foreign-key>
+                </constraints>
+            </root>
+        </schema_tree>
+        <!-- mediator.faculty -->
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <faculty_id type="integer" />
+                    <proposal_id type="integer" />
+                </element>
+                <constraints>
+                    <local-key>
+                        <attribute path="tuple/faculty_id" />
+                        <attribute path="tuple/proposal_id" />
+                    </local-key>
+                    <non-null />
+                    <foreign-key>
+                        <foreign data_object="faculty" data_source="mediator" path="/">
+                            <attribute path="tuple/proposal_id" />
+                        </foreign>
+                        <primary data_object="proposals" data_source="jdbc" path="/">
+                            <attribute path="tuple/id" />
+                        </primary>
+                    </foreign-key>
+                </constraints>
+            </root>
+        </schema_tree>
+    </output>
+</test_case>

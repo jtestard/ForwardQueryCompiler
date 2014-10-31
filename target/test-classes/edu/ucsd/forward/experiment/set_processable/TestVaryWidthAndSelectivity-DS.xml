@@ -1,0 +1,507 @@
+<test_case>
+    <query_expression>
+        <![CDATA[
+         select n_nationkey, n_name,sum_price, o_orderdate,
+                  case when sum_price is null and o_orderdate is null then null else rn end as h
+         from (select n_nationkey, n_name,sum_price, o_orderdate,
+                   case when sum_price is null and o_orderdate is null then null else rn end as rn
+            from (select  n_nationkey, n_name,sum_price, o_orderdate
+                       row_number() OVER(PARTITION BY n_nationkey, n_name ORDER BY sum_price DESC NULLS LAST) AS rn  
+              from(  
+                select n_nationkey, n_name,
+                       case when g is null then null else sum_price end as sum_price,
+                       case when g is null then null else o_orderdate end as o_orderdate
+                from (
+                    select n_nationkey, n_name, g, o_orderdate, sum(o_totalprice) as sum_price    
+                    from (
+                            select t1.n_nationkey, t1.n_name, t2.o_totalprice,o_orderdate,
+                            case when o_orderdate is null and o_totalprice is null then null
+                                    else true end as g
+                            from
+                                (select n.n_nationkey, n.n_name
+                                from src.selected_nations as sn join public.nation as n on sn.nationkey = n.n_nationkey) as t1
+                                left outer join
+                                (select o_totalprice, o_orderdate, c_nationkey
+                                 from public.customers as c join public.orders as o on c.c_custkey = o.o_custkey) as t2
+                                on t1.n_nationkey = t2.c_nationkey
+                            ) t3
+                    group by n_nationkey, n_name, g, o_orderdate) as t4
+                 ) as t5) as t6    
+                 ) as t7) as t8
+         where rn <= 3 or (sum_price is null and o_orderdate is null)        
+        ]]>
+    </query_expression>
+
+    <query_plan wrapping="false">
+        <SendPlan cardinality_estimate="SMALL" execution_data_source="mediator" impl="SendPlanImplInMemory">
+            <arguments>
+                <Project cardinality_estimate="SMALL" execution_data_source="mediator" impl="ProjectImpl">
+                    <arguments>
+                        <Item alias="n_nationkey">
+                            <Variable name="t6__n_nationkey" />
+                        </Item>
+                        <Item alias="n_name">
+                            <Variable name="t6__n_name" />
+                        </Item>
+                        <Item alias="aggregates">
+                            <FunctionCall name="CASE">
+                                <FunctionCall name="IS NULL">
+                                    <Variable name="aggregates" />
+                                </FunctionCall>
+                                <FunctionCall name="COLLECTION_INIT">
+                                    <Variable name="aggregates" />
+                                </FunctionCall>
+                                <Constant>
+                                    <boolean>true</boolean>
+                                </Constant>
+                                <Variable name="aggregates" />
+                            </FunctionCall>
+                        </Item>
+                    </arguments>
+                    <Project cardinality_estimate="SMALL" execution_data_source="mediator" impl="ProjectImpl">
+                        <arguments>
+                            <Item alias="t6__n_nationkey">
+                                <Variable name="t5__n_nationkey" />
+                            </Item>
+                            <Item alias="t6__n_name">
+                                <Variable name="t5__n_name" />
+                            </Item>
+                            <Item alias="aggregates">
+                                <FunctionCall name="CASE">
+                                    <FunctionCall name="IS NULL">
+                                        <Variable name="h" />
+                                    </FunctionCall>
+                                    <Constant>
+                                        <unknown null="true" />
+                                    </Constant>
+                                    <Constant>
+                                        <boolean>true</boolean>
+                                    </Constant>
+                                    <Variable name="aggregates" />
+                                </FunctionCall>
+                            </Item>
+                        </arguments>
+                        <GroupBy cardinality_estimate="SMALL" execution_data_source="mediator" impl="GroupByImpl">
+                            <arguments>
+                                <GroupByItem>
+                                    <Variable name="t5__n_nationkey" />
+                                </GroupByItem>
+                                <GroupByItem>
+                                    <Variable name="t5__n_name" />
+                                </GroupByItem>
+                                <GroupByItem>
+                                    <Variable name="h" />
+                                </GroupByItem>
+                                <Aggregate alias="aggregates">
+                                    <FunctionCall name="NEST" set_quantifier="ALL">
+                                        <Variable name="t5__o_orderdate" />
+                                        <Variable name="t5__sum_price" />
+                                    </FunctionCall>
+                                </Aggregate>
+                            </arguments>
+                            <SendPlan cardinality_estimate="SMALL" execution_data_source="public" impl="SendPlanImplJdbc">
+                                <arguments>
+                                    <Project cardinality_estimate="SMALL" execution_data_source="public" impl="ProjectImpl">
+                                        <arguments>
+                                            <Item alias="t5__n_nationkey">
+                                                <Variable name="n_nationkey" />
+                                            </Item>
+                                            <Item alias="t5__n_name">
+                                                <Variable name="n_name" />
+                                            </Item>
+                                            <Item alias="t5__o_orderdate">
+                                                <Variable name="o_orderdate" />
+                                            </Item>
+                                            <Item alias="t5__sum_price">
+                                                <Variable name="sum_price" />
+                                            </Item>
+                                            <Item alias="h">
+                                                <FunctionCall name="CASE">
+                                                    <FunctionCall name="AND">
+                                                        <FunctionCall name="IS NULL">
+                                                            <Variable name="o_orderdate" />
+                                                        </FunctionCall>
+                                                        <FunctionCall name="IS NULL">
+                                                            <Variable name="sum_price" />
+                                                        </FunctionCall>
+                                                    </FunctionCall>
+                                                    <Constant>
+                                                        <unknown null="true" />
+                                                    </Constant>
+                                                    <Constant>
+                                                        <boolean>true</boolean>
+                                                    </Constant>
+                                                    <Constant>
+                                                        <boolean>true</boolean>
+                                                    </Constant>
+                                                </FunctionCall>
+                                            </Item>
+                                        </arguments>
+                                        <PartitionBy cardinality_estimate="UNKNOWN" execution_data_source="public"
+                                            limit="3" rank_alias="__v108">
+                                            <arguments>
+                                                <partition_terms>
+                                                    <Variable name="n_nationkey" />
+                                                </partition_terms>
+                                                <partition_terms>
+                                                    <Variable name="n_name" />
+                                                </partition_terms>
+                                                <Item nulls="LAST" spec="DESC">
+                                                    <Variable name="sum_price" />
+                                                </Item>
+                                            </arguments>
+                                            <Project cardinality_estimate="SMALL" execution_data_source="public" impl="ProjectImpl">
+                                                <arguments>
+                                                    <Item alias="n_nationkey">
+                                                        <Variable name="t4__n_nationkey" />
+                                                    </Item>
+                                                    <Item alias="n_name">
+                                                        <Variable name="t4__n_name" />
+                                                    </Item>
+                                                    <Item alias="sum_price">
+                                                        <FunctionCall name="CASE">
+                                                            <FunctionCall name="IS NULL">
+                                                                <Variable name="t4__g" />
+                                                            </FunctionCall>
+                                                            <Constant>
+                                                                <unknown null="true" />
+                                                            </Constant>
+                                                            <Constant>
+                                                                <boolean>true</boolean>
+                                                            </Constant>
+                                                            <Variable name="t4__sum_price" />
+                                                        </FunctionCall>
+                                                    </Item>
+                                                    <Item alias="o_orderdate">
+                                                        <FunctionCall name="CASE">
+                                                            <FunctionCall name="IS NULL">
+                                                                <Variable name="t4__g" />
+                                                            </FunctionCall>
+                                                            <Constant>
+                                                                <unknown null="true" />
+                                                            </Constant>
+                                                            <Constant>
+                                                                <boolean>true</boolean>
+                                                            </Constant>
+                                                            <Variable name="t4__o_orderdate" />
+                                                        </FunctionCall>
+                                                    </Item>
+                                                </arguments>
+                                                    <Project cardinality_estimate="SMALL" execution_data_source="public"
+                                                        impl="ProjectImpl">
+                                                        <arguments>
+                                                            <Item alias="t4__n_nationkey">
+                                                                <Variable name="t3__n_nationkey" />
+                                                            </Item>
+                                                            <Item alias="t4__n_name">
+                                                                <Variable name="t3__n_name" />
+                                                            </Item>
+                                                            <Item alias="t4__g">
+                                                                <Variable name="t3__g" />
+                                                            </Item>
+                                                            <Item alias="t4__o_orderdate">
+                                                                <Variable name="t3__o_orderdate" />
+                                                            </Item>
+                                                            <Item alias="t4__sum_price">
+                                                                <Variable name="sum_call__v8" />
+                                                            </Item>
+                                                        </arguments>
+                                                        <GroupBy cardinality_estimate="SMALL" execution_data_source="public"
+                                                            impl="GroupByImpl">
+                                                            <arguments>
+                                                                <GroupByItem>
+                                                                    <Variable name="t3__n_nationkey" />
+                                                                </GroupByItem>
+                                                                <GroupByItem>
+                                                                    <Variable name="t3__n_name" />
+                                                                </GroupByItem>
+                                                                <GroupByItem>
+                                                                    <Variable name="t3__g" />
+                                                                </GroupByItem>
+                                                                <GroupByItem>
+                                                                    <Variable name="t3__o_orderdate" />
+                                                                </GroupByItem>
+                                                                <Aggregate alias="sum_call__v8">
+                                                                    <FunctionCall name="SUM" set_quantifier="ALL">
+                                                                        <Variable name="t3__o_totalprice" />
+                                                                    </FunctionCall>
+                                                                </Aggregate>
+                                                            </arguments>
+                                                            <Project cardinality_estimate="SMALL" execution_data_source="public"
+                                                                impl="ProjectImpl">
+                                                                <arguments>
+                                                                    <Item alias="t3__n_nationkey">
+                                                                        <Variable name="t9__n_nationkey" />
+                                                                    </Item>
+                                                                    <Item alias="t3__n_name">
+                                                                        <Variable name="t9__n_name" />
+                                                                    </Item>
+                                                                    <Item alias="t3__o_totalprice">
+                                                                        <Variable name="t9__o_totalprice" />
+                                                                    </Item>
+                                                                    <Item alias="t3__o_orderdate">
+                                                                        <Variable name="t9__o_orderdate" />
+                                                                    </Item>
+                                                                    <Item alias="t3__g">
+                                                                        <Variable name="g" />
+                                                                    </Item>
+                                                                </arguments>
+                                                                <Project cardinality_estimate="SMALL" execution_data_source="public"
+                                                                    impl="ProjectImpl">
+                                                                    <arguments>
+                                                                        <Item alias="t9__n_nationkey">
+                                                                            <Variable name="t1__n_nationkey" />
+                                                                        </Item>
+                                                                        <Item alias="t9__n_name">
+                                                                            <Variable name="t1__n_name" />
+                                                                        </Item>
+                                                                        <Item alias="t9__o_totalprice">
+                                                                            <Variable name="t2__o_totalprice" />
+                                                                        </Item>
+                                                                        <Item alias="t9__o_orderdate">
+                                                                            <Variable name="t2__o_orderdate" />
+                                                                        </Item>
+                                                                        <Item alias="g">
+                                                                            <FunctionCall name="CASE">
+                                                                                    <FunctionCall name="IS NULL">
+                                                                                        <Variable name="t2__o_orderdate" />
+                                                                                    </FunctionCall>
+                                                                                <Constant>
+                                                                                    <unknown null="true" />
+                                                                                </Constant>
+                                                                                <Constant>
+                                                                                    <boolean>true</boolean>
+                                                                                </Constant>
+                                                                                <Constant>
+                                                                                    <boolean>true</boolean>
+                                                                                </Constant>
+                                                                            </FunctionCall>
+                                                                        </Item>
+                                                                    </arguments>
+                                                                    <OuterJoin cardinality_estimate="SMALL"
+                                                                        execution_data_source="public" impl="OuterJoinImplNestedLoop"
+                                                                        variation="LEFT">
+                                                                        <arguments>
+                                                                            <FunctionCall name="=">
+                                                                                <Variable name="t1__n_nationkey" />
+                                                                                <Variable name="t2__c_nationkey" />
+                                                                            </FunctionCall>
+                                                                        </arguments>
+                                                                        <Project cardinality_estimate="SMALL"
+                                                                            execution_data_source="public" impl="ProjectImpl">
+                                                                            <arguments>
+                                                                                <Item alias="t1__n_nationkey">
+                                                                                    <Variable name="n_nationkey" />
+                                                                                </Item>
+                                                                                <Item alias="t1__n_name">
+                                                                                    <Variable name="n_name" />
+                                                                                </Item>
+                                                                            </arguments>
+                                                                            <Project cardinality_estimate="SMALL"
+                                                                                execution_data_source="public" impl="ProjectImpl">
+                                                                                <arguments>
+                                                                                    <Item alias="n_nationkey">
+                                                                                        <Variable name="__v1" />
+                                                                                    </Item>
+                                                                                    <Item alias="n_name">
+                                                                                        <Variable name="__v2" />
+                                                                                    </Item>
+                                                                                </arguments>
+                                                                                <InnerJoin cardinality_estimate="SMALL"
+                                                                                    execution_data_source="public" impl="InnerJoinImplNestedLoop">
+                                                                                    <arguments>
+                                                                                        <FunctionCall name="=">
+                                                                                            <Variable name="__v0" />
+                                                                                            <Variable name="__v1" />
+                                                                                        </FunctionCall>
+                                                                                    </arguments>
+                                                                                    <Scan alias="__v9" cardinality_estimate="SMALL"
+                                                                                        execution_data_source="public" impl="ScanImpl">
+                                                                                        <arguments>
+                                                                                            <Parameter data_source="public"
+                                                                                                schema_object="__v9">
+                                                                                                <Variable name="__v9">
+                                                                                                    <type type="collection">
+                                                                                                        <element type="tuple">
+                                                                                                            <nationkey
+                                                                                                                type="integer" />
+                                                                                                        </element>
+                                                                                                    </type>
+                                                                                                </Variable>
+                                                                                            </Parameter>
+                                                                                            <Attribute>
+                                                                                                <QueryPath steps="nationkey" />
+                                                                                                <Variable name="__v0" />
+                                                                                            </Attribute>
+                                                                                        </arguments>
+                                                                                        <Ground cardinality_estimate="ONE"
+                                                                                            execution_data_source="public" impl="GroundImpl">
+                                                                                            <arguments />
+                                                                                        </Ground>
+                                                                                    </Scan>
+                                                                                    <Scan alias="n" cardinality_estimate="LARGE"
+                                                                                        execution_data_source="public" impl="ScanImpl">
+                                                                                        <arguments>
+                                                                                            <Variable data_source="public"
+                                                                                                mode="ABSOLUTE" schema_object="nation" />
+                                                                                            <Attribute>
+                                                                                                <QueryPath steps="n_name" />
+                                                                                                <Variable name="__v2" />
+                                                                                            </Attribute>
+                                                                                            <Attribute>
+                                                                                                <QueryPath steps="n_nationkey" />
+                                                                                                <Variable name="__v1" />
+                                                                                            </Attribute>
+                                                                                        </arguments>
+                                                                                        <Ground cardinality_estimate="ONE"
+                                                                                            execution_data_source="public" impl="GroundImpl">
+                                                                                            <arguments />
+                                                                                        </Ground>
+                                                                                    </Scan>
+                                                                                </InnerJoin>
+                                                                            </Project>
+                                                                        </Project>
+                                                                        <Project cardinality_estimate="LARGE"
+                                                                            execution_data_source="public" impl="ProjectImpl">
+                                                                            <arguments>
+                                                                                <Item alias="t2__o_totalprice">
+                                                                                    <Variable name="o_totalprice" />
+                                                                                </Item>
+                                                                                <Item alias="t2__o_orderdate">
+                                                                                    <Variable name="o_orderdate" />
+                                                                                </Item>
+                                                                                <Item alias="t2__c_nationkey">
+                                                                                    <Variable name="c_nationkey" />
+                                                                                </Item>
+                                                                            </arguments>
+                                                                            <Project cardinality_estimate="LARGE"
+                                                                                execution_data_source="public" impl="ProjectImpl">
+                                                                                <arguments>
+                                                                                    <Item alias="o_totalprice">
+                                                                                        <Variable name="__v5" />
+                                                                                    </Item>
+                                                                                    <Item alias="o_orderdate">
+                                                                                        <Variable name="__v6" />
+                                                                                    </Item>
+                                                                                    <Item alias="c_nationkey">
+                                                                                        <Variable name="__v7" />
+                                                                                    </Item>
+                                                                                </arguments>
+                                                                                <InnerJoin cardinality_estimate="LARGE"
+                                                                                    execution_data_source="public" impl="InnerJoinImplNestedLoop">
+                                                                                    <arguments>
+                                                                                        <FunctionCall name="=">
+                                                                                            <Variable name="__v3" />
+                                                                                            <Variable name="__v4" />
+                                                                                        </FunctionCall>
+                                                                                    </arguments>
+                                                                                    <Scan alias="c" cardinality_estimate="LARGE"
+                                                                                        execution_data_source="public" impl="ScanImpl">
+                                                                                        <arguments>
+                                                                                            <Variable data_source="public"
+                                                                                                mode="ABSOLUTE" schema_object="customers" />
+                                                                                            <Attribute>
+                                                                                                <QueryPath steps="c_nationkey" />
+                                                                                                <Variable name="__v7" />
+                                                                                            </Attribute>
+                                                                                            <Attribute>
+                                                                                                <QueryPath steps="c_custkey" />
+                                                                                                <Variable name="__v3" />
+                                                                                            </Attribute>
+                                                                                        </arguments>
+                                                                                        <Ground cardinality_estimate="ONE"
+                                                                                            execution_data_source="public" impl="GroundImpl">
+                                                                                            <arguments />
+                                                                                        </Ground>
+                                                                                    </Scan>
+                                                                                    <Scan alias="o" cardinality_estimate="LARGE"
+                                                                                        execution_data_source="public" impl="ScanImpl">
+                                                                                        <arguments>
+                                                                                            <Variable data_source="public"
+                                                                                                mode="ABSOLUTE" schema_object="orders" />
+                                                                                            <Attribute>
+                                                                                                <QueryPath steps="o_orderdate" />
+                                                                                                <Variable name="__v6" />
+                                                                                            </Attribute>
+                                                                                            <Attribute>
+                                                                                                <QueryPath steps="o_totalprice" />
+                                                                                                <Variable name="__v5" />
+                                                                                            </Attribute>
+                                                                                            <Attribute>
+                                                                                                <QueryPath steps="o_custkey" />
+                                                                                                <Variable name="__v4" />
+                                                                                            </Attribute>
+                                                                                        </arguments>
+                                                                                        <Ground cardinality_estimate="ONE"
+                                                                                            execution_data_source="public" impl="GroundImpl">
+                                                                                            <arguments />
+                                                                                        </Ground>
+                                                                                    </Scan>
+                                                                                </InnerJoin>
+                                                                            </Project>
+                                                                        </Project>
+                                                                    </OuterJoin>
+                                                                </Project>
+                                                            </Project>
+                                                        </GroupBy>
+                                                    </Project>
+                                                </Project>
+                                        </PartitionBy>
+                                    </Project>
+                                </arguments>
+                                <Copy cardinality_estimate="SMALL" execution_data_source="mediator" impl="CopyImplInMemory"
+                                    target_data_source="public" target_schema_object="__v9">
+                                    <arguments>
+                                        <SendPlan cardinality_estimate="SMALL" execution_data_source="mediator" impl="SendPlanImplInMemory">
+                                            <arguments>
+                                                <Scan alias="sn" cardinality_estimate="SMALL" execution_data_source="mediator"
+                                                    impl="ScanImpl">
+                                                    <arguments>
+                                                        <Variable data_source="src" mode="ABSOLUTE" schema_object="selected_nations" />
+                                                        <Attribute>
+                                                            <QueryPath steps="nationkey" />
+                                                            <Variable name="__v0" />
+                                                        </Attribute>
+                                                    </arguments>
+                                                    <Ground cardinality_estimate="ONE" execution_data_source="mediator" impl="GroundImpl">
+                                                        <arguments />
+                                                    </Ground>
+                                                </Scan>
+                                            </arguments>
+                                        </SendPlan>
+                                    </arguments>
+                                </Copy>
+                            </SendPlan>
+                        </GroupBy>
+                    </Project>
+                </Project>
+            </arguments>
+        </SendPlan>
+    </query_plan>
+
+    <data_source name="public" storage_system="JDBC" data_model="RELATIONAL">
+        <properties environment="testing" user="ubuntu" password="ubuntu" maxPoolSize="1" unreturnedConnectionTimeout="0"
+            debugUnreturnedConnectionStackTraces="true" overwrite="false" driver="postgresql" host="localhost" port="9000" database="tpch3_1200" />
+    </data_source>
+
+
+    <data_object name="selected_nations" execution_data_source="src" cardinality_estimate="SMALL">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <nationkey type="integer" />
+                    <!-- <name type="string" /> -->
+                </element>
+                <constraints>
+                    <local-key>
+                        <attribute path="tuple/nationkey" />
+                    </local-key>
+                </constraints>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root />
+        </data_tree>
+    </data_object>
+
+</test_case>

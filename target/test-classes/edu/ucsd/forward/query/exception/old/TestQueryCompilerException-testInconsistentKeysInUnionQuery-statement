@@ -1,0 +1,5 @@
+SELECT P.proposal_id, 0 AS review_id
+FROM proposals AS P
+UNION
+SELECT P.proposal_id,R.review_id
+FROM proposals AS P, P.reviews AS R 

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <ivm_prov>{=[[tuple/__key0]]}</ivm_prov>
+    <uas>
+        <data_object name="departments" execution_data_source="session">
+            <data_tree>
+                <root>
+                </root>
+            </data_tree>
+            <schema_tree>
+                <root type="collection">
+                    <element type="tuple">
+                        <did type="integer" />
+                        <dname type="string" />
+                        <employees type="collection">
+                            <element type="tuple">
+                                <eid type="string" />
+                                <ename type="string" />
+                            </element>
+                            <constraints>
+                                <local-key>
+                                    <attribute path="tuple/eid" />
+                                </local-key>
+                            </constraints>
+                        </employees>
+                    </element>
+                    <constraints>
+                        <local-key>
+                            <attribute path="tuple/did" />
+                        </local-key>
+                    </constraints>
+                </root>
+            </schema_tree>
+        </data_object>
+    </uas>
+    <query_plan wrapping="false">
+        <Scan alias="ivm_mock" cardinality_estimate="UNKNOWN">
+            <arguments>
+                <FunctionCall name="ivm_mock">
+                    <Constant>
+                        <integer>10</integer>
+                    </Constant>
+                </FunctionCall>
+                <Attribute>
+                    <QueryPath steps="bar" />
+                    <Variable name="bar" />
+                </Attribute>
+            </arguments>
+            <Ground cardinality_estimate="UNKNOWN">
+                <arguments />
+            </Ground>
+        </Scan>
+    </query_plan>
+    <retouched>
+        <query_plan wrapping="false">
+            <Scan alias="ivm_mock" cardinality_estimate="UNKNOWN">
+                <arguments>
+                    <FunctionCall name="ivm_mock">
+                        <Constant>
+                            <integer>10</integer>
+                        </Constant>
+                    </FunctionCall>
+                    <Attribute>
+                        <QueryPath steps="bar" />
+                        <Variable name="bar" />
+                    </Attribute>
+                    <Attribute>
+                        <QueryPath steps="foo" />
+                        <Variable name="__key0" />
+                    </Attribute>
+                </arguments>
+                <Ground cardinality_estimate="UNKNOWN">
+                    <arguments />
+                </Ground>
+            </Scan>
+        </query_plan>
+    </retouched>
+    <schema_tree>
+        <root type="collection">
+            <element type="tuple">
+                <bar type="string" />
+                <__key0 type="integer" />
+            </element>
+            <constraints>
+                <local-key>
+                    <attribute path="tuple/__key0" />
+                </local-key>
+            </constraints>
+        </root>
+    </schema_tree>
+</test_case>

@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module rename-to='query'>
+
+    <!-- Inherit the core Web Toolkit stuff. -->
+    <inherits name='com.google.gwt.user.User' />
+
+    <source path='query'>
+        <exclude name='*/**/*' />
+        <exclude name='Test*.java' />
+        <exclude name='*TestCase*.java' />
+    </source>
+
+    <source path='query/ast'>
+        <exclude name='*/**/*' />
+        <exclude name='Test*.java' />
+        <exclude name='*TestCase*.java' />
+    </source>
+
+    <source path='query/ast/ddl' />
+    <source path='query/ast/dml' />
+
+    <source path='query/ast/literal' />
+
+    <source path='query/ast/function' />
+
+    <source path='query/ast/visitors'>
+        <exclude name='*/**/*' />
+        <exclude name='Test*.java' />
+        <exclude name='*TestCase*.java' />
+    </source>
+
+    <source path='query/explain'>
+        <exclude name='*/**/*' />
+        <exclude name='Test*.java' />
+        <exclude name='*TestCase*.java' />
+    </source>
+
+    <source path='query/function'>
+        <exclude name='FunctionDefinitionManager.java' />
+        <exclude name='OutOfMemoryFunction.java' />
+        <exclude name='auth/**/*' />
+        <exclude name='custom/**/*' />
+        <exclude name='email/**/*' />
+        <exclude name='json/**/*' />
+        <exclude name='rest/**/*' />
+        <exclude name='Test*.java' />
+        <exclude name='*TestCase*.java' />
+    </source>
+
+    <source path='query/function/string'>
+        <exclude name='FormatFunction.java' />
+    </source>
+
+    <source path='query/logical'>
+        <exclude name='Placeholder.java' />
+        <exclude name='*/**/*' />
+        <exclude name='Test*.java' />
+        <exclude name='*TestCase*.java' />
+    </source>
+
+    <source path='query/logical/ddl'>
+        <exclude name='*/**/*' />
+        <exclude name='Test*.java' />
+        <exclude name='*TestCase*.java' />
+    </source>
+
+    <source path='query/logical/distribute'>
+        <exclude name='*/**/*' />
+        <exclude name='Test*.java' />
+        <exclude name='*TestCase*.java' />
+    </source>
+
+    <source path='query/logical/dml'>
+        <exclude name='*/**/*' />
+        <exclude name='Test*.java' />
+        <exclude name='*TestCase*.java' />
+    </source>
+
+    <source path='query/logical/plan'>
+        <exclude name='*/**/*' />
+        <exclude name='Test*.java' />
+        <exclude name='*TestCase*.java' />
+    </source>
+
+    <source path='query/logical/procedure'>
+        <exclude name='*/**/*' />
+        <exclude name='Test*.java' />
+        <exclude name='*TestCase*.java' />
+    </source>
+
+    <source path='query/logical/term'>
+        <exclude name='*/**/*' />
+        <exclude name='Test*.java' />
+        <exclude name='*TestCase*.java' />
+    </source>
+
+    <source path='query/logical/visitors'>
+        <exclude name='*/**/*' />
+        <exclude name='Test*.java' />
+        <exclude name='*TestCase*.java' />
+    </source>
+
+    <source path='query/physical'>
+        <exclude name='*/**/*' />
+        <exclude name='Test*.java' />
+        <exclude name='*TestCase*.java' />
+    </source>
+
+    <source path='query/physical/async'>
+        <exclude name='*/**/*' />
+        <exclude name='Test*.java' />
+        <exclude name='*TestCase*.java' />
+    </source>
+
+    <source path='query/physical/ddl'>
+        <exclude name='*/**/*' />
+        <exclude name='Test*.java' />
+        <exclude name='*TestCase*.java' />
+    </source>
+
+    <source path='query/physical/dml'>
+        <exclude name='*/**/*' />
+        <exclude name='InsertImplJdbc.java' />
+        <exclude name='UpdateImplJdbc.java' />
+        <exclude name='DeleteImplJdbc.java' />
+        <exclude name='Test*.java' />
+        <exclude name='*TestCase*.java' />
+    </source>
+
+    <source path='query/physical/visitor'>
+        <exclude name='*/**/*' />
+        <exclude name='Test*.java' />
+        <exclude name='*TestCase*.java' />
+    </source>
+
+    <source path='query/physical/plan'>
+        <exclude name='*/**/*' />
+        <exclude name='PhysicalPlanUtil.java' />
+        <exclude name='Test*.java' />
+        <exclude name='*TestCase*.java' />
+    </source>
+
+    <source path='query/physical/procedure'>
+        <exclude name='*/**/*' />
+        <exclude name='Test*.java' />
+        <exclude name='*TestCase*.java' />
+    </source>
+    <source path='query/parser'>
+        <exclude name='*/**/*' />
+        <exclude name='Test*.java' />
+        <exclude name='*TestCase*.java' />
+    </source>
+
+    <source path='query/suspension'>
+        <exclude name='*/**/*' />
+        <exclude name='Test*.java' />
+        <exclude name='*TestCase*.java' />
+    </source>
+
+    <source path='query/xml'>
+        <exclude name='*/**/*' />
+        <exclude name='Test*.java' />
+        <exclude name='*TestCase*.java' />
+    </source>
+    
+    <source path='query/logical/rewrite'>
+        <exclude name='*/**/*' />
+        <exclude name='Test*.java' />
+        <exclude name='*TestCase*.java' />
+    </source>
+
+</module>

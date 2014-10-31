@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_expression>
+        <![CDATA[
+            DELETE FROM jdbc.groups AS g
+            WHERE g.name =
+            CAST((SELECT u.username FROM jdbc.users AS u WHERE u.user_id = 1) AS string);
+
+        ]]>
+    </query_expression>
+    <!--  
+    <data_source name="jdbc" storage_system="JDBC" data_model="RELATIONAL">
+        <properties environment="testing" user="postgres" password="postgres" maxPoolSize="20"
+            unreturnedConnectionTimeout="0" driver="postgresql" host="localhost" port="5432" database="testing" schema="public" />
+    </data_source>
+    -->
+    <data_source name="jdbc" storage_system="JDBC">
+        <properties environment="jenkins" overwrite="true" user="postgres" password="postgres" maxPoolSize="20"
+            unreturnedConnectionTimeout="0" debugUnreturnedConnectionStackTraces="true" driver="postgresql" host="localhost" port="5432"
+            database="forward" schema="public" />
+        <properties environment="testing" overwrite="true" user="postgres" password="postgres" maxPoolSize="20"
+            unreturnedConnectionTimeout="0" debugUnreturnedConnectionStackTraces="true" driver="postgresql" host="localhost" port="5432"
+            database="forward" schema="public" />
+    </data_source>
+    
+    <data_object name="groups" execution_data_source="jdbc">
+        <data_tree>
+            <root>
+                <element>
+                    <name>hello</name>
+                </element>
+            </root>
+        </data_tree>
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <name type="string" />
+                </element>
+            </root>
+        </schema_tree>
+    </data_object>
+    <data_object name="users" execution_data_source="jdbc">
+        <data_tree>
+            <root>
+                <element>
+                    <username>hello</username>
+                    <user_id>1</user_id>
+                </element>
+            </root>
+        </data_tree>
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <user_id type="string" />
+                    <username type="string" />
+                </element>
+            </root>
+        </schema_tree>
+    </data_object>
+</test_case>

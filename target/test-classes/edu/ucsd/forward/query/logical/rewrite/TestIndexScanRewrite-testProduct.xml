@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_expression>
+        <![CDATA[
+            SELECT P1.proposal_id AS pid
+            FROM src1.proposals AS P1, src1.reviews AS R1
+            WHERE P1.proposal_id = 10 AND R1.proposal = 20;
+        ]]>
+    </query_expression>
+    <data_object name="proposals" execution_data_source="src1" cardinality_estimate="LARGE" data_model="RELATIONAL"
+        storage_system="INMEMORY">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <proposal_id type="integer" />
+                    <title type="string" />
+                </element>
+                <index name="id" unique="false" method="BTREE">
+                    <key path="tuple/proposal_id" />
+                </index>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+            </root>
+        </data_tree>
+    </data_object>
+    <data_object name="reviews" execution_data_source="src1" cardinality_estimate="LARGE" data_model="RELATIONAL"
+        storage_system="INMEMORY">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <proposal type="integer" />
+                    <comment type="string" />
+                </element>
+                <index name="proposal" unique="false" method="BTREE">
+                    <key path="tuple/proposal" />
+                </index>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+            </root>
+        </data_tree>
+    </data_object>
+    <query_plan wrapping="false">
+        <SendPlan cardinality_estimate="SMALL" execution_data_source="mediator">
+            <arguments>
+                <Project cardinality_estimate="SMALL" execution_data_source="mediator">
+                    <arguments>
+                        <Item alias="pid">
+                            <QueryPath steps="proposal_id">
+                                <Variable name="P1" />
+                            </QueryPath>
+                        </Item>
+                    </arguments>
+                    <Product cardinality_estimate="SMALL" execution_data_source="mediator">
+                        <arguments />
+                        <IndexScan alias="P1" cardinality_estimate="SMALL" execution_data_source="mediator" index_name="id">
+                            <arguments>
+                                <path>
+                                    <Variable data_source="src1" mode="ABSOLUTE" schema_object="proposals" />
+                                </path>
+                                <key_range>
+                                    <lower open="false">
+                                        <Constant>
+                                            <integer>10</integer>
+                                        </Constant>
+                                    </lower>
+                                    <upper open="false">
+                                        <Constant>
+                                            <integer>10</integer>
+                                        </Constant>
+                                    </upper>
+                                </key_range>
+                            </arguments>
+                            <Ground cardinality_estimate="ONE" execution_data_source="mediator">
+                                <arguments />
+                            </Ground>
+                        </IndexScan>
+                        <IndexScan alias="R1" cardinality_estimate="SMALL" execution_data_source="mediator" index_name="proposal">
+                            <arguments>
+                                <path>
+                                    <Variable data_source="src1" mode="ABSOLUTE" schema_object="reviews" />
+                                </path>
+                                <key_range>
+                                    <lower open="false">
+                                        <Constant>
+                                            <integer>20</integer>
+                                        </Constant>
+                                    </lower>
+                                    <upper open="false">
+                                        <Constant>
+                                            <integer>20</integer>
+                                        </Constant>
+                                    </upper>
+                                </key_range>
+                            </arguments>
+                            <Ground cardinality_estimate="ONE" execution_data_source="mediator">
+                                <arguments />
+                            </Ground>
+                        </IndexScan>
+                    </Product>
+                </Project>
+            </arguments>
+        </SendPlan>
+    </query_plan>
+</test_case>

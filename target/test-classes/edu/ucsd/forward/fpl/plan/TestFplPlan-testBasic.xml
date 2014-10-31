@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <action_statement>
+        <![CDATA[
+CREATE ACTION basic()
+RETURNS
+    tuple(
+        str_attr string,
+        int_attr integer
+    )
+AS
+BEGIN
+    actual.actual := 3;
+    RETURN TUPLE('abc' AS str_attr, 5 AS int_attr);
+END;
+        ]]>
+    </action_statement>
+    <query_expression>
+basic().int_attr;
+    </query_expression>
+    <data_object name="actual" execution_data_source="actual" cardinality_estimate="SMALL" storage_system="INMEMORY">
+        <schema_tree>
+            <root type="integer" />
+        </schema_tree>
+        <data_tree>
+            <root>
+                <integer>2</integer>
+            </root>
+        </data_tree>
+    </data_object>
+    <data_object name="expected" execution_data_source="expected" cardinality_estimate="SMALL" storage_system="INMEMORY">
+        <schema_tree>
+            <root type="integer" />
+        </schema_tree>
+        <data_tree>
+            <root>
+                <integer>3</integer>
+            </root>
+        </data_tree>
+    </data_object>
+</test_case>

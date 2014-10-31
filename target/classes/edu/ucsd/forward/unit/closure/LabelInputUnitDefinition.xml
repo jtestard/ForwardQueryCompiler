@@ -1,0 +1,8 @@
+<doc>
+    <entry path="/LabelInput">Control for label input object.</entry>
+    <entry path="/LabelInput/style">This is a CSS styling attribute as defined by the CSS Styling Attribute Syntax specification.</entry>
+    <entry path="/LabelInput/label">The text to show as the label.</entry>
+    <entry path="/LabelInput/value">Use this to set the value through script to ensure that the label state is up to date.</entry>
+    <entry path="/LabelInput/enabled">Enables/Disables the label input.</entry>
+</doc>
+

@@ -1,0 +1,10 @@
+<doc>
+    <entry path="/Select">A selection control. Extends goog.ui.MenuButton by composing a menu with a selection model, and automatically updating the button&#39;s caption based on the current selection.</entry>
+    <entry path="/Select/style">This is a CSS styling attribute as defined by the CSS Styling Attribute Syntax specification.</entry>
+    <entry path="/Select/enabled">Enables/disables the menu button based on the value of the argument, and updates its CSS styling. Also hides the popup menu if the button is being disabled.</entry>
+    <entry path="/Select/scroll_on_overflow">Sets whether the menu should scroll when it's too big to fix vertically on the screen. The css of the menu element should have overflow set to auto. Note: Adding or removing items while the menu is open will not work correctly if scrollOnOverflow is on.</entry>
+    <entry path="/Select/selected">Selects the option at the specified index, or clears the selection if the index is out of bounds.</entry>
+    <entry path="/Select/menu/options/option/enabled">Enables or disables the component. Does nothing if this state transition is disallowed. If the component is both visible and focusable, updates its focused state and tab index as needed. If the component is being disabled, ensures that it is also deactivated and un-highlighted first. Note that the component&#39;s enabled/disabled state is &quot;locked&quot; as long as it is hosted in a goog.ui.Container that is itself disabled; this is to prevent clients from accidentally re-enabling a control that is in a disabled container.</entry>
+    <entry path="/Select/menu/options/option/content">Text caption or DOM structure to display as the content of the item (use to add icons or styling to menus).</entry>
+</doc>
+

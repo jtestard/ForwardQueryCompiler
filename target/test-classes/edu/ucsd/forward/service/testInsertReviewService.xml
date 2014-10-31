@@ -1,0 +1,36 @@
+<insert_review>
+    <input>
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <proposal type="integer"/>
+                    <reviewer type="string"/>
+                    <comment type="string"/>
+                    <depth type="integer"/>
+                    <impact type="integer"/>
+                    <overall type="integer"/>
+                </element>
+                <constraints>
+                    <local-key>
+                        <attribute path="tuple/proposal"/>
+                        <attribute path="tuple/reviewer"/>
+                    </local-key>
+                </constraints>
+            </root>
+        </schema_tree>
+    </input>
+    <outcome name="success">
+        <schema_tree>
+            <root type="tuple">
+                <no_affected_tuples type="integer"/>
+            </root>
+        </schema_tree>
+    </outcome>
+    <outcome name="failure">
+        <schema_tree>
+            <root type="tuple">
+                <failure_message type="string"/>
+            </root>
+        </schema_tree>
+    </outcome>
+</insert_review>

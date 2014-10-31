@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <schema_tree>
+        <root type="tuple">
+            <date default="2000-01-01" type="string"/>
+            <time type="string"/>
+            <apply type="tuple">
+                <name default="anonymous" type="string"/>
+                <applying_for type="switch">
+                    <phd type="tuple">
+                        <specialization type="string"/>
+                        <advisor_choice type="string"/>
+                    </phd>
+                    <masters type="tuple">
+                        <area_of_interest type="string"/>
+                    </masters>
+                </applying_for>
+            </apply>
+        </root>
+        <constraints/>
+    </schema_tree>
+    <data_tree>
+        <root>
+            <date>2009-12-26</date>
+            <time>9:00pm</time>
+            <apply>
+                <name>john</name>
+                <applying_for null="true"/>
+            </apply>
+        </root>
+    </data_tree>
+</test_case>

@@ -1,0 +1,274 @@
+#!/bin/bash
+
+#**********************
+# Setup Local Machine
+#**********************
+
+# Add SSH public key to /home/ubuntu/.ssh/authorized_keys
+
+# Verify SSH host key 
+# - Check https://svn.forward.ucsd.edu/main/trunk/doc/Sysadmin/Servers/experiment.set-processable.txt
+
+# Setup SSH tunneling for connecting to Postgresql
+ssh ubuntu@set-processable-04-08.experiment.ec2.forwardlang.org -i private_key_path -L 9000:localhost:5432
+
+# Setup Postgresql server in pgAdmin
+# - Host:       localhost
+# - Port:       9000
+# - Username:   ubuntu
+# - Password:   ubuntu
+
+#************
+# Utilities
+#************
+
+# iotop measures the I/O of respective processes
+sudo aptitude install iotop
+
+# Create table to record times, and views to display sizes of tables and indexes
+psql tpch3_100 << 'EOT'
+    drop schema if exists control cascade;
+
+    create schema control;
+
+    create table control.jobs (
+        job_id      serial primary key,
+        start_time  timestamp not null,
+        end_time    timestamp,
+        job         text not null
+    );
+    
+    create view control.tables_sizes as
+    select  sut.schemaname as schema_name,
+            sut.relname as table_name,
+            cast(c.reltuples as bigint) as tuple_count,
+            c.relpages as page_count,
+            pg_table_size(c.oid) as bytes,
+            pg_size_pretty(pg_table_size(c.oid)) as pretty_size
+    from    pg_class as c
+            join pg_stat_user_tables as sut on c.oid = sut.relid 
+    where   sut.schemaname not in ('pg_catalog', 'information_schema')
+    ;
+    
+    create view control.indexes_sizes as
+    select  sui.schemaname as schema_name,
+            sui.relname as table_name,
+            sui.indexrelname as index_name,
+            cast(c.reltuples as bigint) as tuple_count,
+            c.relpages as page_count,
+            pg_relation_size(c.oid) as bytes,
+            pg_size_pretty(pg_relation_size(c.oid)) as pretty_size
+    from    pg_class as c
+            join pg_stat_user_indexes as sui on c.oid = sui.indexrelid 
+    where   sui.schemaname not in ('pg_catalog', 'information_schema')
+    ;
+EOT
+
+# ----
+
+# Create table to record times, and views to display sizes of tables and indexes
+psql tpch3_1200 << 'EOT'
+    drop schema if exists control cascade;
+
+    create schema control;
+
+    create table control.jobs (
+        job_id      serial primary key,
+        start_time  timestamp not null,
+        end_time    timestamp,
+        job         text not null
+    );
+    
+    create view control.tables_sizes as
+    select  sut.schemaname as schema_name,
+            sut.relname as table_name,
+            cast(c.reltuples as bigint) as tuple_count,
+            c.relpages as page_count,
+            pg_table_size(c.oid) as bytes,
+            pg_size_pretty(pg_table_size(c.oid)) as pretty_size
+    from    pg_class as c
+            join pg_stat_user_tables as sut on c.oid = sut.relid 
+    where   sut.schemaname not in ('pg_catalog', 'information_schema')
+    ;
+    
+    create view control.indexes_sizes as
+    select  sui.schemaname as schema_name,
+            sui.relname as table_name,
+            sui.indexrelname as index_name,
+            cast(c.reltuples as bigint) as tuple_count,
+            c.relpages as page_count,
+            pg_relation_size(c.oid) as bytes,
+            pg_size_pretty(pg_relation_size(c.oid)) as pretty_size
+    from    pg_class as c
+            join pg_stat_user_indexes as sui on c.oid = sui.indexrelid 
+    where   sui.schemaname not in ('pg_catalog', 'information_schema')
+    ;
+EOT
+
+#*******************
+# Configure Caches
+#*******************
+
+#=============
+# Postgresql
+#=============
+
+sudo -i
+
+# Restrict Postgresql to use 128MB for shared buffers, and estimate Linux's disk cache at 256MB
+patch --strip=0 << 'EOT'
+    --- /etc/postgresql/9.1/main/postgresql.conf
+    +++ /etc/postgresql/9.1/main/postgresql.conf
+    @@ -564,0 +565,6 @@
+    +
+    +#------------------------------------------------------------------------------
+    +# OVERRIDE PGTUNE
+    +#------------------------------------------------------------------------------
+    +shared_buffers = 128MB
+    +effective_cache_size = 256MB
+EOT
+chown postgres.postgres /etc/postgresql/9.1/main/postgresql.conf
+hg commit -m 'Restricted caches for Postgresql' /etc/postgresql/9.1/main/postgresql.conf
+
+# Restart Postgresql to use new memory settings
+service postgresql restart
+
+exit
+
+#========
+# Linux
+#========
+
+sudo -i
+
+# Disable swap partitions
+# patch --strip=0 --ignore-whitespace << 'EOT'
+#     --- /etc/fstab
+#     +++ /etc/fstab
+#     @@ -3,1 +3,1 @@
+#     -/dev/xvda3     none    swap    sw,comment=cloudconfig  0       0
+#     +# /dev/xvda3   none    swap    sw,comment=cloudconfig  0       0
+# EOT
+# hg commit -m 'Disable swap' /etc/fstab
+
+# Reboot to use new swap settings, and to determine minimum amount of memory needed by system
+# reboot
+# ssh "$FQDN"
+# sudo -i
+
+# WARNING: Consuming too much memory will make it impossible to execute any
+# further commands. There will not be enough memory to fork or exec another
+# process, and the only solution is a hard reboot via the AWS APIs. To avoid
+# this situation, reserve some memory in a separate process.
+tmux new-window 'BLOB=$(dd if=/dev/urandom bs=10MB count=1); cat'
+
+# Press "ctrl-j, 0" to switch back to the original window
+
+# Check free memory
+free -m
+
+# To restrict Linux's disk cache to 256MB, consume (total - used - 256)MB of memory.
+# Consume 7200MB of memory by creating a large file in a ramdisk
+mkdir --parents /tmp/guzzle
+mount --types tmpfs none /tmp/guzzle --options size=8g
+dd if=/dev/zero of=/tmp/guzzle/zero.txt bs=1kB count=7200000
+
+# WARNING: If there is not enough memory, dd will fail with "No space left on
+# device", and Bash will fail with "fork: Cannot allocate memory". If that happens:
+# - Press "ctrl-j, 1" to switch to the window which is reserving memory
+# - Press "ctrl-c" to terminate the process and reclaim the memory 
+# - Re-execute dd with a smaller count
+
+# Flush disk cache, and check free memory
+sync
+echo 3 | sudo tee /proc/sys/vm/drop_caches
+free -m
+
+# If free memory is more than 200% of 256MB, keep consuming more memory
+
+# Linux disk cache can utilize memory that is committed, but currently free. Check that Committed_AS < CommitLimit.
+cat /proc/meminfo
+
+exit
+
+#****************
+# Sanity Checks
+#****************
+
+# Check that there is no swap
+cat /proc/swaps
+
+# Check that OOM (out-of-memory) killer is disabled: overcommit_memory is 2, overcommit_ratio is 100
+sysctl vm.overcommit_memory
+sysctl vm.overcommit_ratio
+
+# Check that Postgresql uses 128MB for shared buffers
+psql tpch3_1200 -c 'show shared_buffers'
+
+# Check that Postgresql assumes 256MB for Linux disk cache
+psql tpch3_1200 -c 'show effective_cache_size'
+
+# Check the size of tables on disk
+psql tpch3_1200 -c "select * from control.tables_sizes where schema_name = 'public' order by table_name"
+
+# Check the size of indexes on disk
+psql tpch3_1200 -c "select * from control.indexes_sizes where schema_name = 'public' order by table_name"
+
+# Check that scanning the entire orders table does not cache it in memory (between 147.5s to 147.7s)
+sudo service postgresql restart
+psql tpch3_100 << 'EOT'
+    \timing on
+    select count(*) from public.orders;
+    select count(*) from public.orders;
+    select count(*) from public.orders;
+    select count(*) from public.orders;
+    select count(*) from public.orders;
+EOT
+
+# ----
+
+# Check that scanning the entire orders table does not cache it in memory (14.9s, 15.4s, 15.4s, 15.4s, 15.4s)
+sudo service postgresql restart
+psql tpch3_1200 << 'EOT'
+    \timing on
+    select count(*) from public.orders;
+    select count(*) from public.orders;
+    select count(*) from public.orders;
+    select count(*) from public.orders;
+    select count(*) from public.orders;
+EOT
+
+#***********************************
+# Running test cases through Maven
+#***********************************
+
+# The following instructions assume that the src/ directory is at $SOURCE_DIRECTORY
+#
+# You can synchronize a Subversion working copy from your local machine to the
+# server using rsync. For example:
+# rsync -zave ssh src/ $HOST:$SOURCE_DIRECTORY
+
+# Change working directory
+cd $SOURCE_DIRECTORY
+
+# Compile and install the Parent project dependency
+cd parent
+mvn clean install --non-recursive
+cd ..
+
+# Compile and install the Util project dependency
+cd util
+mvn clean install
+cd ..
+
+# Compile and install the Units project dependency
+cd units
+mvn clean install
+cd ..
+
+# Compile the Sketch project
+cd sketch
+mvn clean compile test-compile
+
+# Run the test case
+mvn test -Dtest=TestDataPath

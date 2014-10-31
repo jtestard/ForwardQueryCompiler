@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module rename-to='vm'>
+
+    <inherits name='com.google.gwt.user.User' />
+    <source path='experimental/vm_old/integrate'>
+        <include name='PageIvmInfo.java' />
+    </source>
+        <source path='experimental/vm_old/log'>
+        <include name='KeySig.java' />
+    </source>
+    <source path='experimental/vm2/integrate'>
+        <include name='PageIvm2Info.java' />
+    </source>
+        <source path='experimental/vm2'>
+        <include name='XmlDeserializer.java' />
+        <include name='XmlSerializable.java' />
+        <include name='XmlSerializableUtil.java' />
+    </source>
+    <!-- The ivm is not supported by GWT -->
+    <!-- <source path='experimental/vm_old'> <exclude name='*/**/*' /> <exclude name='Test*.java' /> <exclude name='*TestCase*.java' 
+        /> </source> <source path='experimental/vm_old/integrate'> <exclude name='*/**/*' /> <exclude name='Test*.java' /> <exclude name='*TestCase*.java' 
+        /> </source> <source path='experimental/vm2'> <exclude name='*/**/*' /> <exclude name='Test*.java' /> <exclude name='*TestCase*.java' 
+        /> </source> <source path='experimental/vm/provenance'> <exclude name='*/**/*' /> <exclude name='Test*.java' /> <exclude name='*TestCase*.java' 
+        /> </source> <source path='experimental/vm_old/provenance'> <exclude name='*/**/*' /> <exclude name='Test*.java' /> <exclude name='*TestCase*.java' 
+        /> </source> <source path='experimental/vm/log'> <exclude name='*/**/*' /> <exclude name='Test*.java' /> <exclude name='*TestCase*.java' 
+        /> </source> <source path='experimental/vm_old/log'> <exclude name='*/**/*' /> <exclude name='Test*.java' /> <exclude name='*TestCase*.java' 
+        /> </source> <source path='experimental/vm2/analyzer'> <exclude name='*/**/*' /> <exclude name='Test*.java' /> <exclude name='*TestCase*.java' 
+        /> </source> <source path='experimental/vm2/exp'> <exclude name='*/**/*' /> <exclude name='Test*.java' /> <exclude name='*TestCase*.java' 
+        /> </source> <source path='experimental/vm2/integrate'> <exclude name='*/**/*' /> <exclude name='Test*.java' /> <exclude name='*TestCase*.java' 
+        /> </source> <source path='experimental/vm2/log'> <exclude name='*/**/*' /> <exclude name='Test*.java' /> <exclude name='*TestCase*.java' 
+        /> </source> <source path='experimental/vm2/pattern'> <exclude name='*/**/*' /> <exclude name='Test*.java' /> <exclude name='*TestCase*.java' 
+        /> </source> -->
+</module>

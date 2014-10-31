@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_expression>
+        <![CDATA[
+            SELECT P.proposal_id AS pid
+            FROM src1.proposals AS P, src1.reviews AS R
+            WHERE P.proposal_id = R.proposal
+            AND EXISTS(SELECT true FROM src1.reviews AS R WHERE P.proposal_id = R.proposal);
+        ]]>
+    </query_expression>
+    <data_object name="proposals" execution_data_source="src1" cardinality_estimate="LARGE" data_model="RELATIONAL"
+        storage_system="INMEMORY">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <proposal_id type="integer" />
+                    <title type="string" />
+                </element>
+                <index name="id" unique="false" method="BTREE">
+                    <key path="tuple/proposal_id" />
+                </index>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+            </root>
+        </data_tree>
+    </data_object>
+    <data_object name="reviews" execution_data_source="src1" cardinality_estimate="LARGE" data_model="RELATIONAL"
+        storage_system="INMEMORY">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <proposal type="integer" />
+                    <comment type="string" />
+                </element>
+                <index name="proposal" unique="false" method="BTREE">
+                    <key path="tuple/proposal" />
+                </index>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+            </root>
+        </data_tree>
+    </data_object>
+    <query_plan wrapping="false">
+    <SendPlan cardinality_estimate="SMALL" execution_data_source="mediator">
+        <arguments>
+            <Project cardinality_estimate="SMALL" execution_data_source="mediator">
+                <arguments>
+                    <Item alias="pid">
+                        <QueryPath steps="proposal_id">
+                            <Variable name="P"/>
+                        </QueryPath>
+                    </Item>
+                </arguments>
+                <Select cardinality_estimate="SMALL" execution_data_source="mediator">
+                    <arguments>
+                        <Variable name="__v0"/>
+                    </arguments>
+                    <Exists attr_name="__v0" cardinality_estimate="LARGE" execution_data_source="mediator">
+                        <arguments>
+                            <SendPlan cardinality_estimate="SMALL" execution_data_source="mediator">
+                                <arguments>
+                                    <Project cardinality_estimate="SMALL" execution_data_source="mediator">
+                                        <arguments>
+                                            <Item alias="constant">
+                                                <Constant>
+                                                    <boolean>true</boolean>
+                                                </Constant>
+                                            </Item>
+                                        </arguments>
+                                        <IndexScan alias="R" cardinality_estimate="SMALL" execution_data_source="mediator" index_name="proposal">
+                                            <arguments>
+                                                <path>
+                                                    <Variable data_source="src1" mode="ABSOLUTE" schema_object="reviews"/>
+                                                </path>
+                                                <key_range>
+                                                    <lower open="false">
+                                                        <Parameter>
+                                                            <QueryPath steps="proposal_id">
+                                                                <Variable name="P">
+                                                                    <type type="tuple">
+                                                                        <proposal_id type="integer"/>
+                                                                        <title type="string"/>
+                                                                    </type>
+                                                                </Variable>
+                                                            </QueryPath>
+                                                        </Parameter>
+                                                    </lower>
+                                                    <upper open="false">
+                                                        <Parameter>
+                                                            <QueryPath steps="proposal_id">
+                                                                <Variable name="P">
+                                                                    <type type="tuple">
+                                                                        <proposal_id type="integer"/>
+                                                                        <title type="string"/>
+                                                                    </type>
+                                                                </Variable>
+                                                            </QueryPath>
+                                                        </Parameter>
+                                                    </upper>
+                                                </key_range>
+                                            </arguments>
+                                            <Ground cardinality_estimate="ONE" execution_data_source="mediator">
+                                                <arguments/>
+                                            </Ground>
+                                        </IndexScan>
+                                    </Project>
+                                </arguments>
+                            </SendPlan>
+                        </arguments>
+                        <InnerJoin cardinality_estimate="LARGE" execution_data_source="mediator">
+                            <arguments>
+                                <FunctionCall name="=">
+                                    <QueryPath steps="proposal_id">
+                                        <Variable name="P"/>
+                                    </QueryPath>
+                                    <QueryPath steps="proposal">
+                                        <Variable name="R"/>
+                                    </QueryPath>
+                                </FunctionCall>
+                            </arguments>
+                            <AccessPath alias="P" cardinality_estimate="LARGE" execution_data_source="mediator">
+                                <arguments>
+                                    <Variable data_source="src1" mode="ABSOLUTE" schema_object="proposals"/>
+                                </arguments>
+                                <Ground cardinality_estimate="ONE" execution_data_source="mediator">
+                                    <arguments/>
+                                </Ground>
+                            </AccessPath>
+                            <AccessPath alias="R" cardinality_estimate="LARGE" execution_data_source="mediator">
+                                <arguments>
+                                    <Variable data_source="src1" mode="ABSOLUTE" schema_object="reviews"/>
+                                </arguments>
+                                <Ground cardinality_estimate="ONE" execution_data_source="mediator">
+                                    <arguments/>
+                                </Ground>
+                            </AccessPath>
+                        </InnerJoin>
+                    </Exists>
+                </Select>
+            </Project>
+        </arguments>
+    </SendPlan>
+</query_plan>
+</test_case>

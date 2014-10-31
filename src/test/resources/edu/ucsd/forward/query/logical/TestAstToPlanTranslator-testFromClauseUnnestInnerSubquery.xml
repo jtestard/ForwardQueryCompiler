@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_expression>
+        <![CDATA[
+            SELECT A.pid AS pid, B.grade AS nested_grade, comment AS nested_comment
+            FROM FLATTEN(
+              (
+                SELECT pid, NEST(grade, comment) AS reviews 
+                FROM src1.proposals 
+                GROUP BY pid
+              ) AS A, 
+              A.reviews AS B
+            );
+        ]]>
+    </query_expression>
+    <data_object name="proposals" execution_data_source="src1" cardinality_estimate="LARGE" data_model="RELATIONAL"
+        storage_system="INMEMORY">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <pid type="integer" />
+                    <grade type="integer" />
+                    <comment type="string" />
+                </element>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <pid>1</pid>
+                    <grade>1</grade>
+                    <comment>Poor</comment>
+                </element>
+                <element>
+                    <pid>1</pid>
+                    <grade>3</grade>
+                    <comment>Good</comment>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+
+    <query_plan wrapping="false">
+        <Project cardinality_estimate="UNKNOWN">
+            <arguments>
+                <Item alias="pid">
+                    <Variable name="__v4" />
+                </Item>
+                <Item alias="nested_grade">
+                    <Variable name="__v5" />
+                </Item>
+                <Item alias="nested_comment">
+                    <Variable name="__v6" />
+                </Item>
+            </arguments>
+            <Navigate alias="__v6" cardinality_estimate="UNKNOWN">
+                <arguments>
+                    <QueryPath steps="comment">
+                        <Variable mode="ELEMENT" name="B" />
+                    </QueryPath>
+                </arguments>
+                <Navigate alias="__v5" cardinality_estimate="UNKNOWN">
+                    <arguments>
+                        <QueryPath steps="grade">
+                            <Variable mode="ELEMENT" name="B" />
+                        </QueryPath>
+                    </arguments>
+                    <Navigate alias="__v4" cardinality_estimate="UNKNOWN">
+                        <arguments>
+                            <QueryPath steps="pid">
+                                <Variable mode="ELEMENT" name="A" />
+                            </QueryPath>
+                        </arguments>
+                        <Scan alias="B" cardinality_estimate="UNKNOWN">
+                            <arguments>
+                                <QueryPath steps="reviews">
+                                    <Variable mode="ELEMENT" name="A" />
+                                </QueryPath>
+                            </arguments>
+                            <Subquery alias="A" cardinality_estimate="UNKNOWN">
+                                <arguments />
+                                <Project cardinality_estimate="UNKNOWN">
+                                    <arguments>
+                                        <Item alias="pid">
+                                            <Variable name="__v0" />
+                                        </Item>
+                                        <Item alias="reviews">
+                                            <Variable name="nest_call__v3" />
+                                        </Item>
+                                    </arguments>
+                                    <GroupBy cardinality_estimate="UNKNOWN">
+                                        <arguments>
+                                            <GroupByItem attr_name="__v0">
+                                                <Variable name="__v0" />
+                                            </GroupByItem>
+                                            <Aggregate alias="nest_call__v3">
+                                                <FunctionCall name="NEST" set_quantifier="ALL">
+                                                    <Variable name="__v1" />
+                                                    <Variable name="__v2" />
+                                                </FunctionCall>
+                                            </Aggregate>
+                                        </arguments>
+                                        <Navigate alias="__v2" cardinality_estimate="UNKNOWN">
+                                            <arguments>
+                                                <QueryPath steps="comment">
+                                                    <Variable mode="ELEMENT" name="proposals" />
+                                                </QueryPath>
+                                            </arguments>
+                                            <Navigate alias="__v1" cardinality_estimate="UNKNOWN">
+                                                <arguments>
+                                                    <QueryPath steps="grade">
+                                                        <Variable mode="ELEMENT" name="proposals" />
+                                                    </QueryPath>
+                                                </arguments>
+                                                <Navigate alias="__v0" cardinality_estimate="UNKNOWN">
+                                                    <arguments>
+                                                        <QueryPath steps="pid">
+                                                            <Variable mode="ELEMENT" name="proposals" />
+                                                        </QueryPath>
+                                                    </arguments>
+                                                    <Scan alias="proposals" cardinality_estimate="UNKNOWN">
+                                                        <arguments>
+                                                            <Variable data_source="src1" mode="ABSOLUTE" schema_object="proposals" />
+                                                        </arguments>
+                                                        <Ground cardinality_estimate="UNKNOWN">
+                                                            <arguments />
+                                                        </Ground>
+                                                    </Scan>
+                                                </Navigate>
+                                            </Navigate>
+                                        </Navigate>
+                                    </GroupBy>
+                                </Project>
+                            </Subquery>
+                        </Scan>
+                    </Navigate>
+                </Navigate>
+            </Navigate>
+        </Project>
+    </query_plan>
+
+
+    <data_object name="output" execution_data_source="output">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <pid type="integer" />
+                    <nested_grade type="integer" />
+                    <nested_comment type="string" />
+                </element>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <pid>1</pid>
+                    <nested_grade>1</nested_grade>
+                    <nested_comment>Poor</nested_comment>
+                </element>
+                <element>
+                    <pid>1</pid>
+                    <nested_grade>3</nested_grade>
+                    <nested_comment>Good</nested_comment>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+</test_case>

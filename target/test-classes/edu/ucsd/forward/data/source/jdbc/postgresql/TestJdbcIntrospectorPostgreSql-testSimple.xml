@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <data_source name="jdbc" storage_system="JDBC" >
+        <properties environment="jenkins" user="postgres" password="postgres" maxPoolSize="20"
+            unreturnedConnectionTimeout="0" debugUnreturnedConnectionStackTraces="true" driver="postgresql" host="localhost" port="5432"
+            database="forward" schema="public" />
+        <properties environment="testing" user="postgres" password="postgres" maxPoolSize="20"
+            unreturnedConnectionTimeout="0" debugUnreturnedConnectionStackTraces="true" driver="postgresql" host="localhost" port="5432"
+            database="forward" schema="public" />
+    </data_source>
+   <!--  <data_object name="reviewers" execution_data_source="jdbc">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <name type="string" />
+                    <proposal_ref type="integer" />
+                </element>
+                <constraints>
+                    <local-key>
+                        <attribute path="tuple/name" />
+                    </local-key>
+                </constraints>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <name>john</name>
+                    <proposal_ref>1</proposal_ref>
+                </element>
+                <element>
+                    <name>tom</name>
+                    <proposal_ref>2</proposal_ref>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+    <data_object name="proposals" execution_data_source="jdbc">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <proposal_id type="integer" />
+                </element>
+                <constraints>
+                    <local-key>
+                        <attribute path="tuple/proposal_id" />
+                    </local-key>
+                </constraints>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <proposal_id>1</proposal_id>
+                </element>
+                <element>
+                    <proposal_id>2</proposal_id>
+                </element>
+                <element>
+                    <proposal_id>3</proposal_id>
+                </element>
+            </root>
+        </data_tree>
+    </data_object> -->
+</test_case>

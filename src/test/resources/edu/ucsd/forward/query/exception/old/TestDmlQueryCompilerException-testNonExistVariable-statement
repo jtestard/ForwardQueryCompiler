@@ -1,0 +1,2 @@
+UPDATE applications AS a
+SET an.first_name = 'tt'

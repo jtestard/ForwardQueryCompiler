@@ -1,0 +1,10 @@
+SELECT SWITCH WHEN proposal_id = 1 THEN TUPLE(1 AS v) AS case1
+              WHEN proposal_id = 2 THEN TUPLE(2 AS v) AS case2
+              ELSE TUPLE(3 AS v) AS case3
+       END AS ss, P.proposal_id
+FROM proposals AS P              
+OUTER UNION
+SELECT SWITCH WHEN proposal_id = 1 THEN TUPLE('a' AS v) AS case1 
+              ELSE TUPLE(2 AS v) AS case2
+       END AS ss, P.proposal_id
+FROM proposals AS P

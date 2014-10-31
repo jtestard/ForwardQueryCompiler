@@ -1,0 +1,269 @@
+<doc>
+	<entry path="/HighCharts">Represents a chart to be created inside of the div element.</entry>
+	<entry path="/HighCharts/height">The height of the div container of the chart</entry>
+	<entry path="/HighCharts/width">The width of the div container of the chart</entry>
+	<entry path="/HighCharts/options">Options for customizing the chart.</entry>
+	<entry path="/HighCharts/options/chart">Options regarding the chart area and plot area as well as general chart options. </entry>
+	<entry path="/HighCharts/options/chart/type">The default series type for the chart. Can be one of line, spline, area, areaspline, column, bar, pie and scatter. Defaults to "line".</entry>
+	<entry path="/HighCharts/options/chart/alignticks">When using multiple axis, the ticks of two or more opposite axes will automatically be aligned by adding ticks to the axis or axes with the least ticks. This can be prevented by setting alignTicks to false. Defaults to true.</entry>
+	<entry path="/HighCharts/options/chart/animation">Set the overall animation for all chart updating. Animation can be disabled throughout the chart by setting it to false here.</entry>
+	<entry path="/HighCharts/options/chart/backgroundcolor">The background color or gradient for the outer chart area. Defaults to "#FFFFFF".</entry>
+	<entry path="/HighCharts/options/chart/bordercolor">The color of the outer chart border. The border is painted using vector graphic techniques to allow rounded corners. Defaults to "#4572A7".</entry>
+	<entry path="/HighCharts/options/chart/borderradius">The corner radius of the outer chart border. Defaults to 5.</entry>
+	<entry path="/HighCharts/options/chart/borderwidth">The pixel width of the outer chart border. The border is painted using vector graphic techniques to allow rounded corners. Defaults to 0.</entry>
+	<entry path="/HighCharts/options/chart/inverted">Whether to invert the axes so that the x axis is horizontal and y axis is vertical. When true, the x axis is reversed by default. If a bar plot is present in the chart, it will be inverted automatically. Defaults to false.</entry>
+	<entry path="/HighCharts/options/chart/margintop">The margin between the outer edge of the chart and the plot area.</entry>
+	<entry path="/HighCharts/options/chart/marginright">The margin between the outer edge of the chart and the plot area. </entry>
+	<entry path="/HighCharts/options/chart/marginbottom">The margin between the outer edge of the chart and the plot area. </entry>
+	<entry path="/HighCharts/options/chart/marginleft">The margin between the outer edge of the chart and the plot area. </entry>
+	<entry path="/HighCharts/options/chart/plotbackgroundcolor">The background color or gradient for the plot area. Defaults to null.</entry>
+	<entry path="/HighCharts/options/chart/plotbackgroundimage">The URL for an image to use as the plot background. To set an image as the background for the entire chart, set a CSS background image to the container element. Defaults to null.</entry>
+	<entry path="/HighCharts/options/chart/plotbordercolor">The color of the inner chart or plot area border. Defaults to "#C0C0C0".</entry>
+	<entry path="/HighCharts/options/chart/plotborderwidth">The pixel width of the plot area border. Defaults to 0.</entry>
+	<entry path="/HighCharts/options/chart/plotshadow">Whether to apply a drop shadow to the plot area. Requires that plotBackgroundColor be set. Defaults to false.</entry>
+	<entry path="/HighCharts/options/chart/reflow">Whether to reflow the chart to fit the width of the container div on resizing the window. Defaults to true.</entry>
+	<entry path="/HighCharts/options/chart/shadow">Whether to apply a drop shadow to the outer chart area. Requires that backgroundColor be set. Defaults to false.</entry>
+	<entry path="/HighCharts/options/chart/spacingtop">The space between the top edge of the chart and the content (plot area, axis title and labels, title, subtitle or legend in top position).
+	Defaults to 10.</entry>
+	<entry path="/HighCharts/options/chart/spacingright">The space between the right edge of the chart and the content (plot area, axis title and labels, title, subtitle or legend in top position).
+Defaults to 10.</entry>
+	<entry path="/HighCharts/options/chart/spacingleft">he space between the left edge of the chart and the content (plot area, axis title and labels, title, subtitle or legend in top position).
+Defaults to 10.</entry>
+	<entry path="/HighCharts/options/chart/spacingbottom">The space between the bottom edge of the chart and the content (plot area, axis title and labels, title, subtitle or legend in top position).
+Defaults to 15.</entry>
+	<entry path="/HighCharts/options/chart/zoomtype">Decides in what dimentions the user can zoom by dragging the mouse. Can be one of x, y or xy. Defaults to "".</entry>
+	<entry path="/HighCharts/options/chart/resetzoombutton">The button that appears after a selection zoom, allowing the user to reset zoom. </entry>
+	<entry path="/HighCharts/options/chart/resetzoombutton/relativeto">What frame the button should be placed related to. Can be either "plot" or "chart". Defaults to "plot".</entry>
+	<entry path="/HighCharts/options/chart/resetzoombutton/position">The position of the button.</entry>
+	<entry path="/HighCharts/options/chart/resetzoombutton/position/align">Horizontal alignment of the zoom reset button. Defaults to 'right'.</entry>
+	<entry path="/HighCharts/options/chart/resetzoombutton/position/verticalalign">Vertical alignment of the zoom reset button. Defaults to 'top'.</entry>
+	<entry path="/HighCharts/options/chart/resetzoombutton/position/x">Horizontal pixel offset of the zoom reset button.</entry>
+	<entry path="/HighCharts/options/chart/resetzoombutton/position/y">Vertical pixel offset of the zoom reset button.</entry>
+	<entry path="/HighCharts/options/colors">A collection of the default colors for the chart's series. When all colors are used, new colors are pulled from the start again. Defaults to:
+
+colors: [
+	'#4572A7', 
+	'#AA4643', 
+	'#89A54E', 
+	'#80699B', 
+	'#3D96AE', 
+	'#DB843D', 
+	'#92A8CD', 
+	'#A47D7C', 
+	'#B5CA92'
+]</entry>
+	<entry path="/HighCharts/options/colors/color/value">The color value of a colors collection element.</entry>
+	<entry path="/HighCharts/options/title">The chart's main title.</entry>
+	<entry path="/HighCharts/options/title/align">The horizontal alignment of the title. Can be one of "left", "center" and "right". Defaults to "center".</entry>
+	<entry path="/HighCharts/options/title/floating">When the title is floating, the plot area will not move to make space for it. Defaults to false.</entry>
+	<entry path="/HighCharts/options/title/margin">The margin between the title and the plot area, or if a subtitle is present, the margin between the subtitle and the plot area. Defaults to 15.</entry>
+	<entry path="/HighCharts/options/title/verticalalign">The vertical alignment of the title. Can be one of "top", "middle" and "bottom". Defaults to "top".</entry>
+	<entry path="/HighCharts/options/title/text">The title of the chart. To disable the title, set the text to null. Defaults to "Chart title".</entry>
+	<entry path="/HighCharts/options/title/x">The x position of the title relative to the alignment within chart.spacingLeft and chart.spacingRight. Defaults to 0.</entry>
+	<entry path="/HighCharts/options/title/y">The y position of the title relative to the alignment within chart.spacingTop and chart.spacingBottom. Defaults to 15.</entry>
+	<entry path="/HighCharts/options/subtitle">The chart's subtitle </entry>
+	<entry path="/HighCharts/options/subtitle/align">The horizontal alignment of the subtitle. Can be one of "left", "center" and "right". Defaults to "center".</entry>
+	<entry path="/HighCharts/options/subtitle/floating">When the subtitle is floating, the plot area will not move to make space for it. Defaults to false.</entry>
+	<entry path="/HighCharts/options/subtitle/text">The subtitle of the chart. Defaults to "".</entry>
+	<entry path="/HighCharts/options/subtitle/x">Horizontal pixel adjustment of the subtitle.</entry>
+	<entry path="/HighCharts/options/subtitle/y">Vertical pixel adjustment of the subtitle.</entry>
+	<entry path="/HighChart/options/subtitle/verticalalign">The vertical alignment of the title. Can be one of "top", "middle" and "bottom". Defaults to "top".</entry>
+	<entry path="/HighCharts/options/xaxis">The X axis or category axis. Normally this is the horizontal axis, though if the chart is inverted this is the vertical axis. </entry>
+	<entry path="/HighCharts/options/xaxis/type">The type of axis. Can be one of "linear", "logarithmic" or "datetime". In a datetime axis, the numbers are given in milliseconds, and tick marks are placed on appropriate values like full hours or days. Defaults to "linear".</entry>
+	<entry path="/HighCharts/options/xaxis/title">xAxis.title</entry>
+	<entry path="/HighCharts/options/xaxis/title/text">Text for the xAxis title.</entry>
+	<entry path="/HighCharts/options/xaxis/title/margin">Margin for the xAxis title</entry>
+	<entry path="/HighCharts/options/xaxis/categories">If categories are present for the xAxis, names are used instead of numbers for that axis.</entry>
+	<entry path="/HighCharts/options/xaxis/categories/category/value">The value of an element of the categories collection. </entry>
+	<entry path="/HighCharts/options/xaxis/labels">The axis labels show the number or category for each tick. </entry>
+	<entry path="/HighCharts/options/xaxis/labels/usehtml">Enabling/disabling using html for formatting the xAxis labels.</entry>
+	<entry path="/HighCharts/options/xaxis/labels/align">What part of the string the given position is anchored to. Can be one of "left", "center" or "right". In inverted charts, x axis label alignment and y axis alignment are swapped. Defaults to "center".</entry>
+	<entry path="/HighCharts/options/xaxis/labels/rotation">Rotation of the labels in degrees. Defaults to 0.</entry>
+	<entry path="/HighCharts/options/xaxis/labels/x">The x position offset of the label relative to the tick position on the axis. Defaults to 0.</entry>
+	<entry path="/HighCharts/options/xaxis/labels/y">The y position offset of the label relative to the tick position on the axis. Defaults to 0.</entry>
+	<entry path="/HighCharts/options/xaxis/labels/step">To show only every n'th label on the axis, set the step to n. Setting the step to 2 shows every other label. Defaults to null.</entry>
+	<entry path="/HighCharts/options/xaxis/labels/formatter">Callback JavaScript function to format the label. The value is given by this.value. Additional properties for this are axis, chart, isFirst and isLast. Defaults to:
+
+function() {
+	return this.value;
+}</entry>
+	<entry path="/HighCharts/options/xaxis/plotbands">A collection of colored bands stretching across the plot area marking an interval on the axis. </entry>
+	<entry path="/HighCharts/options/xaxis/plotbands/plotband/color">The color of the plot band. Defaults to null.</entry>
+	<entry path="/HighCharts/options/xaxis/plotbands/plotband/from">The start position of the plot band in axis units. Defaults to null.</entry>
+	<entry path="/HighCharts/options/xaxis/plotbands/plotband/to">The end position of the plot band in axis units. Defaults to null.</entry>
+	<entry path="/HighCharts/options/xaxis/plotbands/plotband/zindex">The z index of the plot band within the chart. Defaults to null.</entry>
+	<entry path="/HighCharts/options/xaxis/plotbands/plotband/label">Text labels for the plot bands. </entry>
+	<entry path="/HighCharts/options/xaxis/plotbands/plotband/label/align">Horizontal alignment of the label. Can be one of "left", "center" or "right". Defaults to "center".</entry>	
+	<entry path="/HighCharts/options/xaxis/plotbands/plotband/label/verticalalign">Vertical alignment of the label relative to the plot band. Can be one of "top", "middle" or "bottom". Defaults to "top".</entry>
+	<entry path="/HighCharts/options/xaxis/plotbands/plotband/label/rotation">Rotation of the text label in degrees Defaults to 0.</entry>
+	<entry path="/HighCharts/options/xaxis/plotbands/plotband/label/text">The string text itself. A subset of HTML is supported. </entry>
+	<entry path="/HighCharts/options/xaxis/plotbands/plotband/label/textalign">The text alignment for the label. While align determines where the texts anchor point is placed within the plot band, textAlign determines how the text is aligned against its anchor point. Possible values are "left", "center" and "right". Defaults to the same as the align option. </entry>
+	<entry path="/HighCharts/options/xaxis/plotbands/plotband/label/x">Horizontal position relative the alignment. Default varies by orientation. </entry>
+	<entry path="/HighCharts/options/xaxis/plotbands/plotband/label/y">Vertical position of the text baseline relative to the alignment. Default varies by orientation. </entry>
+	<entry path="/HighCharts/options/xaxis/plotlines">A collection of lines streching across the plot area, marking a specific value on one of the axes. </entry>
+	<entry path="/HighCharts/options/xaxis/plotlines/plotline/color">The color of the line. Defaults to null.</entry>
+	<entry path="/HighCharts/options/xaxis/plotlines/plotline/value">The position of the line in axis units. Defaults to null.</entry>
+	<entry path="/HighCharts/options/xaxis/plotlines/plotline/width">The width or thickness of the plot line. Defaults to null.</entry>
+	<entry path="/HighCharts/options/xaxis/plotlines/plotline/dashstyle">The dashing or dot style for the plot line. For possible values see Reference. Defaults to Solid.</entry>
+	<entry path="/HighCharts/options/xaxis/plotlines/plotline/zindex">The z index of the plot line within the chart. Defaults to null.</entry>
+	<entry path="/HighCharts/options/xaxis/plotlines/plotline/label">Collection of text labels for the plot bands </entry>
+	<entry path="/HighCharts/options/xaxis/plotlines/plotline/label/align">Horizontal alignment of the label. Can be one of "left", "center" or "right". Defaults to "center".</entry>
+	<entry path="/HighCharts/options/xaxis/plotlines/plotline/label/verticalalign">Vertical alignment of the label relative to the plot band. Can be one of "top", "middle" or "bottom". Defaults to "top".</entry>
+	<entry path="/HighCharts/options/xaxis/plotlines/plotline/label/rotation">Rotation of the text label in degrees. Defaults to 0 for horizontal plot lines and 90 for vertical lines. </entry>
+	<entry path="/HighCharts/options/xaxis/plotlines/plotline/label/textalign">The text alignment for the label. While align determines where the texts anchor point is placed within the plot band, textAlign determines how the text is aligned against its anchor point. Possible values are "left", "center" and "right". Defaults to the same as the align option. </entry>
+	<entry path="/HighCharts/options/xaxis/plotlines/plotline/label/x">Horizontal position relative the alignment. Default varies by orientation.</entry>
+	<entry path="/HighCharts/options/xaxis/plotlines/plotline/label/y">Vertical position of the text baseline relative to the alignment. Default varies by orientation. </entry>
+	<entry path="/HighCharts/options/yaxis">The Y axis or value axis. Normally this is the vertical axis, though if the chart is inverted this is the horiontal axis. </entry>
+	<entry path="/HighCharts/options/yaxis/type">The type of axis. Can be one of "linear", "logarithmic" or "datetime". In a datetime axis, the numbers are given in milliseconds, and tick marks are placed on appropriate values like full hours or days. Defaults to "linear".</entry>
+	<entry path="/HighCharts/options/yaxis/title">The title of the yAxis.</entry>
+	<entry path="/HighCharts/options/yaxis/title/text">The actual text of the axis title. Horizontal texts can contain HTML, but rotated texts are painted using vector techniques and must be clean text. The Y axis title is disabled by setting the text option to null. Defaults to "Y-values".</entry>
+	<entry path="/HighCharts/options/yaxis/title/margin">The pixel distance between the axis labels and the title. Positive values are outside the axis line, negative are inside. Defaults to 40.</entry>
+	<entry path="/HighCharts/options/yaxis/plotbands">A collection of colored bands stretching across the plot area marking an interval on the axis. </entry>
+	<entry path="/HighCharts/options/yaxis/plotbands/plotband/color">The color of the plot band. Defaults to null.</entry>
+	<entry path="/HighCharts/options/yaxis/plotbands/plotband/from">The start position of the plot band in axis units. Defaults to null.</entry>
+	<entry path="/HighCharts/options/yaxis/plotbands/plotband/to">The end position of the plot band in axis units. Defaults to null.</entry>
+	<entry path="/HighCharts/options/yaxis/plotbands/plotband/zindex">The z index of the plot band within the chart. Defaults to null.</entry>
+	<entry path="/HighCharts/options/yaxis/plotlines">A collection of lines streching across the plot area, marking a specific value on one of the axes. </entry>
+	<entry path="/HighCharts/options/yaxis/plotlines/plotline/color">The color of the line. Defaults to null.</entry>
+	<entry path="/HighCharts/options/yaxis/plotlines/plotline/value">The position of the line in axis units. Defaults to null.</entry>
+	<entry path="/HighCharts/options/yaxis/plotlines/plotline/width">The width or thickness of the plot line. Defaults to null.</entry>
+	<entry path="/HighCharts/options/yaxis/plotlines/plotline/dashstyle">The dashing or dot style for the plot line. For possible values see this overview. Defaults to Solid.</entry>
+	<entry path="/HighCharts/options/yaxis/plotlines/plotline/zindex">The z index of the plot line within the chart. Defaults to null.</entry>
+	<entry path="/HighCharts/options/legend">The legend is a box containing a symbol and name for each series item or point item in the chart. </entry>
+	<entry path="/HighCharts/options/legend/usehtml">Enables/disables using HTML for formatting the legend.</entry>
+	<entry path="/HighCharts/options/legend/align">The horizontal alignment of the legend box within the chart area. Defaults to "center".</entry>
+	<entry path="/HighCharts/options/legend/backgroundcolor">The background color of the legend, filling the rounded corner border. Defaults to null.</entry>
+	<entry path="/HighCharts/options/legend/bordercolor">The color of the drawn border around the legend. Defaults to #909090.</entry>
+	<entry path="/HighCharts/options/legend/borderradius">The border corner radius of the legend. Defaults to 5.</entry>
+	<entry path="/HighCharts/options/legend/borderwidth">The width of the drawn border around the legend. Defaults to 1.</entry>
+	<entry path="/HighCharts/options/legend/enabled">Enable or disable the legend. Defaults to true.</entry>
+	<entry path="/HighCharts/options/legend/floating">When the legend is floating, the plot area ignores it and is allowed to be placed below it. Defaults to false.</entry>
+	<entry path="/HighCharts/options/legend/itemwidth">The width for each legend item. This is useful in a horizontal layout with many items when you want the items to align vertically. Defaults to null.</entry>
+	<entry path="/HighCharts/options/legend/layout">The layout of the legend items. Can be one of "horizontal" or "vertical". Defaults to "horizontal".</entry>
+	<entry path="/HighCharts/options/legend/lineheight">Line height for the legend items</entry>
+	<entry path="/HighCharts/options/legend/margin">If the plot area sized is calculated automatically and the legend is not floating, the legend margin is the space between the legend and the axis labels or plot area. Defaults to 15.</entry>
+	<entry path="/HighCharts/options/legend/reversed">Whether to reverse the order of the legend items compared to the order of the series or points as defined in the configuration object. Defaults to false.</entry>
+	<entry path="/HighCharts/options/legend/rtl">Whether to show the symbol on the right side of the text rather than the left side. This is common in Arabic and Hebraic. Defaults to false.</entry>
+	<entry path="/HighCharts/options/legend/shadow">Whether to apply a drop shadow to the legend. A backgroundColor also needs to be applied for this to take effect. Defaults to false.</entry>
+	<entry path="/HighCharts/options/legend/symbolpadding">The pixel padding between the legend item symbol and the legend item text. Defaults to 5.</entry>
+	<entry path="/HighCharts/options/legend/symbolwidth">The pixel width of the legend item symbol. Defaults to 30.</entry>
+	<entry path="/HighCharts/options/legend/verticalalign">The vertical alignment of the legend box. Can be one of "top", "middle" or "bottom". Vertical position can be further determined by the y option. Defaults to "bottom".</entry>
+	<entry path="/HighCharts/options/legend/width">The width of the legend box, not including style.padding. Defaults to null.</entry>
+	<entry path="/HighCharts/options/legend/x">The x offset of the legend relative to it's horizontal alignment align within chart.spacingLeft and chart.spacingRight. Negative x moves it to the left, positive x moves it to the right. The default value of 15 together with align: "center" puts it in the center of the plot area. Defaults to 0. </entry>
+	<entry path="/HighCharts/options/legend/y">The vertical offset of the legend relative to it's vertical alignment verticalAlign within chart.spacingTop and chart.spacingBottom. Negative y moves it up, positive y moves it down. Defaults to 0. 	</entry>
+	<entry path="/HighCharts/options/legend/formatter">Callback function to format each of the series' labels. The this keyword refers to the series object, or the point object in case of pie charts. Defaults to:
+
+labelFormatter: function() {
+	return this.name
+}</entry>
+	<entry path="/HighCharts/options/plotoptions">Configuration options for the chart series.</entry>
+	<entry path="/HighCharts/options/plotoptions/series/colorbypoint">for chart type 'bar', 'column': When using automatic point colors pulled from the options.colors collection, this option determines whether the chart should receive one color per series or one color per point. Defaults to false.</entry>
+	<entry path="/HighCharts/options/plotoptions/series/minpointlength">for chart type 'bar', 'column': The minimal height for a column or width for a bar. By default, 0 values are not shown. To visualize a 0 (or close to zero) point, set the minimal point length to a pixel value like 3. In stacked column charts, minPointLength might not be respected for tightly packed values. Defaults to 0.</entry>
+	<entry path="/HighCharts/options/plotoptions/series/pointpadding">for chart type 'bar', 'column': Padding between each column or bar, in x axis units. Defaults to 0.1.</entry>
+	<entry path="/HighCharts/options/plotoptions/series/pointwidth">for chart type 'bar', 'column': A pixel value specifying a fixed width for each column or bar. When null, the width is calculated from the pointPadding and groupPadding. Defaults to null.</entry>
+	<entry path="/HighCharts/options/plotoptions/series/linewidth">for chart type 'scatter': The width of the line connecting the data points. Defaults to 0.</entry>
+	<entry path="/HighCharts/options/plotoptions/series/stickytracking">Sticky tracking of mouse events. When true, the mouseOut event on a series isn't triggered until the mouse moves over another series, or out of the plot area. When false, the mouseOut event on a series is triggered when the mouse leaves the area around the series' graph or markers. This also implies the tooltip. When stickyTracking is false, the tooltip will be hidden when moving the mouse between series. Defaults to true.</entry>
+	<entry path="/HighCharts/options/plotoptions/series/turbothreshold">When a series contains a data array that is longer than this, only one dimensional arrays of numbers, or two dimensional arrays with x and y values are allowed. Also, only the first point is tested, and the rest are assumed to be the same format. This saves expensive data checking and indexing in long series. Defaults to 1000.</entry>
+	<entry path="/HighCharts/options/plotoptions/series/borderradius">for chart type 'bar': The corner radius of the border surronding each column or bar. Defaults to 0.</entry>
+	<entry path="/HighCharts/options/plotoptions/series/fillcolor">for chart type 'area', 'areaspline': Fill color or gradient for the area. When null, the series' color is used with the series' fillOpacity. Defaults to null.</entry>
+	<entry path="/HighCharts/options/plotoptions/series/fillopacity">for chart type 'area', 'areaspline': Fill opacity for the area. Defaults to .75.</entry>
+	<entry path="/HighCharts/options/plotoptions/series/linecolor">for chart type 'area', 'areaspline': A separate color for the graph line. By default the line takes the color of the series, but the lineColor setting allows setting a separate color for the line without altering the fillColor. Defaults to null.</entry>
+	<entry path="/HighCharts/options/plotoptions/series/threshold">for chart type 'area', 'areaspline': The Y axis value to serve as the base for the area, for distinguishing between values above and below a threshold. Defaults to 0.</entry>
+	<entry path="/HighCharts/options/plotoptions/series/trackbyarea">for chart type 'area', 'areaspline': Whether the whole area or just the line should respond to mouseover tooltips and other mouse or touch events. Defaults to false.</entry>
+	<entry path="/HighCharts/options/plotoptions/series/step">for chart type 'line': Whether to apply steps to the line. Defaults to false.</entry>
+	<entry path="/HighCharts/options/plotoptions/series/bordercolor">for chart type 'bar', 'column', 'pie': The color of the border surronding each column or bar. Defaults to "#FFFFFF".</entry>
+	<entry path="/HighCharts/options/plotoptions/series/borderwidth">for chart type 'bar', 'column', 'pie': The width of the border surronding each column or bar. Defaults to 1.</entry>
+	<entry path="/HighCharts/options/plotoptions/series/innersize">for chart type 'pie': The size of the inner diameter for the pie in pixels. A size greater than 0 renders a donut chart. Defaults to 0.</entry>
+	<entry path="/HighCharts/options/plotoptions/series/size">for chart type 'pie': The diameter of the pie relative to the plot area, given in pixels. Defaults to 75% of the plot area.</entry>
+	<entry path="/HighCharts/options/plotoptions/series/slicedoffset">for chart type 'pie': If a point is sliced, moved out from the center, how many pixels should it be moved? Defaults to 10.</entry>
+	<entry path="/HighCharts/options/plotoptions/series/center">for chart type 'pie': The center position of the chart on the plot area.</entry>
+	<entry path="/HighCharts/options/plotoptions/series/center/x">for chart type 'pie': The center position x value in pixels of the chart on the plot area.</entry>
+	<entry path="/HighCharts/options/plotoptions/series/center/y">for chart type 'pie': The center position y value in pixels of the chart on the plot area.</entry>
+	<entry path="/HighCharts/options/plotoptions/series/marker">for chart type 'area', 'areaspline', 'bar', 'line', 'scatter', 'spline': Defines the appearance of the point markers. </entry>
+	<entry path="/HighCharts/options/plotoptions/series/marker/enabled">Enable or disable the point marker. Defaults to true.</entry>
+	<entry path="/HighCharts/options/plotoptions/series/marker/fillcolor">The fill color of the point marker. When null, the series' or point's color is used. Defaults to null.</entry>
+	<entry path="/HighCharts/options/plotoptions/series/marker/linecolor">The color of the point marker's outline. When null, the series' or point's color is used. Defaults to "#FFFFFF".</entry>
+	<entry path="/HighCharts/options/plotoptions/series/marker/linewidth">The width of the point marker's outline. Defaults to 0.</entry>
+	<entry path="/HighCharts/options/plotoptions/series/marker/radius">The radius of the point marker. Defaults to 0.</entry>
+	<entry path="/HighCharts/options/plotoptions/series/marker/symbol">A predefined shape or symbol for the marker. When null, the symbol is pulled from options.symbols. Other possible values are "circle", "square", "diamond", "triangle" and "triangle-down". Additionally, the URL to a graphic can be given on this form: "url(graphic.png)". Defaults to null. </entry>
+	<entry path="/HighCharts/options/plotoptions/series/marker/states">Interaction states for the point marker. </entry>
+	<entry path="/HighCharts/options/plotoptions/series/marker/states/hover/enabled">Enable or disable the point marker. Defaults to true.</entry>
+	<entry path="/HighCharts/options/plotoptions/series/marker/states/hover/fillcolor">The fill color of the point marker. When null, the series' or point's color is used. Defaults to null.</entry>
+	<entry path="/HighCharts/options/plotoptions/series/marker/states/hover/linecolor">The color of the point marker's outline. When null, the series' or point's color is used. Defaults to "#FFFFFF".</entry>
+	<entry path="/HighCharts/options/plotoptions/series/marker/states/hover/linewidth">The width of the point marker's outline. Defaults to 0.</entry>
+	<entry path="/HighCharts/options/plotoptions/series/marker/states/hover/radius">The width of the point marker's outline. Defaults to 0.</entry>
+	<entry path="/HighCharts/options/plotoptions/series/marker/states/select/enabled">Enable or disable visible feedback for selection. Defaults to true.</entry>
+	<entry path="/HighCharts/options/plotoptions/series/marker/states/select/fillcolor">The fill color of the point marker. When null, the series' or point's color is used. Defaults to null.</entry>
+	<entry path="/HighCharts/options/plotoptions/series/marker/states/select/linecolor">The color of the point marker's outline. When null, the series' or point's color is used. Defaults to "#000000".</entry>
+	<entry path="/HighCharts/options/plotoptions/series/marker/states/select/linewidth">The width of the point marker's outline. Defaults to 0.</entry>
+	<entry path="/HighCharts/options/plotoptions/series/marker/states/select/radius">The radius of the point marker. In hover state, it defaults to the normal state's radius + 2. </entry>
+	<entry path="/HighCharts/options/plotoptions/series/states/hover">Configuration options for the hovered line. Members are inherited from the default line configuration, but single members can be overridden. </entry>
+	<entry path="/HighCharts/options/plotoptions/series/states/hover/enabled">Enable separate styles for the hovered series to visualize that the user hovers either the series itself or the legend. Defaults to true.</entry>
+	<entry path="/HighCharts/options/plotoptions/series/states/hover/brightness">How much to brighten the point on interaction. Requires the main color to be defined in hex or rgb(a) format. Defaults to 0.1.</entry>
+	<entry path="/HighCharts/options/plotoptions/series/states/hover/linewidth">Pixel with of the graph line. Defaults to 2.</entry>
+	<entry path="/HighCharts/options/plotoptions/series/states/hover/marker/enabled">Enable or disable the point marker. Defaults to true.</entry>
+	<entry path="/HighCharts/options/plotoptions/series/states/hover/marker/fillcolor">The fill color of the point marker. When null, the series' or point's color is used. Defaults to null.</entry>
+	<entry path="/HighCharts/options/plotoptions/series/states/hover/marker/linecolor">The color of the point marker's outline. When null, the series' or point's color is used. Defaults to "#FFFFFF".</entry>
+	<entry path="/HighCharts/options/plotoptions/series/states/hover/marker/linewidth">The width of the point marker's outline. Defaults to 0.</entry>
+	<entry path="/HighCharts/options/plotoptions/series/states/hover/marker/radius">The radius of the point marker. Defaults to 0.</entry>
+	<entry path="/HighCharts/options/plotoptions/series/states/hover/marker/symbol">A predefined shape or symbol for the marker. When null, the symbol is pulled from options.symbols. Other possible values are "circle", "square", "diamond", "triangle" and "triangle-down". Additionally, the URL to a graphic can be given on this form: "url(graphic.png)". Defaults to null.</entry>
+	<entry path="/HighCharts/options/plotoptions/series/cursor">You can set the cursor to "pointer" if you have click events attached to the series, to signal to the user that the points and lines can be clicked. Defaults to ''.</entry>
+	<entry path="/HighCharts/options/plotoptions/series/stacking">Whether to stack the values of each series on top of each other. Possible values are null to disable, "normal" to stack by value or "percent". Defaults to null.</entry>
+	<entry path="/HighCharts/options/plotoptions/series/allowpointselect">Allow this series' points to be selected by clicking on the markers, bars or pie slices. Defaults to false.</entry>
+	<entry path="/HighCharts/options/plotoptions/series/animation">Enable or disable the initial animation when a series is displayed.</entry>
+	<entry path="/HighCharts/options/plotoptions/series/connectnulls">Whether to connect a graph line across null points. Defaults to false.</entry>
+	<entry path="/HighCharts/options/plotoptions/series/cropthreshold">When the series contains less points than the crop threshold, all points are drawn, event if the points fall outside the visible plot area at the current zoom. The advantage of drawing all points (including markers and columns), is that animation is performed on updates. On the other hand, when the series contains more points than the crop threshold, the series data is cropped to only contain points that fall within the plot area. The advantage of cropping away invisible points is to increase performance on large series. Defaults to 300.</entry>
+	<entry path="/HighCharts/options/plotoptions/series/dashstyle">A name for the dash style to use for the graph. Applies only to series type having a graph, like line, spline, area and scatter in case it has a lineWidth. The value for the dashStyle include:
+
+    Solid
+    ShortDash
+    ShortDot
+    ShortDashDot
+    ShortDashDotDot
+    Dot
+    Dash
+    LongDash
+    DashDot
+    LongDashDot
+    LongDashDotDot
+
+Defaults to null.</entry>
+	<entry path="/HighCharts/options/plotoptions/series/enablemousetracking">Enable or disable the mouse tracking for a specific series. This includes point tooltips and click events on graphs and points. For large datasets it improves performance. Defaults to true.</entry>
+	<entry path="/HighCharts/options/plotoptions/series/pointstart">If no x values are given for the points in a series, pointStart defines on what value to start. For example, if a series contains one yearly value starting from 1945, set pointStart to 1945. Defaults to 0.</entry>
+	<entry path="/HighCharts/options/plotoptions/series/pointinterval">If no x values are given for the points in a series, pointInterval defines the interval of the x values. For example, if a series contains one value every decade starting from year 0, set pointInterval to 10.
+Defaults to 1.</entry>
+    <entry path="/HighCharts/options/plotoptions/series/showcheckbox">If true, a checkbox is displayed next to the legend item to allow selecting the series. The state of the checkbox is determined by the selected option. Defaults to false.</entry>
+	<entry path="/HighCharts/options/plotoptions/series/selected">Whether to select the series initially. If showCheckbox is true, the checkbox next to the series name will be checked for a selected series. Defaults to false.</entry>
+	<entry path="/HighCharts/options/plotoptions/series/shadow">Whether to apply a drop shadow to the graph line. Defaults to true.</entry>
+	<entry path="/HighCharts/options/plotoptions/series/shadowcheckbox">If true, a checkbox is displayed next to the legend item to allow selecting the series. The state of the checkbox is determined by the selected option. Defaults to false.</entry>
+	<entry path="/HighCharts/options/plotoptions/series/showinlegend">Whether to display this particular series or series type in the legend. Defaults to true.</entry>
+	<entry path="/HighCharts/options/plotoptions/series/zindex">Define the z index of the series. Defaults to null.</entry>
+	<entry path="/HighCharts/options/plotoptions/series/datalabels">Data labels for series points.</entry>
+	<entry path="/HighCharts/options/plotoptions/series/datalabels/align">The alignment of the data label compared to the point. Can be one of "left", "center" or "right". Defaults to "center".</entry>
+	<entry path="/HighCharts/options/plotoptions/series/datalabels/backgroundcolor">The background color or gradient for the data label. Defaults to undefined.</entry>
+	<entry path="/HighCharts/options/plotoptions/series/datalabels/bordercolor">The border color for the data label. Defaults to undefined.</entry>
+	<entry path="/HighCharts/options/plotoptions/series/datalabels/borderradius">The border radius in pixels for the data label. Defaults to 0.</entry>
+	<entry path="/HighCharts/options/plotoptions/series/datalabels/borderwidth">The border width in pixels for the data label. Defaults to 0.</entry>
+	<entry path="/HighCharts/options/plotoptions/series/datalabels/color">The text color for the data labels. Defaults to null.</entry>
+	<entry path="/HighCharts/options/plotoptions/series/datalabels/enabled">Enable or disable the data labels. Defaults to false.</entry>
+	<entry path="/HighCharts/options/plotoptions/series/datalabels/padding">When either the borderWidth or the backgroundColor is set, this is the padding within the box. Defaults to 2.</entry>
+	<entry path="/HighCharts/options/plotoptions/series/datalabels/rotation">Text rotation in degrees. Defaults to 0.</entry>
+	<entry path="/HighCharts/options/plotoptions/series/datalabels/shadow">The shadow of the box. Works best with borderWidth or backgroundColor Defaults to false.</entry>
+	<entry path="/HighCharts/options/plotoptions/series/datalabels/overflow">How to handle overflowing labels on horizontal axis. Can be undefined or "justify". If "justify", labels will not render outside the plot area. If there is room to move it, it will be aligned to the edge, else it will be removed. Defaults to undefined.</entry>
+	<entry path="/HighCharts/options/plotoptions/series/grouppadding">Padding between each value groups, in x axis units. Defaults to 0.2.</entry>
+	
+	<entry path="/HighCharts/options/series">The collection of actual series to append to the chart. </entry>
+	<entry path="/HighCharts/options/series/dataset">An actual series to append to the chart.</entry>
+	<entry path="/HighCharts/options/series/dataset/stack">This option allows grouping series in a stacked chart. The stack option can be a string or a number or anything else, as long as the grouped series' stack options match each other. Defaults to null.</entry>
+	<entry path="/HighCharts/options/series/dataset/type">The type of series. Can be one of area, areaspline, bar, column, line, pie, scatter or spline. Defaults to "line".</entry>
+	<entry path="/HighCharts/options/series/dataset/xaxis">When using dual or multiple x axes, this number defines which xAxis the particular series is connected to. It refers to the index of the axis in the xAxis array, with 0 being the first. Defaults to 0.</entry>
+	<entry path="/HighCharts/options/series/dataset/yaxis">When using dual or multiple y axes, this number defines which yAxis the particular series is connected to. It refers to the index of the axis in the yAxis array, with 0 being the first. Defaults to 0.</entry>
+	<entry path="/HighCharts/options/series/dataset/visible">Whether or not the series is initally visible.</entry>
+	<entry path="/HighCharts/options/series/dataset/name">The name of the series as shown in the legend, tooltip etc. Defaults to "".</entry>
+	<entry path="/HighCharts/options/series/dataset/data">A collection of data points for the series. </entry>
+	<entry path="/HighCharts/options/series/dataset/onlegend_clicked">Fires when the legend item belonging to the series is clicked. </entry>
+	<entry path="/HighCharts/options/series/dataset/data/datapoint/value">The value of the data point in the series.</entry>
+    <entry path="/HighCharts/options/series/dataset/data/datapoint/label">The name of the data point in the series.</entry>
+	<entry path="/HighCharts/options/series/dataset/data/datapoint/onpoint_clicked">Fires when a point is clicked.</entry>
+	
+</doc>

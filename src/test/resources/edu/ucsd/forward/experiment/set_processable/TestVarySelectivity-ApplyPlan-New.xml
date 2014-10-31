@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<investigation>
+<new-plan>
+SendPlan(mediator)
+        Project(mediator)   __v1 as n_nationkey, __v2 as n_name, __v9 as aggregates
+            ApplyPlan(mediator) -> __v9
+                    SendPlan(public)
+                            OffsetFetch(public) fetch 3
+                                Project(public)   __v6 as o_orderdate, sum_call__v8 as sum_price
+                                    Sort(public) sum_call__v8 DESC LAST
+                                        GroupBy(public) BY: __v6 ; AGG: SUM(ALL __v7, ) AS sum_call__v8
+                                            InnerJoin(public) on (__v3 = __v4)
+                                                Select(public) (__v5 = __v1)
+                                                    Scan(public) on public__customers c (c.c_nationkey as __v5, c.c_custkey as __v4)
+                                                        Ground(public)
+                                                Scan(public) on public__orders o (o.o_totalprice as __v7, o.o_orderdate as __v6, o.o_custkey as __v3)
+                                                    Ground(public)
+                SendPlan(public)
+                        InnerJoin(public) on (__v0 = __v1)
+                            Scan(public) on __v10 __v10 (__v10.__v0 as __v0)
+                                Ground(public)
+                            Scan(public) on public__nation n (n.n_name as __v2, n.n_nationkey as __v1)
+                                Ground(public)
+                    Copy(mediator)
+                            SendPlan(mediator)
+                                    Scan(mediator) on src__selected_nations s (s.nationkey as __v0)
+                                        Ground(mediator)
+</new-plan>
+<old_plan>
+SendPlan(mediator)
+        Project(mediator)   n_name as name, agg_orders as agg_orders
+            Sort(mediator) n_name ASC LAST
+                ApplyPlan(mediator) -> agg_orders
+                        SendPlan(public)
+                                OffsetFetch(public) fetch 3
+                                    Sort(public) sum_call__v28 ASC LAST
+                                        Project(public)   o_orderdate as o_orderdate, sum_call__v28 as sum_call__v28
+                                            GroupBy(public) BY: o_orderdate ; AGG: SUM(ALL o_totalprice, ) AS sum_call__v28
+                                                Select(public) (n_nationkey = c_nationkey)
+                                                    InnerJoin(public) on (o_custkey = c_custkey)
+                                                        Scan(public) on public__orders o (o.o_custkey as o_custkey, o.o_totalprice as o_totalprice, o.o_orderdate as o_orderdate)
+                                                            Ground(public)
+                                                        Scan(public) on public__customers c (c.c_custkey as c_custkey, c.c_nationkey as c_nationkey)
+                                                            Ground(public)
+                    SendPlan(public)
+                            Project(public)   n_nationkey as n_nationkey, n_name as n_name
+                                InnerJoin(public) on (n_nationkey = key)
+                                    Scan(public) on __param_2 __param_2 (__param_2.key as key)
+                                        Ground(public)
+                                    Scan(public) on public__nation n (n.n_nationkey as n_nationkey, n.n_name as n_name)
+                                        Ground(public)
+                        Copy(mediator)
+                                SendPlan(mediator)
+                                        Scan(mediator) on src__selected_nations s (s.key as key)
+                                            Ground(mediator)
+</old_plan>
+</investigation>

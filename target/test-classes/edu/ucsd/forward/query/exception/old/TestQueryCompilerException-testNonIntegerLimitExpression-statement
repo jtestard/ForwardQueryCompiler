@@ -1,0 +1,4 @@
+SELECT title
+FROM proposals
+ORDER BY proposal_id
+LIMIT title

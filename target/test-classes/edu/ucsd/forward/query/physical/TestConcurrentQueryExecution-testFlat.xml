@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <data_source name="db" storage_system="JDBC" data_model="RELATIONAL">
+        <properties environment="testing" user="postgres" password="postgres" maxPoolSize="20"
+            unreturnedConnectionTimeout="0" debugUnreturnedConnectionStackTraces="true" driver="postgresql" host="localhost" port="5432"
+            database="enron" schema="public" />
+        <properties environment="jenkins" user="postgres" password="postgres" maxPoolSize="20"
+            unreturnedConnectionTimeout="0" debugUnreturnedConnectionStackTraces="true" driver="postgresql" host="localhost" port="5432"
+            database="enron" schema="public" />
+    </data_source>
+    <query_expression>
+        <![CDATA[
+            SELECT
+                E.firstname,
+                E.lastname,
+                (
+                    SELECT M.mid, M.sender, M.subject
+                    FROM db.message AS M
+                    WHERE M.sender = E.email_id AND M.mid > 200000
+                ) AS messages
+            FROM db.employeelist AS E
+            WHERE E.eid > 130
+        ]]>
+    </query_expression>
+    <query_plan>
+        <SendPlan alias="__qoutput" cardinality_estimate="SMALL" execution_data_source="src_1" impl="SendPlanImplInMemory">
+            <arguments>
+                <GroupBy alias="__q1" execution_data_source="src_1" cardinality_estimate="SMALL">
+                    <arguments>
+                        <GroupByItem>
+                            <Variable name="proposal" />
+                        </GroupByItem>
+                        <aggregate alias="star">
+                            <FunctionCall name="COUNT" set_quantifier="ALL" />
+                        </aggregate>
+                        <aggregate alias="count">
+                            <FunctionCall name="COUNT" set_quantifier="ALL">
+                                <Variable name="grade" />
+                            </FunctionCall>
+                        </aggregate>
+                        <aggregate alias="sum">
+                            <FunctionCall name="SUM" set_quantifier="ALL">
+                                <Variable name="grade" />
+                            </FunctionCall>
+                        </aggregate>
+                        <aggregate alias="avg">
+                            <FunctionCall name="AVG" set_quantifier="ALL">
+                                <Variable name="grade" />
+                            </FunctionCall>
+                        </aggregate>
+                        <aggregate alias="min">
+                            <FunctionCall name="MIN" set_quantifier="ALL">
+                                <Variable name="grade" />
+                            </FunctionCall>
+                        </aggregate>
+                        <aggregate alias="max">
+                            <FunctionCall name="MAX" set_quantifier="ALL">
+                                <Variable name="grade" />
+                            </FunctionCall>
+                        </aggregate>
+                        <aggregate alias="nest">
+                            <FunctionCall name="NEST" set_quantifier="ALL">
+                                <Variable name="comment" />
+                                <Variable name="grade" />
+                                <Variable name="reviewer" />
+                            </FunctionCall>
+                        </aggregate>
+                    </arguments>
+                    <Navigate alias="proposal" execution_data_source="src_1" cardinality_estimate="SMALL">
+                        <arguments>
+                            <QueryPath steps="proposal">
+                                <Variable name="R" />
+                            </QueryPath>
+                        </arguments>
+                        <Navigate alias="comment" execution_data_source="src_1" cardinality_estimate="SMALL">
+                            <arguments>
+                                <QueryPath steps="comment">
+                                    <Variable name="R" />
+                                </QueryPath>
+                            </arguments>
+                            <Navigate alias="grade" execution_data_source="src_1" cardinality_estimate="SMALL">
+                                <arguments>
+                                    <QueryPath steps="grade">
+                                        <Variable name="R" />
+                                    </QueryPath>
+                                </arguments>
+                                <Navigate alias="reviewer" execution_data_source="src_1" cardinality_estimate="SMALL">
+                                    <arguments>
+                                        <QueryPath steps="reviewer">
+                                            <Variable name="R" />
+                                        </QueryPath>
+                                    </arguments>
+                                    <Scan alias="R" execution_data_source="src_1" cardinality_estimate="SMALL">
+                                        <arguments>
+                                            <Variable mode="ABSOLUTE" data_source="src_1" schema_object="reviews" />
+                                        </arguments>
+                                        <Ground execution_data_source="src_1" cardinality_estimate="SMALL" />
+                                    </Scan>
+                                </Navigate>
+                            </Navigate>
+                        </Navigate>
+                    </Navigate>
+                </GroupBy>
+            </arguments>
+        </SendPlan>
+    </query_plan>
+    <data_object name="reviews" execution_data_source="src_1" cardinality_estimate="SMALL">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <proposal type="integer" />
+                    <comment type="string" />
+                    <grade type="integer" />
+                    <reviewer type="integer" />
+                </element>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <proposal>2</proposal>
+                    <comment>abc</comment>
+                    <grade>15</grade>
+                    <reviewer>2</reviewer>
+                </element>
+                <element>
+                    <proposal>2</proposal>
+                    <comment>abc</comment>
+                    <grade>5</grade>
+                    <reviewer>3</reviewer>
+                </element>
+                <element>
+                    <proposal>2</proposal>
+                    <comment>abc</comment>
+                    <grade null="true" />
+                    <reviewer>1</reviewer>
+                </element>
+                <element>
+                    <proposal>2</proposal>
+                    <comment>abc</comment>
+                    <grade null="true" />
+                    <reviewer>1</reviewer>
+                </element>
+                <element>
+                    <proposal null="true" />
+                    <comment>abc</comment>
+                    <grade>1</grade>
+                    <reviewer>1</reviewer>
+                </element>
+                <element>
+                    <proposal null="true" />
+                    <comment>abc</comment>
+                    <grade>3</grade>
+                    <reviewer>1</reviewer>
+                </element>
+                <element>
+                    <proposal null="true" />
+                    <comment>abc</comment>
+                    <grade null="true" />
+                    <reviewer null="true" />
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+    <data_object name="output" execution_data_source="output">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <firstname type="string" />
+                    <lastname type="string" />
+                    <messages type="collection">
+                        <element type="tuple">
+                            <mid type="integer" />
+                            <sender type="string" />
+                            <subject type="string" />
+                        </element>
+                    </messages>
+                </element>
+            </root>
+        </schema_tree>
+        <data_tree />
+    </data_object>
+</test_case>

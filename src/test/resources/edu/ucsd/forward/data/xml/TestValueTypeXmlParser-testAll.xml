@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <schema_tree>
+        <root type="tuple">
+            <user_id type="string"/>
+            <application type="collection">
+                <element type="tuple">
+                    <application_id type="integer"/>
+                    <first_name type="string"/>
+                    <last_name type="string"/>
+                    <applying_for type="switch">
+                        <phd type="tuple">
+                            <specialization type="string"/>
+                            <advisor_choice type="string"/>
+                        </phd>
+                        <master type="tuple">
+                            <area_of_interest type="string"/>
+                        </master>
+                    </applying_for>
+                    <degrees type="collection">
+                        <element type="tuple">
+                            <degree_id type="integer"/>
+                            <school type="string"/>
+                            <year type="integer"/>
+                        </element>
+                        <constraints>
+                            <local-key>
+                                <attribute path="tuple/degree_id"/>
+                            </local-key>
+                        </constraints>
+                    </degrees>
+                </element>
+                <constraints>
+                    <local-key>
+                        <attribute path="tuple/application_id"/>
+                    </local-key>
+                </constraints>
+            </application>
+        </root>
+        <constraints/>
+    </schema_tree>
+    <data_tree>
+        <root>
+            <user_id>john@doe.com</user_id>
+            <application>
+                <element>
+                    <application_id>123</application_id>
+                    <first_name>John</first_name>
+                    <last_name>Doe</last_name>
+                    <applying_for>
+                        <phd>
+                            <specialization>Databases</specialization>
+                            <advisor_choice>Prof. White Beard</advisor_choice>
+                        </phd>
+                    </applying_for>
+                    <degrees>
+                        <element>
+                            <degree_id>1</degree_id>
+                            <school>School of Hard Knocks</school>
+                            <year>1910</year>
+                        </element>
+                        <element>
+                            <degree_id>3</degree_id>
+                            <school>School of Rock</school>
+                            <year>2050</year>
+                        </element>
+                    </degrees>
+                </element>
+            </application>
+        </root>
+    </data_tree>
+</test_case>

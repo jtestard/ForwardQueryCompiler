@@ -1,0 +1,3 @@
+SELECT proposal_id
+FROM proposals AS P
+KEY ON proposal_id+1

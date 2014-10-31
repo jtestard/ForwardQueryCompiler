@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_expression>
+        <![CDATA[
+            SELECT
+                P.proposal_id AS pid,
+                src1.complex.name AS my_name, 
+                R.grade AS my_grade,
+                (
+                    SELECT R.grade AS my_grade
+                    FROM P.nested_tuple.reviews R
+                    WHERE R.comment = src1.complex.name.firstn
+                    AND src1.complex.name.firstn = P.title
+                ) AS nested
+            FROM
+                FLATTEN(src1.complex.proposals P, P.nested_tuple.reviews R),
+                src1.simple S
+            WHERE src1.complex.name.firstn = P.title
+            AND P.proposal_id = R.reviewer_id
+            AND P.proposal_id = S.join_id
+            AND R.reviewer_id = S.join_id
+            AND src1.complex.name.firstn = 'Mike';
+        ]]>
+    </query_expression>
+    <data_object name="complex" execution_data_source="src1" cardinality_estimate="LARGE" data_model="SQLPLUSPLUS"
+        storage_system="INMEMORY">
+        <schema_tree>
+            <root type="tuple">
+                <name type="tuple">
+                    <firstn type="string" />
+                    <lastn type="string" />
+                </name>
+                <proposals type="collection">
+                    <element type="tuple">
+                        <proposal_id type="integer" />
+                        <title type="string" />
+                        <nested_tuple type="tuple">
+                            <reviews type="collection">
+                                <element type="tuple">
+                                    <reviewer_id type="integer" />
+                                    <comment type="string" />
+                                    <grade type="integer" />
+                                </element>
+                            </reviews>
+                        </nested_tuple>
+                    </element>
+                </proposals>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <name>
+                    <firstn>Mike</firstn>
+                    <lastn>Jones</lastn>
+                </name>
+                <proposals>
+                    <element>
+                        <proposal_id>1</proposal_id>
+                        <title>Mike</title>
+                        <nested_tuple>
+                            <reviews>
+                                <element>
+                                    <reviewer_id>1</reviewer_id>
+                                    <comment>Mike</comment>
+                                    <grade>2</grade>
+                                </element>
+                            </reviews>
+                        </nested_tuple>
+                    </element>
+                </proposals>
+            </root>
+        </data_tree>
+    </data_object>
+    <data_object name="simple" execution_data_source="src1" cardinality_estimate="LARGE" data_model="SQLPLUSPLUS"
+        storage_system="INMEMORY">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <join_id type="integer" />
+                </element>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <join_id>1</join_id>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+
+    <query_plan wrapping="false">
+        <Project cardinality_estimate="UNKNOWN">
+            <arguments>
+                <Item alias="pid">
+                    <Variable name="__v9" />
+                </Item>
+                <Item alias="my_name">
+                    <Variable name="__v10" />
+                </Item>
+                <Item alias="my_grade">
+                    <Variable name="__v11" />
+                </Item>
+                <Item alias="nested">
+                    <Variable name="__v17" />
+                </Item>
+            </arguments>
+            <ApplyPlan attr_name="__v17" cardinality_estimate="UNKNOWN">
+                <arguments>
+                    <Project cardinality_estimate="UNKNOWN">
+                        <arguments>
+                            <Item alias="my_grade">
+                                <Variable name="__v16" />
+                            </Item>
+                        </arguments>
+                        <Navigate alias="__v16" cardinality_estimate="UNKNOWN">
+                            <arguments>
+                                <QueryPath steps="grade">
+                                    <Variable mode="ELEMENT" name="R" />
+                                </QueryPath>
+                            </arguments>
+                            <Select cardinality_estimate="UNKNOWN">
+                                <arguments>
+                                    <FunctionCall name="=">
+                                        <Variable name="__v12" />
+                                        <Variable name="__v13" />
+                                    </FunctionCall>
+                                    <FunctionCall name="=">
+                                        <Variable name="__v14" />
+                                        <Variable name="__v15" />
+                                    </FunctionCall>
+                                </arguments>
+                                <Navigate alias="__v15" cardinality_estimate="UNKNOWN">
+                                    <arguments>
+                                        <QueryPath steps="title">
+                                            <Parameter>
+                                                <Variable mode="ELEMENT" name="P">
+                                                    <type type="tuple">
+                                                        <proposal_id type="integer" />
+                                                        <title type="string" />
+                                                        <nested_tuple type="tuple">
+                                                            <reviews type="collection">
+                                                                <element type="tuple">
+                                                                    <reviewer_id type="integer" />
+                                                                    <comment type="string" />
+                                                                    <grade type="integer" />
+                                                                </element>
+                                                            </reviews>
+                                                        </nested_tuple>
+                                                    </type>
+                                                </Variable>
+                                            </Parameter>
+                                        </QueryPath>
+                                    </arguments>
+                                    <Navigate alias="__v14" cardinality_estimate="UNKNOWN">
+                                        <arguments>
+                                            <QueryPath steps="name.firstn">
+                                                <Variable data_source="src1" mode="ABSOLUTE" schema_object="complex" />
+                                            </QueryPath>
+                                        </arguments>
+                                        <Navigate alias="__v13" cardinality_estimate="UNKNOWN">
+                                            <arguments>
+                                                <QueryPath steps="name.firstn">
+                                                    <Variable data_source="src1" mode="ABSOLUTE" schema_object="complex" />
+                                                </QueryPath>
+                                            </arguments>
+                                            <Navigate alias="__v12" cardinality_estimate="UNKNOWN">
+                                                <arguments>
+                                                    <QueryPath steps="comment">
+                                                        <Variable mode="ELEMENT" name="R" />
+                                                    </QueryPath>
+                                                </arguments>
+                                                <Scan alias="R" cardinality_estimate="UNKNOWN">
+                                                    <arguments>
+                                                        <QueryPath steps="nested_tuple.reviews">
+                                                            <Parameter>
+                                                                <Variable mode="ELEMENT" name="P">
+                                                                    <type type="tuple">
+                                                                        <proposal_id type="integer" />
+                                                                        <title type="string" />
+                                                                        <nested_tuple type="tuple">
+                                                                            <reviews type="collection">
+                                                                                <element type="tuple">
+                                                                                    <reviewer_id type="integer" />
+                                                                                    <comment type="string" />
+                                                                                    <grade type="integer" />
+                                                                                </element>
+                                                                            </reviews>
+                                                                        </nested_tuple>
+                                                                    </type>
+                                                                </Variable>
+                                                            </Parameter>
+                                                        </QueryPath>
+                                                    </arguments>
+                                                    <Ground cardinality_estimate="UNKNOWN">
+                                                        <arguments />
+                                                    </Ground>
+                                                </Scan>
+                                            </Navigate>
+                                        </Navigate>
+                                    </Navigate>
+                                </Navigate>
+                            </Select>
+                        </Navigate>
+                    </Project>
+                </arguments>
+                <Navigate alias="__v11" cardinality_estimate="UNKNOWN">
+                    <arguments>
+                        <QueryPath steps="grade">
+                            <Variable mode="ELEMENT" name="R" />
+                        </QueryPath>
+                    </arguments>
+                    <Navigate alias="__v10" cardinality_estimate="UNKNOWN">
+                        <arguments>
+                            <QueryPath steps="name">
+                                <Variable data_source="src1" mode="ABSOLUTE" schema_object="complex" />
+                            </QueryPath>
+                        </arguments>
+                        <Navigate alias="__v9" cardinality_estimate="UNKNOWN">
+                            <arguments>
+                                <QueryPath steps="proposal_id">
+                                    <Variable mode="ELEMENT" name="P" />
+                                </QueryPath>
+                            </arguments>
+                            <Select cardinality_estimate="UNKNOWN">
+                                <arguments>
+                                    <FunctionCall name="=">
+                                        <Variable name="__v0" />
+                                        <Variable name="__v1" />
+                                    </FunctionCall>
+                                    <FunctionCall name="=">
+                                        <Variable name="__v2" />
+                                        <Variable name="__v3" />
+                                    </FunctionCall>
+                                    <FunctionCall name="=">
+                                        <Variable name="__v4" />
+                                        <Variable name="__v5" />
+                                    </FunctionCall>
+                                    <FunctionCall name="=">
+                                        <Variable name="__v6" />
+                                        <Variable name="__v7" />
+                                    </FunctionCall>
+                                    <FunctionCall name="=">
+                                        <Variable name="__v8" />
+                                        <Constant>
+                                            <string>Mike</string>
+                                        </Constant>
+                                    </FunctionCall>
+                                </arguments>
+                                <Navigate alias="__v8" cardinality_estimate="UNKNOWN">
+                                    <arguments>
+                                        <QueryPath steps="name.firstn">
+                                            <Variable data_source="src1" mode="ABSOLUTE" schema_object="complex" />
+                                        </QueryPath>
+                                    </arguments>
+                                    <Navigate alias="__v7" cardinality_estimate="UNKNOWN">
+                                        <arguments>
+                                            <QueryPath steps="join_id">
+                                                <Variable mode="ELEMENT" name="S" />
+                                            </QueryPath>
+                                        </arguments>
+                                        <Navigate alias="__v6" cardinality_estimate="UNKNOWN">
+                                            <arguments>
+                                                <QueryPath steps="reviewer_id">
+                                                    <Variable mode="ELEMENT" name="R" />
+                                                </QueryPath>
+                                            </arguments>
+                                            <Navigate alias="__v5" cardinality_estimate="UNKNOWN">
+                                                <arguments>
+                                                    <QueryPath steps="join_id">
+                                                        <Variable mode="ELEMENT" name="S" />
+                                                    </QueryPath>
+                                                </arguments>
+                                                <Navigate alias="__v4" cardinality_estimate="UNKNOWN">
+                                                    <arguments>
+                                                        <QueryPath steps="proposal_id">
+                                                            <Variable mode="ELEMENT" name="P" />
+                                                        </QueryPath>
+                                                    </arguments>
+                                                    <Navigate alias="__v3" cardinality_estimate="UNKNOWN">
+                                                        <arguments>
+                                                            <QueryPath steps="reviewer_id">
+                                                                <Variable mode="ELEMENT" name="R" />
+                                                            </QueryPath>
+                                                        </arguments>
+                                                        <Navigate alias="__v2" cardinality_estimate="UNKNOWN">
+                                                            <arguments>
+                                                                <QueryPath steps="proposal_id">
+                                                                    <Variable mode="ELEMENT" name="P" />
+                                                                </QueryPath>
+                                                            </arguments>
+                                                            <Navigate alias="__v1" cardinality_estimate="UNKNOWN">
+                                                                <arguments>
+                                                                    <QueryPath steps="title">
+                                                                        <Variable mode="ELEMENT" name="P" />
+                                                                    </QueryPath>
+                                                                </arguments>
+                                                                <Navigate alias="__v0" cardinality_estimate="UNKNOWN">
+                                                                    <arguments>
+                                                                        <QueryPath steps="name.firstn">
+                                                                            <Variable data_source="src1" mode="ABSOLUTE"
+                                                                                schema_object="complex" />
+                                                                        </QueryPath>
+                                                                    </arguments>
+                                                                    <Product cardinality_estimate="UNKNOWN">
+                                                                        <arguments />
+                                                                        <Scan alias="R" cardinality_estimate="UNKNOWN">
+                                                                            <arguments>
+                                                                                <QueryPath steps="nested_tuple.reviews">
+                                                                                    <Variable mode="ELEMENT" name="P" />
+                                                                                </QueryPath>
+                                                                            </arguments>
+                                                                            <Scan alias="P" cardinality_estimate="UNKNOWN">
+                                                                                <arguments>
+                                                                                    <QueryPath steps="proposals">
+                                                                                        <Variable data_source="src1" mode="ABSOLUTE"
+                                                                                            schema_object="complex" />
+                                                                                    </QueryPath>
+                                                                                </arguments>
+                                                                                <Ground cardinality_estimate="UNKNOWN">
+                                                                                    <arguments />
+                                                                                </Ground>
+                                                                            </Scan>
+                                                                        </Scan>
+                                                                        <Scan alias="S" cardinality_estimate="UNKNOWN">
+                                                                            <arguments>
+                                                                                <Variable data_source="src1" mode="ABSOLUTE"
+                                                                                    schema_object="simple" />
+                                                                            </arguments>
+                                                                            <Ground cardinality_estimate="UNKNOWN">
+                                                                                <arguments />
+                                                                            </Ground>
+                                                                        </Scan>
+                                                                    </Product>
+                                                                </Navigate>
+                                                            </Navigate>
+                                                        </Navigate>
+                                                    </Navigate>
+                                                </Navigate>
+                                            </Navigate>
+                                        </Navigate>
+                                    </Navigate>
+                                </Navigate>
+                            </Select>
+                        </Navigate>
+                    </Navigate>
+                </Navigate>
+            </ApplyPlan>
+        </Project>
+    </query_plan>
+
+    <data_object name="output" execution_data_source="output">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <pid type="integer" />
+                    <my_name type="tuple">
+                        <firstn type="string" />
+                        <lastn type="string" />
+                    </my_name>
+                    <my_grade type="integer" />
+                    <nested type="collection">
+                        <element type="tuple">
+                            <my_grade type="integer" />
+                        </element>
+                    </nested>
+                </element>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <pid>1</pid>
+                    <my_name>
+                        <firstn>Mike</firstn>
+                        <lastn>Jones</lastn>
+                    </my_name>
+                    <my_grade>2</my_grade>
+                    <nested>
+                        <element>
+                            <my_grade>2</my_grade>
+                        </element>
+                    </nested>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+</test_case>

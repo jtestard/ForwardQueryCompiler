@@ -1,0 +1,23 @@
+<doc>
+    <entry path="/PopupMenu">A basic popup menu class.</entry>
+    <entry path="/PopupMenu/style">This is a CSS styling attribute as defined by the CSS Styling Attribute Syntax specification.</entry>
+    <entry path="/PopupMenu/visible">Shows or hides the container. Does nothing if the container already has the requested visibility. Otherwise, dispatches a SHOW or HIDE event as appropriate, giving listeners a chance to prevent the visibility change.</entry>
+    <entry path="/PopupMenu/render">Registers the given renderer with the container. Changing renderers after the container has already been rendered or decorated is an error.</entry>
+    <entry path="/PopupMenu/position">Sets the position of the PopupMenu relative to the view port.</entry>
+    <entry path="/PopupMenu/enabled">Enables or disables the component. Does nothing if this state transition is disallowed. If the component is both visible and focusable, updates its focused state and tab index as needed. If the component is being disabled, ensures that it is also deactivated and un-highlighted first. Note that the component&#39;s enabled/disabled state is &quot;locked&quot; as long as it is hosted in a goog.ui.Container that is itself disabled; this is to prevent clients from accidentally re-enabling a control that is in a disabled container.</entry>
+    <entry path="/PopupMenu/selected">Selects or unselects the component. Does nothing if this state transition is disallowed.</entry>
+    <entry path="/PopupMenu/target_corner">Specifies the target corner.</entry>
+    <entry path="/PopupMenu/menu_corner">Specifies the menu corner.</entry>
+    <entry path="/PopupMenu/element">Sets the component's element.</entry>
+    <entry path="/PopupMenu/x_coordinate">Specifies the x-coordinate.</entry>
+    <entry path="/PopupMenu/y_coordinate">Specifies the y-coordinate.</entry>
+    <entry path="/PopupMenu/options/option">A Menu Item within the PopupMenu.</entry>
+    <entry path="/PopupMenu/options/visible_option">Shows or hides the container. Does nothing if the container already has the requested visibility. Otherwise, dispatches a SHOW or HIDE event as appropriate, giving listeners a chance to prevent the visibility change.</entry>
+    <entry path="/PopupMenu/options/option/content">Sets the content of the option.</entry>
+    <entry path="/PopupMenu/options/option/enabled">Enables/disables the container based on the enable argument. Dispatches an ENABLED or DISABLED event prior to changing the container&amp;amp;#39;s state, which may be caught and canceled to prevent the container from changing state. Also enables/disables child controls.</entry>
+    <entry path="/PopupMenu/options/option/is_separator">Defines whether the option is a Menu separator or not.</entry>
+    <entry path="/PopupMenu/options/option/caption">Sets the text caption of the component.</entry>
+    <entry path="/PopupMenu/options/option/checkable">Sets the Menu item to be checkable or not. Set to true for Menu items that represent checkable options.</entry>
+    <entry path="/PopupMenu/options/option/highlight">Highlights or unhighlights the component. Does nothing if this state transition is disallowed.</entry>
+</doc>
+

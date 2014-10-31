@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_expression>
+        <![CDATA[
+            SELECT  R.proposal + 1 AS pid, COUNT(*) + 1 AS count_star, COUNT(ALL R.grade) + 1 AS count_all, COUNT(DISTINCT R.grade) + 1 AS count_distinct
+            FROM src1.reviews AS R
+            GROUP BY R.proposal, R.reviewer
+            HAVING R.proposal = 1 OR R.proposal = 2 AND R.proposal = 3;
+        ]]>
+    </query_expression>
+    <data_object name="reviews" execution_data_source="src1" cardinality_estimate="SMALL">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <proposal type="integer" />
+                    <comment type="string" />
+                    <grade type="integer" />
+                    <reviewer type="integer" />
+                </element>
+                <constraints>
+                    <local-key>
+                        <attribute path="tuple/proposal" />
+                        <attribute path="tuple/reviewer" />
+                    </local-key>
+                </constraints>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+            </root>
+        </data_tree>
+    </data_object>
+    <query_plan wrapping="false">
+        <Project alias="__q1" cardinality_estimate="UNKNOWN">
+            <arguments>
+                <Item alias="pid">
+                    <FunctionCall name="+">
+                        <Variable name="R_proposal" />
+                        <Constant>
+                            <integer>1</integer>
+                        </Constant>
+                    </FunctionCall>
+                </Item>
+                <Item alias="count_star">
+                    <FunctionCall name="+">
+                        <Variable name="count_call__q2" />
+                        <FunctionCall name="CAST" target_type="long">
+                            <Constant>
+                                <integer>1</integer>
+                            </Constant>
+                        </FunctionCall>
+                    </FunctionCall>
+                </Item>
+                <Item alias="count_all">
+                    <FunctionCall name="+">
+                        <Variable name="count_call__q3" />
+                        <FunctionCall name="CAST" target_type="long">
+                            <Constant>
+                                <integer>1</integer>
+                            </Constant>
+                        </FunctionCall>
+                    </FunctionCall>
+                </Item>
+                <Item alias="count_distinct">
+                    <FunctionCall name="+">
+                        <Variable name="count_call__q4" />
+                        <FunctionCall name="CAST" target_type="long">
+                            <Constant>
+                                <integer>1</integer>
+                            </Constant>
+                        </FunctionCall>
+                    </FunctionCall>
+                </Item>
+            </arguments>
+            <GroupBy alias="__q0" cardinality_estimate="UNKNOWN">
+                <arguments>
+                    <Variable name="R_proposal" />
+                    <Variable name="R_reviewer" />
+                    <Aggregate alias="count_call__q2">
+                        <FunctionCall name="COUNT" set_quantifier="ALL" />
+                    </Aggregate>
+                    <Aggregate alias="count_call__q3">
+                        <FunctionCall name="COUNT" set_quantifier="ALL">
+                            <Variable name="R_grade" />
+                        </FunctionCall>
+                    </Aggregate>
+                    <Aggregate alias="count_call__q4">
+                        <FunctionCall name="COUNT" set_quantifier="DISTINCT">
+                            <Variable name="R_grade" />
+                        </FunctionCall>
+                    </Aggregate>
+                </arguments>
+                <Select cardinality_estimate="UNKNOWN">
+                    <arguments>
+                        <FunctionCall name="OR">
+                            <FunctionCall name="=">
+                                <Variable name="R_proposal" />
+                                <Constant>
+                                    <integer>1</integer>
+                                </Constant>
+                            </FunctionCall>
+                            <FunctionCall name="=">
+                                <Variable name="R_proposal" />
+                                <Constant>
+                                    <integer>2</integer>
+                                </Constant>
+                            </FunctionCall>
+                        </FunctionCall>
+                        <FunctionCall name="OR">
+                            <FunctionCall name="=">
+                                <Variable name="R_proposal" />
+                                <Constant>
+                                    <integer>1</integer>
+                                </Constant>
+                            </FunctionCall>
+                            <FunctionCall name="=">
+                                <Variable name="R_proposal" />
+                                <Constant>
+                                    <integer>3</integer>
+                                </Constant>
+                            </FunctionCall>
+                        </FunctionCall>
+                    </arguments>
+                    <Scan alias="R" cardinality_estimate="UNKNOWN">
+                        <arguments>
+                            <Variable data_source="src1" mode="ABSOLUTE" schema_object="reviews" />
+                        </arguments>
+                        <Ground cardinality_estimate="UNKNOWN">
+                            <arguments />
+                        </Ground>
+                    </Scan>
+                </Select>
+            </GroupBy>
+        </Project>
+    </query_plan>
+</test_case>

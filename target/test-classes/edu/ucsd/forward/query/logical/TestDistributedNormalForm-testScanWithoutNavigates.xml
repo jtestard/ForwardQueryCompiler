@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+
+    <query_expression>
+        <![CDATA[
+             SELECT 1
+             FROM
+                src3.reviewers AS r1
+                INNER JOIN src3.reviews AS r2 ON r1.reviewer_id = r2.reviewer,
+                src1.proposals AS p
+        ]]>
+    </query_expression>
+
+    <query_plan wrapping="false">
+        <Project cardinality_estimate="UNKNOWN">
+            <arguments>
+                <Item alias="constant">
+                    <Constant>
+                        <integer>1</integer>
+                    </Constant>
+                </Item>
+            </arguments>
+            <Product cardinality_estimate="UNKNOWN">
+                <arguments />
+                <InnerJoin cardinality_estimate="UNKNOWN">
+                    <arguments>
+                        <FunctionCall name="=">
+                            <Variable name="__v0" />
+                            <Variable name="__v1" />
+                        </FunctionCall>
+                    </arguments>
+                    <Navigate alias="__v0" cardinality_estimate="UNKNOWN">
+                        <arguments>
+                            <QueryPath steps="reviewer_id">
+                                <Variable mode="ELEMENT" name="r1" />
+                            </QueryPath>
+                        </arguments>
+                        <Scan alias="r1" cardinality_estimate="UNKNOWN">
+                            <arguments>
+                                <Variable data_source="src3" mode="ABSOLUTE" schema_object="reviewers" />
+                            </arguments>
+                            <Ground cardinality_estimate="UNKNOWN">
+                                <arguments />
+                            </Ground>
+                        </Scan>
+                    </Navigate>
+                    <Navigate alias="__v1" cardinality_estimate="UNKNOWN">
+                        <arguments>
+                            <QueryPath steps="reviewer">
+                                <Variable mode="ELEMENT" name="r2" />
+                            </QueryPath>
+                        </arguments>
+                        <Scan alias="r2" cardinality_estimate="UNKNOWN">
+                            <arguments>
+                                <Variable data_source="src3" mode="ABSOLUTE" schema_object="reviews" />
+                            </arguments>
+                            <Ground cardinality_estimate="UNKNOWN">
+                                <arguments />
+                            </Ground>
+                        </Scan>
+                    </Navigate>
+                </InnerJoin>
+                <Scan alias="p" cardinality_estimate="UNKNOWN">
+                    <arguments>
+                        <Variable data_source="src1" mode="ABSOLUTE" schema_object="proposals" />
+                    </arguments>
+                    <Ground cardinality_estimate="UNKNOWN">
+                        <arguments />
+                    </Ground>
+                </Scan>
+            </Product>
+        </Project>
+    </query_plan>
+
+    <query_plan wrapping="false">
+        <SendPlan cardinality_estimate="UNKNOWN" execution_data_source="src1">
+            <arguments>
+                <Project cardinality_estimate="UNKNOWN" execution_data_source="src1">
+                    <arguments>
+                        <Item alias="constant">
+                            <Constant>
+                                <integer>1</integer>
+                            </Constant>
+                        </Item>
+                    </arguments>
+                    <Product cardinality_estimate="UNKNOWN" execution_data_source="src1">
+                        <arguments />
+                        <Subquery alias="__dn_0" cardinality_estimate="UNKNOWN" execution_data_source="src1">
+                            <arguments />
+                            <Project cardinality_estimate="UNKNOWN" execution_data_source="src1">
+                                <arguments>
+                                    <Item alias="__dn_1">
+                                        <Variable name="__dn_10" />
+                                    </Item>
+                                    <Item alias="__dn_2">
+                                        <Variable name="__dn_11" />
+                                    </Item>
+                                    <Item alias="__dn_4">
+                                        <Variable name="__dn_12" />
+                                    </Item>
+                                    <Item alias="__dn_5">
+                                        <Variable name="__dn_13" />
+                                    </Item>
+                                    <Item alias="__dn_6">
+                                        <Variable name="__dn_14" />
+                                    </Item>
+                                    <Item alias="__dn_7">
+                                        <Variable name="__dn_15" />
+                                    </Item>
+                                </arguments>
+                                <Navigate alias="__dn_15" cardinality_estimate="UNKNOWN" execution_data_source="src1">
+                                    <arguments>
+                                        <QueryPath steps="__dn_7">
+                                            <Variable mode="ELEMENT" name="__dn_9" />
+                                        </QueryPath>
+                                    </arguments>
+                                    <Navigate alias="__dn_14" cardinality_estimate="UNKNOWN" execution_data_source="src1">
+                                        <arguments>
+                                            <QueryPath steps="__dn_6">
+                                                <Variable mode="ELEMENT" name="__dn_9" />
+                                            </QueryPath>
+                                        </arguments>
+                                        <Navigate alias="__dn_13" cardinality_estimate="UNKNOWN" execution_data_source="src1">
+                                            <arguments>
+                                                <QueryPath steps="__dn_5">
+                                                    <Variable mode="ELEMENT" name="__dn_9" />
+                                                </QueryPath>
+                                            </arguments>
+                                            <Navigate alias="__dn_12" cardinality_estimate="UNKNOWN" execution_data_source="src1">
+                                                <arguments>
+                                                    <QueryPath steps="__dn_4">
+                                                        <Variable mode="ELEMENT" name="__dn_9" />
+                                                    </QueryPath>
+                                                </arguments>
+                                                <Navigate alias="__dn_11" cardinality_estimate="UNKNOWN"
+                                                    execution_data_source="src1">
+                                                    <arguments>
+                                                        <QueryPath steps="__dn_2">
+                                                            <Variable mode="ELEMENT" name="__dn_9" />
+                                                        </QueryPath>
+                                                    </arguments>
+                                                    <Navigate alias="__dn_10" cardinality_estimate="UNKNOWN"
+                                                        execution_data_source="src1">
+                                                        <arguments>
+                                                            <QueryPath steps="__dn_1">
+                                                                <Variable mode="ELEMENT" name="__dn_9" />
+                                                            </QueryPath>
+                                                        </arguments>
+                                                        <Scan alias="__dn_9" cardinality_estimate="UNKNOWN"
+                                                            execution_data_source="src1">
+                                                            <arguments>
+                                                                <Parameter data_source="src1" schema_object="__dn_9">
+                                                                    <Variable name="__dn_9">
+                                                                        <type type="collection">
+                                                                            <element type="tuple">
+                                                                                <__dn_1 type="integer" />
+                                                                                <__dn_2 type="string" />
+                                                                                <__dn_4 type="integer" />
+                                                                                <__dn_5 type="string" />
+                                                                                <__dn_6 type="integer" />
+                                                                                <__dn_7 type="integer" />
+                                                                            </element>
+                                                                        </type>
+                                                                    </Variable>
+                                                                </Parameter>
+                                                            </arguments>
+                                                            <Ground cardinality_estimate="ONE" execution_data_source="src1">
+                                                                <arguments />
+                                                            </Ground>
+                                                        </Scan>
+                                                    </Navigate>
+                                                </Navigate>
+                                            </Navigate>
+                                        </Navigate>
+                                    </Navigate>
+                                </Navigate>
+                            </Project>
+                        </Subquery>
+                        <Scan alias="p" cardinality_estimate="UNKNOWN" execution_data_source="src1">
+                            <arguments>
+                                <Variable data_source="src1" mode="ABSOLUTE" schema_object="proposals" />
+                            </arguments>
+                            <Ground cardinality_estimate="UNKNOWN" execution_data_source="src1">
+                                <arguments />
+                            </Ground>
+                        </Scan>
+                    </Product>
+                </Project>
+            </arguments>
+            <Copy cardinality_estimate="UNKNOWN" execution_data_source="mediator" target_data_source="src1"
+                target_schema_object="__dn_9">
+                <arguments>
+                    <SendPlan cardinality_estimate="UNKNOWN" execution_data_source="mediator">
+                        <arguments>
+                            <Project cardinality_estimate="UNKNOWN" execution_data_source="mediator">
+                                <arguments>
+                                    <Item alias="__dn_1">
+                                        <QueryPath steps="reviewer_id">
+                                            <Variable mode="ELEMENT" name="r1" />
+                                        </QueryPath>
+                                    </Item>
+                                    <Item alias="__dn_2">
+                                        <QueryPath steps="email">
+                                            <Variable mode="ELEMENT" name="r1" />
+                                        </QueryPath>
+                                    </Item>
+                                    <Item alias="__dn_4">
+                                        <QueryPath steps="proposal">
+                                            <Variable mode="ELEMENT" name="r2" />
+                                        </QueryPath>
+                                    </Item>
+                                    <Item alias="__dn_5">
+                                        <QueryPath steps="comment">
+                                            <Variable mode="ELEMENT" name="r2" />
+                                        </QueryPath>
+                                    </Item>
+                                    <Item alias="__dn_6">
+                                        <QueryPath steps="grade">
+                                            <Variable mode="ELEMENT" name="r2" />
+                                        </QueryPath>
+                                    </Item>
+                                    <Item alias="__dn_7">
+                                        <QueryPath steps="reviewer">
+                                            <Variable mode="ELEMENT" name="r2" />
+                                        </QueryPath>
+                                    </Item>
+                                </arguments>
+                                <InnerJoin cardinality_estimate="UNKNOWN" execution_data_source="mediator">
+                                    <arguments>
+                                        <FunctionCall name="=">
+                                            <Variable name="__v0" />
+                                            <Variable name="__v1" />
+                                        </FunctionCall>
+                                    </arguments>
+                                    <Navigate alias="__v0" cardinality_estimate="UNKNOWN" execution_data_source="mediator">
+                                        <arguments>
+                                            <QueryPath steps="reviewer_id">
+                                                <Variable mode="ELEMENT" name="r1" />
+                                            </QueryPath>
+                                        </arguments>
+                                        <Scan alias="r1" cardinality_estimate="UNKNOWN" execution_data_source="mediator">
+                                            <arguments>
+                                                <Variable data_source="src3" mode="ABSOLUTE" schema_object="reviewers" />
+                                            </arguments>
+                                            <Ground cardinality_estimate="UNKNOWN" execution_data_source="mediator">
+                                                <arguments />
+                                            </Ground>
+                                        </Scan>
+                                    </Navigate>
+                                    <Navigate alias="__v1" cardinality_estimate="UNKNOWN" execution_data_source="mediator">
+                                        <arguments>
+                                            <QueryPath steps="reviewer">
+                                                <Variable mode="ELEMENT" name="r2" />
+                                            </QueryPath>
+                                        </arguments>
+                                        <Scan alias="r2" cardinality_estimate="UNKNOWN" execution_data_source="mediator">
+                                            <arguments>
+                                                <Variable data_source="src3" mode="ABSOLUTE" schema_object="reviews" />
+                                            </arguments>
+                                            <Ground cardinality_estimate="UNKNOWN" execution_data_source="mediator">
+                                                <arguments />
+                                            </Ground>
+                                        </Scan>
+                                    </Navigate>
+                                </InnerJoin>
+                            </Project>
+                        </arguments>
+                    </SendPlan>
+                </arguments>
+            </Copy>
+        </SendPlan>
+    </query_plan>
+
+
+    <data_source name="src1" storage_system="JDBC" data_model="RELATIONAL">
+        <properties environment="testing" overwrite="true" user="postgres" password="postgres" maxPoolSize="20"
+            unreturnedConnectionTimeout="0" debugUnreturnedConnectionStackTraces="true" driver="postgresql" host="localhost" port="5432"
+            database="forward" schema="public" />
+        <properties environment="jenkins" overwrite="true" user="postgres" password="postgres" maxPoolSize="20"
+            unreturnedConnectionTimeout="0" debugUnreturnedConnectionStackTraces="true" driver="postgresql" host="localhost" port="5432"
+            database="forward" schema="public" />
+    </data_source>
+    <data_object name="proposals" execution_data_source="src1" cardinality_estimate="LARGE">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <proposal_id type="integer" />
+                    <title type="string" />
+                    <summary type="string" />
+                    <description type="string" />
+                </element>
+                <constraints>
+                    <local-key collection="/">
+                        <attribute path="tuple/proposal_id" />
+                    </local-key>
+                </constraints>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+            </root>
+        </data_tree>
+    </data_object>
+
+    <data_object name="reviewers" execution_data_source="src3" cardinality_estimate="LARGE">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <reviewer_id type="integer" />
+                    <email type="string" />
+                </element>
+                <constraints>
+                    <local-key collection="/">
+                        <attribute path="tuple/reviewer_id" />
+                    </local-key>
+                </constraints>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+            </root>
+        </data_tree>
+    </data_object>
+    <data_object name="reviews" execution_data_source="src3" cardinality_estimate="SMALL">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <proposal type="integer" />
+                    <comment type="string" />
+                    <grade type="integer" />
+                    <reviewer type="integer" />
+                </element>
+                <constraints>
+                    <local-key collection="/">
+                        <attribute path="tuple/proposal" />
+                        <attribute path="tuple/reviewer" />
+                    </local-key>
+                </constraints>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+            </root>
+        </data_tree>
+    </data_object>
+</test_case>

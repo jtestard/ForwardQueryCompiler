@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <data_tree>
+        <root>
+            <string1>string1</string1>
+        </root>
+    </data_tree>
+    <schema_tree>
+        <root type="tuple">
+            <string1 type="string" />
+        </root>
+    </schema_tree>
+</root>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_expression>
+        <![CDATA[
+        	select 
+                split_part(val, null, null) as a,
+                split_part(val, '', 1) as b,
+                split_part(val, '.', 2) as c,
+                split_part(val, '.', 3) as d,
+                split_part(val, '.+', 1) as e,
+                split_part(val, '.+', 10) as f
+            from src_1.x
+        ]]>
+    </query_expression>
+    <data_source name="src_1" storage_system="JDBC" data_model="RELATIONAL">
+        <properties environment="development" overwrite="true" user="postgres" password="postgres" maxPoolSize="20"
+            unreturnedConnectionTimeout="0" debugUnreturnedConnectionStackTraces="true" driver="postgresql" host="localhost" port="5432"
+            database="forward" schema="public" />
+        <properties environment="testing" overwrite="true" user="postgres" password="postgres" maxPoolSize="20"
+            unreturnedConnectionTimeout="0" debugUnreturnedConnectionStackTraces="true" driver="postgresql" host="localhost" port="5432"
+            database="forward" schema="public" />
+        <properties environment="jenkins" overwrite="true" user="postgres" password="postgres" maxPoolSize="20"
+            unreturnedConnectionTimeout="0" debugUnreturnedConnectionStackTraces="true" driver="postgresql" host="localhost" port="5432"
+            database="forward" schema="public" />
+    </data_source>
+    <data_object name="x" execution_data_source="src_1" cardinality_estimate="LARGE">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <val type="string" />
+                </element>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <val>Node..1.1.2.14</val>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+    <data_object name="output" execution_data_source="output">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <a type="string" />
+                    <b type="string" />
+                    <c type="string" />
+                    <d type="string" />
+                    <e type="string" />
+                    <f type="string" />
+                </element>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <a null="true" />
+                    <b>Node..1.1.2.14</b>
+                    <c></c>
+                    <d>1</d>
+                    <e>Node..1.1.2.14</e>
+                    <f></f>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+</test_case>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <data_source name="jdbc" storage_system="JDBC">
+        <properties environment="jenkins" user="postgres" password="postgres" maxPoolSize="20"
+            unreturnedConnectionTimeout="0" debugUnreturnedConnectionStackTraces="true" driver="postgresql" host="localhost" port="5432"
+            database="forward" schema="introspect" />
+        <properties environment="testing" user="postgres" password="postgres" maxPoolSize="20"
+            unreturnedConnectionTimeout="0" debugUnreturnedConnectionStackTraces="true" driver="postgresql" host="localhost" port="5432"
+            database="forward" schema="introspect" />
+    </data_source>
+</test_case>

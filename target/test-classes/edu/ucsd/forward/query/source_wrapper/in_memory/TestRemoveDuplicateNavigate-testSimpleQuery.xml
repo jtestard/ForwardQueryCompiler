@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_expression>
+        <![CDATA[
+            SELECT P1.proposal_id AS pid1, proposal_id AS pid2, title AS t1, title AS t2
+            FROM src1.proposals AS P1
+            WHERE P1.proposal_id = 10 AND P1.proposal_id = 10 AND P1.title = 'A' AND P1.title = 'A'
+            ORDER BY P1.proposal_id, P1.proposal_id, P1.title, P1.title
+        ]]>
+    </query_expression>
+    <data_object name="proposals" execution_data_source="src1" cardinality_estimate="LARGE" data_model="RELATIONAL"
+        storage_system="INMEMORY">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <proposal_id type="integer" />
+                    <title type="string" />
+                </element>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <proposal_id>10</proposal_id>
+                    <title>A</title>
+                </element>
+                <element>
+                    <proposal_id>2</proposal_id>
+                    <title>B</title>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+
+    <query_plan wrapping="false">
+        <Project cardinality_estimate="UNKNOWN">
+            <arguments>
+                <Item alias="pid1">
+                    <Variable name="__v4" />
+                </Item>
+                <Item alias="pid2">
+                    <Variable name="__v5" />
+                </Item>
+                <Item alias="t1">
+                    <Variable name="__v6" />
+                </Item>
+                <Item alias="t2">
+                    <Variable name="__v7" />
+                </Item>
+            </arguments>
+            <Sort cardinality_estimate="UNKNOWN">
+                <arguments>
+                    <Item nulls="LAST" spec="ASC">
+                        <Variable name="__v8" />
+                    </Item>
+                    <Item nulls="LAST" spec="ASC">
+                        <Variable name="__v9" />
+                    </Item>
+                    <Item nulls="LAST" spec="ASC">
+                        <Variable name="__v10" />
+                    </Item>
+                    <Item nulls="LAST" spec="ASC">
+                        <Variable name="__v11" />
+                    </Item>
+                </arguments>
+                <Navigate alias="__v11" cardinality_estimate="UNKNOWN">
+                    <arguments>
+                        <QueryPath steps="title">
+                            <Variable mode="ELEMENT" name="P1" />
+                        </QueryPath>
+                    </arguments>
+                    <Navigate alias="__v10" cardinality_estimate="UNKNOWN">
+                        <arguments>
+                            <QueryPath steps="title">
+                                <Variable mode="ELEMENT" name="P1" />
+                            </QueryPath>
+                        </arguments>
+                        <Navigate alias="__v9" cardinality_estimate="UNKNOWN">
+                            <arguments>
+                                <QueryPath steps="proposal_id">
+                                    <Variable mode="ELEMENT" name="P1" />
+                                </QueryPath>
+                            </arguments>
+                            <Navigate alias="__v8" cardinality_estimate="UNKNOWN">
+                                <arguments>
+                                    <QueryPath steps="proposal_id">
+                                        <Variable mode="ELEMENT" name="P1" />
+                                    </QueryPath>
+                                </arguments>
+                                <Navigate alias="__v7" cardinality_estimate="UNKNOWN">
+                                    <arguments>
+                                        <QueryPath steps="title">
+                                            <Variable mode="ELEMENT" name="P1" />
+                                        </QueryPath>
+                                    </arguments>
+                                    <Navigate alias="__v6" cardinality_estimate="UNKNOWN">
+                                        <arguments>
+                                            <QueryPath steps="title">
+                                                <Variable mode="ELEMENT" name="P1" />
+                                            </QueryPath>
+                                        </arguments>
+                                        <Navigate alias="__v5" cardinality_estimate="UNKNOWN">
+                                            <arguments>
+                                                <QueryPath steps="proposal_id">
+                                                    <Variable mode="ELEMENT" name="P1" />
+                                                </QueryPath>
+                                            </arguments>
+                                            <Navigate alias="__v4" cardinality_estimate="UNKNOWN">
+                                                <arguments>
+                                                    <QueryPath steps="proposal_id">
+                                                        <Variable mode="ELEMENT" name="P1" />
+                                                    </QueryPath>
+                                                </arguments>
+                                                <Select cardinality_estimate="UNKNOWN">
+                                                    <arguments>
+                                                        <FunctionCall name="=">
+                                                            <Variable name="__v0" />
+                                                            <Constant>
+                                                                <integer>10</integer>
+                                                            </Constant>
+                                                        </FunctionCall>
+                                                        <FunctionCall name="=">
+                                                            <Variable name="__v1" />
+                                                            <Constant>
+                                                                <integer>10</integer>
+                                                            </Constant>
+                                                        </FunctionCall>
+                                                        <FunctionCall name="=">
+                                                            <Variable name="__v2" />
+                                                            <Constant>
+                                                                <string>A</string>
+                                                            </Constant>
+                                                        </FunctionCall>
+                                                        <FunctionCall name="=">
+                                                            <Variable name="__v3" />
+                                                            <Constant>
+                                                                <string>A</string>
+                                                            </Constant>
+                                                        </FunctionCall>
+                                                    </arguments>
+                                                    <Navigate alias="__v3" cardinality_estimate="UNKNOWN">
+                                                        <arguments>
+                                                            <QueryPath steps="title">
+                                                                <Variable mode="ELEMENT" name="P1" />
+                                                            </QueryPath>
+                                                        </arguments>
+                                                        <Navigate alias="__v2" cardinality_estimate="UNKNOWN">
+                                                            <arguments>
+                                                                <QueryPath steps="title">
+                                                                    <Variable mode="ELEMENT" name="P1" />
+                                                                </QueryPath>
+                                                            </arguments>
+                                                            <Navigate alias="__v1" cardinality_estimate="UNKNOWN">
+                                                                <arguments>
+                                                                    <QueryPath steps="proposal_id">
+                                                                        <Variable mode="ELEMENT" name="P1" />
+                                                                    </QueryPath>
+                                                                </arguments>
+                                                                <Navigate alias="__v0" cardinality_estimate="UNKNOWN">
+                                                                    <arguments>
+                                                                        <QueryPath steps="proposal_id">
+                                                                            <Variable mode="ELEMENT" name="P1" />
+                                                                        </QueryPath>
+                                                                    </arguments>
+                                                                    <Scan alias="P1" cardinality_estimate="UNKNOWN">
+                                                                        <arguments>
+                                                                            <Variable data_source="src1" mode="ABSOLUTE"
+                                                                                schema_object="proposals" />
+                                                                        </arguments>
+                                                                        <Ground cardinality_estimate="UNKNOWN">
+                                                                            <arguments />
+                                                                        </Ground>
+                                                                    </Scan>
+                                                                </Navigate>
+                                                            </Navigate>
+                                                        </Navigate>
+                                                    </Navigate>
+                                                </Select>
+                                            </Navigate>
+                                        </Navigate>
+                                    </Navigate>
+                                </Navigate>
+                            </Navigate>
+                        </Navigate>
+                    </Navigate>
+                </Navigate>
+            </Sort>
+        </Project>
+    </query_plan>
+
+    <query_plan wrapping="false">
+        <Project cardinality_estimate="UNKNOWN">
+            <arguments>
+                <Item alias="pid1">
+                    <Variable name="__v0" />
+                </Item>
+                <Item alias="pid2">
+                    <Variable name="__v0" />
+                </Item>
+                <Item alias="t1">
+                    <Variable name="__v2" />
+                </Item>
+                <Item alias="t2">
+                    <Variable name="__v2" />
+                </Item>
+            </arguments>
+            <Sort cardinality_estimate="UNKNOWN">
+                <arguments>
+                    <Item nulls="LAST" spec="ASC">
+                        <Variable name="__v0" />
+                    </Item>
+                    <Item nulls="LAST" spec="ASC">
+                        <Variable name="__v0" />
+                    </Item>
+                    <Item nulls="LAST" spec="ASC">
+                        <Variable name="__v2" />
+                    </Item>
+                    <Item nulls="LAST" spec="ASC">
+                        <Variable name="__v2" />
+                    </Item>
+                </arguments>
+                <Select cardinality_estimate="UNKNOWN">
+                    <arguments>
+                        <FunctionCall name="=">
+                            <Variable name="__v0" />
+                            <Constant>
+                                <integer>10</integer>
+                            </Constant>
+                        </FunctionCall>
+                        <FunctionCall name="=">
+                            <Variable name="__v0" />
+                            <Constant>
+                                <integer>10</integer>
+                            </Constant>
+                        </FunctionCall>
+                        <FunctionCall name="=">
+                            <Variable name="__v2" />
+                            <Constant>
+                                <string>A</string>
+                            </Constant>
+                        </FunctionCall>
+                        <FunctionCall name="=">
+                            <Variable name="__v2" />
+                            <Constant>
+                                <string>A</string>
+                            </Constant>
+                        </FunctionCall>
+                    </arguments>
+                    <Navigate alias="__v2" cardinality_estimate="UNKNOWN">
+                        <arguments>
+                            <QueryPath steps="title">
+                                <Variable mode="ELEMENT" name="P1" />
+                            </QueryPath>
+                        </arguments>
+                        <Navigate alias="__v0" cardinality_estimate="UNKNOWN">
+                            <arguments>
+                                <QueryPath steps="proposal_id">
+                                    <Variable mode="ELEMENT" name="P1" />
+                                </QueryPath>
+                            </arguments>
+                            <Scan alias="P1" cardinality_estimate="UNKNOWN">
+                                <arguments>
+                                    <Variable data_source="src1" mode="ABSOLUTE" schema_object="proposals" />
+                                </arguments>
+                                <Ground cardinality_estimate="UNKNOWN">
+                                    <arguments />
+                                </Ground>
+                            </Scan>
+                        </Navigate>
+                    </Navigate>
+                </Select>
+            </Sort>
+        </Project>
+    </query_plan>
+
+    <data_object name="output" execution_data_source="output">
+        <schema_tree>
+            <root ordered="true" type="collection">
+                <element type="tuple">
+                    <pid1 type="integer" />
+                    <pid2 type="integer" />
+                    <t1 type="string" />
+                    <t2 type="string" />
+                </element>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root ordered="true">
+                <element>
+                    <pid1>10</pid1>
+                    <pid2>10</pid2>
+                    <t1>A</t1>
+                    <t2>A</t2>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+</test_case>

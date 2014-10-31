@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <!--
+        Query plan for the following query: SELECT collection_from.*, jdbc.get_customers_record(7) AS collection_select,
+        tuple_from.*, jdbc.multiply_tuple(3) AS tuple_select, scalar_from.*, jdbc.multiply_scalar(3) AS scalar_select FROM
+        jdbc.get_customers_table(7) AS collection_from, jdbc.multiply_inout_tuple(3, 4) AS tuple_from, jdbc.multiply_inout_scalar(3)
+        AS scalar_from;
+    -->
+    <query_plan>
+        <SendPlan cardinality_estimate="SMALL" execution_data_source="mediator" impl="SendPlanImplInMemory">
+            <arguments>
+                <Project cardinality_estimate="SMALL" execution_data_source="mediator" impl="ProjectImpl">
+                    <arguments>
+                        <Item alias="cid">
+                            <Variable name="collection_from_cid" />
+                        </Item>
+                        <Item alias="state">
+                            <Variable name="collection_from_state" />
+                        </Item>
+                        <Item alias="collection_select">
+                            <Variable name="__q10" />
+                        </Item>
+                        <!--
+                            <Item alias="x"> <Variable name="tuple_from.x" /> </Item> <Item alias="y"> <QueryPath mode="RELATIVE"
+                            steps="tuple_from.y" /> </Item>
+                        -->
+                        <Item alias="tuple_select">
+                            <FunctionCall name="CAST" target_type="tuple">
+                                <Variable name="__q13" />
+                            </FunctionCall>
+                        </Item>
+                        <!--
+                            <Item alias="multiply_inout_scalar"> <QueryPath mode="RELATIVE"
+                            steps="scalar_from.multiply_inout_scalar" /> </Item>
+                        -->
+                        <Item alias="scalar_select">
+                            <FunctionCall name="CAST" target_type="integer">
+                                <Variable name="__q16" />
+                            </FunctionCall>
+                        </Item>
+                    </arguments>
+                    <ApplyPlan attr_name="__q16" cardinality_estimate="SMALL" execution_data_source="mediator" impl="ApplyPlanImpl">
+                        <arguments>
+                            <SendPlan cardinality_estimate="SMALL" execution_data_source="jdbc" impl="SendPlanImplJdbc">
+                                <arguments>
+                                    <Project cardinality_estimate="SMALL" execution_data_source="jdbc" impl="ProjectImpl">
+                                        <arguments>
+                                            <Item alias="multiply_scalar">
+                                                <FunctionCall name="multiply_scalar" target_data_source="jdbc">
+                                                    <Constant>
+                                                        <integer>3</integer>
+                                                    </Constant>
+                                                </FunctionCall>
+                                            </Item>
+                                        </arguments>
+                                        <Ground cardinality_estimate="SMALL" execution_data_source="jdbc" impl="GroundImpl">
+                                            <arguments />
+                                        </Ground>
+                                    </Project>
+                                </arguments>
+                            </SendPlan>
+                        </arguments>
+                        <ApplyPlan attr_name="__q13" cardinality_estimate="SMALL" execution_data_source="mediator" impl="ApplyPlanImpl">
+                            <arguments>
+                                <SendPlan cardinality_estimate="SMALL" execution_data_source="jdbc" impl="SendPlanImplJdbc">
+                                    <arguments>
+                                        <Project cardinality_estimate="SMALL" execution_data_source="jdbc" impl="ProjectImpl">
+                                            <arguments>
+                                                <Item alias="twice">
+                                                    <Variable name="multiply_tuple_twice" />
+                                                </Item>
+                                                <Item alias="thrice">
+                                                    <Variable name="multiply_tuple_thrice" />
+                                                </Item>
+                                            </arguments>
+                                            <Navigate alias="multiply_tuple_thrice" cardinality_estimate="SMALL"
+                                                execution_data_source="jdbc" impl="NavigateImpl">
+                                                <arguments>
+                                                    <QueryPath steps="thrice">
+                                                        <Variable name="multiply_tuple" />
+                                                    </QueryPath>
+                                                </arguments>
+                                                <Navigate alias="multiply_tuple_twice" cardinality_estimate="SMALL"
+                                                    execution_data_source="jdbc" impl="NavigateImpl">
+                                                    <arguments>
+                                                        <QueryPath steps="twice">
+                                                            <Variable name="multiply_tuple" />
+                                                        </QueryPath>
+                                                    </arguments>
+                                                    <Scan alias="multiply_tuple" cardinality_estimate="SMALL"
+                                                        execution_data_source="jdbc" impl="ScanImpl">
+                                                        <arguments>
+                                                            <FunctionCall name="multiply_tuple" target_data_source="jdbc">
+                                                                <Constant>
+                                                                    <integer>3</integer>
+                                                                </Constant>
+                                                            </FunctionCall>
+                                                        </arguments>
+                                                        <Ground cardinality_estimate="SMALL" execution_data_source="jdbc"
+                                                            impl="GroundImpl">
+                                                            <arguments />
+                                                        </Ground>
+                                                    </Scan>
+                                                </Navigate>
+                                            </Navigate>
+                                        </Project>
+                                    </arguments>
+                                </SendPlan>
+                            </arguments>
+                            <ApplyPlan attr_name="__q10" cardinality_estimate="SMALL" execution_data_source="mediator"
+                                impl="ApplyPlanImpl">
+                                <arguments>
+                                    <SendPlan cardinality_estimate="SMALL" execution_data_source="jdbc" impl="SendPlanImplJdbc">
+                                        <arguments>
+                                            <Project cardinality_estimate="SMALL" execution_data_source="jdbc" impl="ProjectImpl">
+                                                <arguments>
+                                                    <Item alias="cid">
+                                                        <Variable name="get_customers_record_cid" />
+                                                    </Item>
+                                                    <Item alias="state">
+                                                        <Variable name="get_customers_record_state" />
+                                                    </Item>
+                                                </arguments>
+                                                <Navigate alias="get_customers_record_state" cardinality_estimate="SMALL"
+                                                    execution_data_source="jdbc" impl="NavigateImpl">
+                                                    <arguments>
+                                                        <QueryPath steps="state">
+                                                            <Variable name="get_customers_record" />
+                                                        </QueryPath>
+                                                    </arguments>
+                                                    <Navigate alias="get_customers_record_cid" cardinality_estimate="SMALL"
+                                                        execution_data_source="jdbc" impl="NavigateImpl">
+                                                        <arguments>
+                                                            <QueryPath steps="cid">
+                                                                <Variable name="get_customers_record" />
+                                                            </QueryPath>
+                                                        </arguments>
+                                                        <Scan alias="get_customers_record" cardinality_estimate="SMALL"
+                                                            execution_data_source="jdbc" impl="ScanImpl">
+                                                            <arguments>
+                                                                <FunctionCall name="get_customers_record"
+                                                                    target_data_source="jdbc">
+                                                                    <Constant>
+                                                                        <integer>7</integer>
+                                                                    </Constant>
+                                                                </FunctionCall>
+                                                            </arguments>
+                                                            <Ground cardinality_estimate="SMALL" execution_data_source="jdbc"
+                                                                impl="GroundImpl">
+                                                                <arguments />
+                                                            </Ground>
+                                                        </Scan>
+                                                    </Navigate>
+                                                </Navigate>
+                                            </Project>
+                                        </arguments>
+                                    </SendPlan>
+                                </arguments>
+                                <!--
+                                    <Product cardinality_estimate="SMALL" execution_data_source="mediator"
+                                    impl="ProductImplNestedLoop"> <arguments />
+                                -->
+                                <Navigate alias="collection_from_cid" cardinality_estimate="SMALL" execution_data_source="mediator"
+                                    impl="NavigateImpl">
+                                    <arguments>
+                                        <QueryPath steps="cid">
+                                            <Variable name="collection_from" />
+                                        </QueryPath>
+                                    </arguments>
+                                    <Navigate alias="collection_from_state" cardinality_estimate="SMALL"
+                                        execution_data_source="mediator" impl="NavigateImpl">
+                                        <arguments>
+                                            <QueryPath steps="state">
+                                                <Variable name="collection_from" />
+                                            </QueryPath>
+                                        </arguments>
+                                        <Scan alias="collection_from" cardinality_estimate="SMALL" execution_data_source="mediator"
+                                            impl="ScanImpl">
+                                            <arguments>
+                                                <Variable name="__q0" />
+                                            </arguments>
+                                            <ApplyPlan attr_name="__q0" cardinality_estimate="SMALL"
+                                                execution_data_source="mediator" impl="ApplyPlanImpl">
+                                                <arguments>
+                                                    <SendPlan cardinality_estimate="SMALL" execution_data_source="jdbc"
+                                                        impl="SendPlanImplJdbc">
+                                                        <arguments>
+                                                            <Project cardinality_estimate="SMALL" execution_data_source="jdbc"
+                                                                impl="ProjectImpl">
+                                                                <arguments>
+                                                                    <Item alias="cid">
+                                                                        <Variable name="get_customers_table_cid" />
+                                                                    </Item>
+                                                                    <Item alias="state">
+                                                                        <Variable name="get_customers_table_state" />
+                                                                    </Item>
+                                                                </arguments>
+                                                                <Navigate alias="get_customers_table_state"
+                                                                    cardinality_estimate="SMALL" execution_data_source="jdbc"
+                                                                    impl="NavigateImpl">
+                                                                    <arguments>
+                                                                        <QueryPath steps="state">
+                                                                            <Variable name="get_customers_table" />
+                                                                        </QueryPath>
+                                                                    </arguments>
+                                                                    <Navigate alias="get_customers_table_cid"
+                                                                        cardinality_estimate="SMALL" execution_data_source="jdbc"
+                                                                        impl="NavigateImpl">
+                                                                        <arguments>
+                                                                            <QueryPath steps="cid">
+                                                                                <Variable name="get_customers_table" />
+                                                                            </QueryPath>
+                                                                        </arguments>
+                                                                        <Scan alias="get_customers_table" cardinality_estimate="SMALL"
+                                                                            execution_data_source="jdbc" impl="ScanImpl">
+                                                                            <arguments>
+                                                                                <FunctionCall name="get_customers_table"
+                                                                                    target_data_source="jdbc">
+                                                                                    <Constant>
+                                                                                        <integer>7</integer>
+                                                                                    </Constant>
+                                                                                </FunctionCall>
+                                                                            </arguments>
+                                                                            <Ground cardinality_estimate="SMALL"
+                                                                                execution_data_source="jdbc" impl="GroundImpl">
+                                                                                <arguments />
+                                                                            </Ground>
+                                                                        </Scan>
+                                                                    </Navigate>
+                                                                </Navigate>
+                                                            </Project>
+                                                        </arguments>
+                                                    </SendPlan>
+                                                </arguments>
+                                                <Ground cardinality_estimate="SMALL" execution_data_source="mediator" impl="GroundImpl">
+                                                    <arguments />
+                                                </Ground>
+                                            </ApplyPlan>
+                                        </Scan>
+                                    </Navigate>
+                                </Navigate>
+                                <!--
+                                    <Product cardinality_estimate="SMALL" execution_data_source="mediator"
+                                    impl="ProductImplNestedLoop"> <arguments /> <Scan alias="tuple_from"
+                                    cardinality_estimate="SMALL" execution_data_source="mediator" impl="ScanImpl" mode="RELATIVE"
+                                    steps="__q5.__q3"> <arguments /> <ApplyPlan alias="__q5" attr_name="__q3"
+                                    cardinality_estimate="SMALL" execution_data_source="mediator" impl="ApplyPlanImpl"> <arguments>
+                                    <SendPlan alias="__q4" cardinality_estimate="SMALL" execution_data_source="jdbc"
+                                    impl="SendPlanImplJdbc"> <Project alias="__q4" cardinality_estimate="SMALL"
+                                    execution_data_source="jdbc" impl="ProjectImpl"> <arguments> <Item alias="x"> <QueryPath
+                                    mode="RELATIVE" steps="multiply_inout_tuple.x" /> </Item> <Item alias="y"> <QueryPath
+                                    mode="RELATIVE" steps="multiply_inout_tuple.y" /> </Item> </arguments> <Scan
+                                    alias="multiply_inout_tuple" cardinality_estimate="SMALL" execution_data_source="jdbc"
+                                    impl="ScanImpl"> <arguments> <FunctionCall name="multiply_inout_tuple"
+                                    target_data_source="jdbc"> <Constant> <integer>3</integer> </Constant> <Constant>
+                                    <integer>4</integer> </Constant> </FunctionCall> </arguments> <Ground
+                                    cardinality_estimate="SMALL" execution_data_source="jdbc" impl="GroundImpl"> <arguments />
+                                    </Ground> </Scan> </Project> </SendPlan> </arguments> <Ground cardinality_estimate="SMALL"
+                                    execution_data_source="mediator" impl="GroundImpl"> <arguments /> </Ground> </ApplyPlan> </Scan>
+                                    <Scan alias="scalar_from" cardinality_estimate="SMALL" execution_data_source="mediator"
+                                    impl="ScanImpl" mode="RELATIVE" steps="__q8.__q6"> <arguments /> <ApplyPlan alias="__q8"
+                                    attr_name="__q6" cardinality_estimate="SMALL" execution_data_source="mediator"
+                                    impl="ApplyPlanImpl"> <arguments> <SendPlan alias="__q7" cardinality_estimate="SMALL"
+                                    execution_data_source="jdbc" impl="SendPlanImplJdbc"> <Project alias="__q7"
+                                    cardinality_estimate="SMALL" execution_data_source="jdbc" impl="ProjectImpl"> <arguments> <Item
+                                    alias="multiply_inout_scalar"> <FunctionCall name="multiply_inout_scalar"
+                                    target_data_source="jdbc"> <Constant> <integer>3</integer> </Constant> </FunctionCall> </Item>
+                                    </arguments> <Ground cardinality_estimate="SMALL" execution_data_source="jdbc"
+                                    impl="GroundImpl"> <arguments /> </Ground> </Project> </SendPlan> </arguments> <Ground
+                                    cardinality_estimate="SMALL" execution_data_source="mediator" impl="GroundImpl"> <arguments />
+                                    </Ground> </ApplyPlan> </Scan> </Product> </Product>
+                                -->
+                            </ApplyPlan>
+                        </ApplyPlan>
+                    </ApplyPlan>
+                </Project>
+            </arguments>
+        </SendPlan>
+    </query_plan>
+    <data_source name="jdbc" storage_system="JDBC">
+        <properties environment="jenkins" user="postgres" password="postgres" maxPoolSize="20"
+            unreturnedConnectionTimeout="0" driver="postgresql" host="localhost" port="5432" database="forward" schema="external" />
+        <properties environment="testing" user="postgres" password="postgres" maxPoolSize="20"
+            unreturnedConnectionTimeout="0" driver="postgresql" host="localhost" port="5432" database="forward" schema="external" />
+    </data_source>
+    <data_object name="output" execution_data_source="output">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <cid type="integer" />
+                    <state type="string" />
+                    <collection_select type="collection">
+                        <element type="tuple">
+                            <cid type="integer" />
+                            <state type="string" />
+                        </element>
+                    </collection_select>
+                    <tuple_select type="tuple">
+                        <twice type="integer" />
+                        <thrice type="integer" />
+                    </tuple_select>
+                    <scalar_select type="integer" />
+                </element>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <cid>21</cid>
+                    <state>NY</state>
+                    <collection_select>
+                        <element>
+                            <cid>21</cid>
+                            <state>NY</state>
+                        </element>
+                        <element>
+                            <cid>24</cid>
+                            <state>MN</state>
+                        </element>
+                        <element>
+                            <cid>30</cid>
+                            <state null="true" />
+                        </element>
+                        <element>
+                            <cid>31</cid>
+                            <state null="true" />
+                        </element>
+                    </collection_select>
+                    <tuple_select>
+                        <twice>6</twice>
+                        <thrice>9</thrice>
+                    </tuple_select>
+                    <scalar_select>6</scalar_select>
+                </element>
+                <element>
+                    <cid>24</cid>
+                    <state>MN</state>
+                    <collection_select>
+                        <element>
+                            <cid>21</cid>
+                            <state>NY</state>
+                        </element>
+                        <element>
+                            <cid>24</cid>
+                            <state>MN</state>
+                        </element>
+                        <element>
+                            <cid>30</cid>
+                            <state null="true" />
+                        </element>
+                        <element>
+                            <cid>31</cid>
+                            <state null="true" />
+                        </element>
+                    </collection_select>
+                    <tuple_select>
+                        <twice>6</twice>
+                        <thrice>9</thrice>
+                    </tuple_select>
+                    <scalar_select>6</scalar_select>
+                </element>
+                <element>
+                    <cid>30</cid>
+                    <state null="true" />
+                    <collection_select>
+                        <element>
+                            <cid>21</cid>
+                            <state>NY</state>
+                        </element>
+                        <element>
+                            <cid>24</cid>
+                            <state>MN</state>
+                        </element>
+                        <element>
+                            <cid>30</cid>
+                            <state null="true" />
+                        </element>
+                        <element>
+                            <cid>31</cid>
+                            <state null="true" />
+                        </element>
+                    </collection_select>
+                    <tuple_select>
+                        <twice>6</twice>
+                        <thrice>9</thrice>
+                    </tuple_select>
+                    <scalar_select>6</scalar_select>
+                </element>
+                <element>
+                    <cid>31</cid>
+                    <state null="true" />
+                    <collection_select>
+                        <element>
+                            <cid>21</cid>
+                            <state>NY</state>
+                        </element>
+                        <element>
+                            <cid>24</cid>
+                            <state>MN</state>
+                        </element>
+                        <element>
+                            <cid>30</cid>
+                            <state null="true" />
+                        </element>
+                        <element>
+                            <cid>31</cid>
+                            <state null="true" />
+                        </element>
+                    </collection_select>
+                    <tuple_select>
+                        <twice>6</twice>
+                        <thrice>9</thrice>
+                    </tuple_select>
+                    <scalar_select>6</scalar_select>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+</test_case>

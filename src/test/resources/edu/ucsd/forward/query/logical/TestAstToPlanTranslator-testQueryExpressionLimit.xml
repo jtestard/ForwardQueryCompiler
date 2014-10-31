@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_expression>
+        <![CDATA[
+            SELECT R.proposal AS proposal
+            FROM src1.reviews AS R
+            ORDER BY R.grade ASC NULLS LAST, R.proposal + 1 DESC NULLS FIRST
+            OFFSET src1.session.page * src1.session.page_size ROWS
+            LIMIT 6;
+        ]]>
+    </query_expression>
+    <data_object name="reviews" execution_data_source="src1" cardinality_estimate="SMALL">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <proposal type="integer" />
+                    <comment type="string" />
+                    <grade type="integer" />
+                    <reviewer type="integer" />
+                </element>
+                <constraints>
+                    <local-key>
+                        <attribute path="tuple/proposal" />
+                        <attribute path="tuple/reviewer" />
+                    </local-key>
+                </constraints>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <proposal>1</proposal>
+                    <comment>Cool proposal!</comment>
+                    <grade>11</grade>
+                    <reviewer>1</reviewer>
+                </element>
+                <element>
+                    <proposal>2</proposal>
+                    <comment>Not so cool...</comment>
+                    <grade>1</grade>
+                    <reviewer>1</reviewer>
+                </element>
+                <element>
+                    <proposal>2</proposal>
+                    <comment>Not bad</comment>
+                    <grade>2</grade>
+                    <reviewer>2</reviewer>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+    <data_object name="session" execution_data_source="src1" cardinality_estimate="SMALL">
+        <schema_tree>
+            <root type="tuple">
+                <page type="integer" />
+                <page_size type="integer" />
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <page>1</page>
+                <page_size>2</page_size>
+            </root>
+        </data_tree>
+    </data_object>
+    <query_plan wrapping="false">
+        <Project cardinality_estimate="UNKNOWN">
+            <arguments>
+                <Item alias="proposal">
+                    <Variable name="__v0" />
+                </Item>
+            </arguments>
+            <OffsetFetch cardinality_estimate="UNKNOWN">
+                <arguments>
+                    <offset>
+                        <FunctionCall name="*">
+                            <QueryPath steps="page">
+                                <Variable data_source="src1" mode="ABSOLUTE" schema_object="session" />
+                            </QueryPath>
+                            <QueryPath steps="page_size">
+                                <Variable data_source="src1" mode="ABSOLUTE" schema_object="session" />
+                            </QueryPath>
+                        </FunctionCall>
+                    </offset>
+                    <fetch>
+                        <Constant>
+                            <integer>6</integer>
+                        </Constant>
+                    </fetch>
+                </arguments>
+                <Sort cardinality_estimate="UNKNOWN">
+                    <arguments>
+                        <Item nulls="LAST" spec="ASC">
+                            <Variable name="__v1" />
+                        </Item>
+                        <Item nulls="FIRST" spec="DESC">
+                            <FunctionCall name="+">
+                                <Variable name="__v2" />
+                                <Constant>
+                                    <integer>1</integer>
+                                </Constant>
+                            </FunctionCall>
+                        </Item>
+                    </arguments>
+                    <Navigate alias="__v2" cardinality_estimate="UNKNOWN">
+                        <arguments>
+                            <QueryPath steps="proposal">
+                                <Variable mode="ELEMENT" name="R" />
+                            </QueryPath>
+                        </arguments>
+                        <Navigate alias="__v1" cardinality_estimate="UNKNOWN">
+                            <arguments>
+                                <QueryPath steps="grade">
+                                    <Variable mode="ELEMENT" name="R" />
+                                </QueryPath>
+                            </arguments>
+                            <Navigate alias="__v0" cardinality_estimate="UNKNOWN">
+                                <arguments>
+                                    <QueryPath steps="proposal">
+                                        <Variable mode="ELEMENT" name="R" />
+                                    </QueryPath>
+                                </arguments>
+                                <Scan alias="R" cardinality_estimate="UNKNOWN">
+                                    <arguments>
+                                        <Variable data_source="src1" mode="ABSOLUTE" schema_object="reviews" />
+                                    </arguments>
+                                    <Ground cardinality_estimate="UNKNOWN">
+                                        <arguments />
+                                    </Ground>
+                                </Scan>
+                            </Navigate>
+                        </Navigate>
+                    </Navigate>
+                </Sort>
+            </OffsetFetch>
+        </Project>
+    </query_plan>
+
+
+    <data_object name="output" execution_data_source="output">
+        <schema_tree>
+            <root ordered="true" type="collection">
+                <element type="tuple">
+                    <proposal type="integer" />
+                </element>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root ordered="true">
+                <element>
+                    <proposal>1</proposal>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+</test_case>

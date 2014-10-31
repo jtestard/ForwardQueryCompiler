@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module rename-to='util'>
+
+    <!-- Inherit the core Web Toolkit stuff.                        -->
+    <inherits name='com.google.gwt.user.User' />
+
+    <source path='xml'>
+        <include name='DomApiProxy.java' />
+        <include name='XmlUtil.java' />
+        <include name='NodePositionCache.java' />
+        <include name='NodeRange.java' />
+        <include name='XmlParser.java' />
+        <include name='XmlParserException.java' />
+        <include name='XmlSerializer.java' />
+        <include name='AbstractXmlSerializer.java' />
+        <include name='AbstractXmlParser.java' />
+    </source>
+    
+    <source path='io'>
+        <exclude name='*/**/*' />
+        <exclude name='Test*.java' />
+        <exclude name='*TestCase*.java' />
+    </source>
+</module>

@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_plan>
+        <SendPlan cardinality_estimate="SMALL" execution_data_source="mediator" impl="SendPlanImplInMemory">
+            <arguments>
+                <Project cardinality_estimate="SMALL" execution_data_source="mediator" impl="ProjectImpl">
+                    <arguments>
+                        <Item alias="pid">
+                            <Variable name="proposal_id" />
+                        </Item>
+                        <Item alias="exists_attr">
+                            <Variable name="__q16" />
+                        </Item>
+                        <Item alias="exists_attr2">
+                            <Variable name="__q21" />
+                        </Item>
+                    </arguments>
+                    <Exists attr_name="__q21" cardinality_estimate="SMALL" execution_data_source="mediator" impl="ExistsImpl">
+                        <arguments>
+                            <SendPlan cardinality_estimate="SMALL" execution_data_source="mediator" impl="SendPlanImplInMemory">
+                                <arguments>
+                                    <Project cardinality_estimate="SMALL" execution_data_source="mediator" impl="ProjectImpl">
+                                        <arguments>
+                                            <Item alias="constant">
+                                                <Constant>
+                                                    <integer>2</integer>
+                                                </Constant>
+                                            </Item>
+                                        </arguments>
+                                        <Ground execution_data_source="mediator" cardinality_estimate="SMALL">
+                                            <arguments />
+                                        </Ground>
+                                    </Project>
+                                </arguments>
+                            </SendPlan>
+                        </arguments>
+                        <Exists attr_name="__q16" cardinality_estimate="SMALL" execution_data_source="mediator" impl="ExistsImpl">
+                            <arguments>
+                                <SendPlan cardinality_estimate="SMALL" execution_data_source="mediator" impl="SendPlanImplInMemory">
+                                    <arguments>
+                                        <Project cardinality_estimate="SMALL" execution_data_source="mediator" impl="ProjectImpl">
+                                            <arguments>
+                                                <Item alias="__q18">
+                                                    <Constant>
+                                                        <integer>2</integer>
+                                                    </Constant>
+                                                </Item>
+                                            </arguments>
+                                            <Ground execution_data_source="mediator" cardinality_estimate="SMALL">
+                                                <arguments />
+                                            </Ground>
+                                        </Project>
+                                    </arguments>
+                                </SendPlan>
+                            </arguments>
+                            <Select cardinality_estimate="SMALL" execution_data_source="mediator" impl="SelectImplSeq">
+                                <arguments>
+                                    <FunctionCall name="AND">
+                                        <Variable name="__q1" />
+                                        <Variable name="__q5" />
+                                    </FunctionCall>
+                                </arguments>
+                                <Exists attr_name="__q5" cardinality_estimate="SMALL" execution_data_source="mediator" impl="ExistsImpl">
+                                    <arguments>
+                                        <SendPlan cardinality_estimate="SMALL" execution_data_source="mediator" impl="SendPlanImplInMemory">
+                                            <arguments>
+                                                <Project cardinality_estimate="SMALL" execution_data_source="mediator" impl="ProjectImpl">
+                                                    <arguments>
+                                                        <Item alias="__q7">
+                                                            <Constant>
+                                                                <boolean>true</boolean>
+                                                            </Constant>
+                                                        </Item>
+                                                    </arguments>
+                                                    <Select cardinality_estimate="SMALL" execution_data_source="mediator"
+                                                        impl="SelectImplSeq">
+                                                        <arguments>
+                                                            <FunctionCall name="=">
+                                                                    <Parameter>
+                                                                        <Variable name="proposal_id">
+                                                                            <type type="tuple">
+                                                                                <proposal_id type="integer" />
+                                                                            </type>
+                                                                        </Variable>
+                                                                    </Parameter>
+                                                                    <Variable name="proposal_ref" />
+                                                            </FunctionCall>
+                                                        </arguments>
+                                                        <SendPlan cardinality_estimate="SMALL" execution_data_source="src_1"
+                                                            impl="SendPlanImplIdb">
+                                                            <arguments>
+                                                                <Scan alias="R" cardinality_estimate="SMALL"
+                                                                    execution_data_source="src_1">
+                                                                    <arguments>
+                                                                        <Variable mode="ABSOLUTE" data_source="src_1"
+                                                                            schema_object="reviewers" />
+                                                                            <Attribute>
+                                                                    <QueryPath steps="name" />
+                                                                    <Variable name="name" />
+                                                                </Attribute>
+                                                                <Attribute>
+                                                                    <QueryPath steps="proposal_ref" />
+                                                                    <Variable name="proposal_ref" />
+                                                                </Attribute>
+                                                                    </arguments>
+                                                                    <Ground cardinality_estimate="ONE" execution_data_source="src_1"
+                                                                        impl="GroundImpl">
+                                                                        <arguments />
+                                                                    </Ground>
+                                                                </Scan>
+                                                            </arguments>
+                                                        </SendPlan>
+                                                    </Select>
+                                                </Project>
+                                            </arguments>
+                                        </SendPlan>
+                                    </arguments>
+                                    <Exists attr_name="__q1" cardinality_estimate="SMALL" execution_data_source="mediator"
+                                        impl="ExistsImpl">
+                                        <arguments>
+                                            <SendPlan cardinality_estimate="SMALL" execution_data_source="mediator"
+                                                impl="SendPlanImplInMemory">
+                                                <arguments>
+                                                    <Project cardinality_estimate="SMALL" execution_data_source="mediator"
+                                                        impl="ProjectImpl">
+                                                        <arguments>
+                                                            <Item alias="__q3">
+                                                                <Constant>
+                                                                    <integer>1</integer>
+                                                                </Constant>
+                                                            </Item>
+                                                        </arguments>
+                                                        <Ground cardinality_estimate="ONE" execution_data_source="mediator"
+                                                            impl="GroundImpl">
+                                                            <arguments />
+                                                        </Ground>
+                                                    </Project>
+                                                </arguments>
+                                            </SendPlan>
+                                        </arguments>
+                                        <SendPlan cardinality_estimate="SMALL" execution_data_source="src_1" impl="SendPlanImplIdb">
+                                            <arguments>
+                                                <Scan alias="P" cardinality_estimate="SMALL" execution_data_source="src_1">
+                                                    <arguments>
+                                                        <Variable mode="ABSOLUTE" data_source="src_1" schema_object="proposals" />
+                                                                                                        <Attribute>
+                                                    <QueryPath steps="proposal_id" />
+                                                    <Variable name="proposal_id" />
+                                                </Attribute>
+                                                    </arguments>
+                                                    <Ground cardinality_estimate="ONE" execution_data_source="src_1" impl="GroundImpl">
+                                                        <arguments />
+                                                    </Ground>
+                                                </Scan>
+                                            </arguments>
+                                        </SendPlan>
+                                    </Exists>
+                                </Exists>
+                            </Select>
+                        </Exists>
+                    </Exists>
+                </Project>
+            </arguments>
+        </SendPlan>
+    </query_plan>
+    <data_source name="src_1" storage_system="INDEXEDDB">
+    </data_source>
+    <data_object name="proposals" execution_data_source="src_1">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <proposal_id type="integer" />
+                </element>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <proposal_id>1</proposal_id>
+                </element>
+                <element>
+                    <proposal_id>2</proposal_id>
+                </element>
+                <element>
+                    <proposal_id null="true" />
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+    <data_object name="reviewers" execution_data_source="src_1">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <name type="string" />
+                    <proposal_ref type="integer" />
+                </element>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <name>john</name>
+                    <proposal_ref>1</proposal_ref>
+                </element>
+                <element>
+                    <name>tom</name>
+                    <proposal_ref>1</proposal_ref>
+                </element>
+                <element>
+                    <name>john</name>
+                    <proposal_ref>2</proposal_ref>
+                </element>
+                <element>
+                    <name null="true" />
+                    <proposal_ref>2</proposal_ref>
+                </element>
+                <element>
+                    <name>tom</name>
+                    <proposal_ref>3</proposal_ref>
+                </element>
+                <element>
+                    <name>mary</name>
+                    <proposal_ref null="true" />
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+    <data_object name="output" execution_data_source="output">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <pid type="integer" />
+                    <exists_attr type="boolean" />
+                    <exists_attr2 type="boolean" />
+                </element>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <pid>1</pid>
+                    <exists_attr>true</exists_attr>
+                    <exists_attr2>true</exists_attr2>
+                </element>
+                <element>
+                    <pid>2</pid>
+                    <exists_attr>true</exists_attr>
+                    <exists_attr2>true</exists_attr2>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+</test_case>

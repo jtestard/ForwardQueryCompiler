@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module rename-to='data'>
+
+    <!-- Inherit the core Web Toolkit stuff.                        -->
+    <inherits name='com.google.gwt.user.User' />
+
+    <source path='data'>
+        <exclude name='*/**/*' />
+        <exclude name='OrderByAttribute.java' />
+        <exclude name='ValueServerUtil.java' />
+        <exclude name='DataPathStep.java' />
+        <exclude name='Test*.java' />
+        <exclude name='*TestCase*.java' />
+    </source>
+
+    <source path='data/constraint'>
+        <exclude name='*/**/*' />
+        <exclude name='Test*.java' />
+        <exclude name='*TestCase*.java' />
+    </source>
+
+    <source path='data/mapping'>
+        <exclude name='*/**/*' />
+        <exclude name='Test*.java' />
+        <exclude name='*TestCase*.java' />
+    </source>
+
+    <source path='data/index'>
+        <exclude name='*/**/*' />
+        <exclude name='Test*.java' />
+        <exclude name='*TestCase*.java' />
+    </source>
+
+    <source path='data/type'>
+        <exclude name='*/**/*' />
+        <exclude name='Test*.java' />
+        <exclude name='*TestCase*.java' />
+    </source>
+
+    <source path='data/xml'>
+        <exclude name='*/**/*' />
+        <exclude name='Test*.java' />
+        <exclude name='*TestCase*.java' />
+    </source>
+
+    <source path='data/type/extended'>
+        <exclude name='*/**/*' />
+        <exclude name='Test*.java' />
+        <exclude name='*TestCase*.java' />
+    </source>
+
+    <source path='data/pattern'>
+        <exclude name='*/**/*' />
+        <exclude name='Test*.java' />
+        <exclude name='*TestCase*.java' />
+    </source>
+
+    <source path='data/value'>
+        <exclude name='*/**/*' />
+        <exclude name='Test*.java' />
+        <exclude name='*TestCase*.java' />
+    </source>
+
+    <source path='data/type/annotation'>
+        <exclude name='*/**/*' />
+        <exclude name='Test*.java' />
+        <exclude name='*TestCase*.java' />
+    </source>
+
+    <source path='data/json'>
+        <include name='JsonToValueConverter.java' />
+        <include name='JsonToValueNavigationUtil.java' />
+    </source>
+
+    <source path='data/java'>
+        <exclude name='*/**/*' />
+        <exclude name='Test*.java' />
+        <exclude name='*TestCase*.java' />
+    </source>
+    
+        <source path='data/diff'>
+        <exclude name='*/**/*' />
+        <exclude name='Test*.java' />
+        <exclude name='*TestCase*.java' />
+    </source>
+</module>

@@ -1,0 +1,11 @@
+The FORWARD construct 
+              TUPLE_ELEMENT(
+                            SELECT r.comment AS c
+              ) could not be used in SQL function EXISTS(
+       SELECT 
+              TUPLE_ELEMENT(
+                            SELECT r.comment AS c
+              ) AS comment
+       FROM p.reviews AS r
+       WHERE r.review_id = p.proposal_id
+       )

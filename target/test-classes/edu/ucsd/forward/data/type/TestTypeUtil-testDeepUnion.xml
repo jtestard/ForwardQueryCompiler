@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <schema_tree1>
+        <root type="tuple">
+            <sa type="tuple">
+                <p type="collection">
+                    <element type="tuple">
+                        <pid type="integer" />
+                    </element>
+                </p>
+            </sa>
+        </root>
+    </schema_tree1>
+    <schema_tree2>
+        <root type="tuple">
+            <sa type="tuple">
+                <p type="collection">
+                    <element type="tuple">
+                        <pn type="collection">
+                            <element type="tuple">
+                                <pnid type="string" />
+                            </element>
+                        </pn>
+                    </element>
+                </p>
+            </sa>
+            <sb type="tuple">
+                <q type="collection">
+                    <element type="tuple">
+                        <qid type="string" />
+                    </element>
+                </q>
+            </sb>
+        </root>
+    </schema_tree2>
+    <schema_tree3>
+        <root type="tuple">
+            <sa type="tuple">
+                <p type="collection">
+                    <element type="tuple">
+                        <pid type="integer" />
+                        <pn type="collection">
+                            <element type="tuple">
+                                <pnid type="string" />
+                            </element>
+                        </pn>
+                    </element>
+                </p>
+            </sa>
+            <sb type="tuple">
+                <q type="collection">
+                    <element type="tuple">
+                        <qid type="string" />
+                    </element>
+                </q>
+            </sb>
+        </root>
+    </schema_tree3>
+</root>

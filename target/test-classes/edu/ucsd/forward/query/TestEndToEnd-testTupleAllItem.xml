@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_expression>
+        <![CDATA[
+            SELECT TUPLE() AS t1, TUPLE(p.*) AS t2, TUPLE('a' AS tt2, p.*, 'a' AS tt1) AS t3
+            FROM src_1.proposals AS p
+        ]]>
+    </query_expression>
+    <data_source name="src_1" storage_system="INMEMORY" data_model="RELATIONAL" />
+    <data_object name="proposals" execution_data_source="src_1" cardinality_estimate="LARGE">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <proposal_id type="integer" />
+                    <title type="integer" />
+                </element>
+                <constraints>
+                    <local-key collection="/">
+                        <attribute path="tuple/proposal_id" />
+                    </local-key>
+                </constraints>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <proposal_id>1</proposal_id>
+                    <title>7</title>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+    <data_object name="output" execution_data_source="output">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <t1 type="tuple" />
+                    <t2 type="tuple">
+                        <proposal_id type="integer" />
+                        <title type="integer" />
+                    </t2>
+                    <t3 type="tuple">
+                        <tt2 type="string" />
+                        <proposal_id type="integer" />
+                        <title type="integer" />
+                        <tt1 type="string" />
+                    </t3>
+                </element>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <t1 />
+                    <t2>
+                        <proposal_id>1</proposal_id>
+                        <title>7</title>
+                    </t2>
+                    <t3>
+                        <tt2>a</tt2>
+                        <proposal_id>1</proposal_id>
+                        <title>7</title>
+                        <tt1>a</tt1>
+                    </t3>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+</test_case>

@@ -1,0 +1,643 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_expression>
+        <![CDATA[SELECT CASE 
+                WHEN CAST ((select x > 1) as boolean)
+                    THEN (CAST((select 1 / x) as float))
+                WHEN CAST ((select x <> 0) as boolean)
+                    THEN (CAST((select 1 / x) as float))
+                ELSE 
+                    CAST((select x) as float)
+                END
+            FROM 
+              {{ { x: 2 }, { x: 1 }, { x: 0 } }} AS p
+            WHERE
+              CASE 
+                WHEN CAST ((select x > 1) as boolean)
+                    THEN CAST((select 1 / x = 1 / x) as boolean)
+                WHEN CAST ((select x <> 0) as boolean)
+                    THEN CAST((select 1 / x = 1 / x) as boolean)
+                ELSE 
+                    CAST((select x = x) as boolean)
+                END
+        ]]>
+    </query_expression>
+    <query_plan wrapping="false">
+        <Project cardinality_estimate="UNKNOWN">
+            <arguments>
+                <Item alias="case_call">
+                    <FunctionCall name="CASE">
+                        <FunctionCall name="CAST" target_type="boolean">
+                            <Variable name="__v14" />
+                        </FunctionCall>
+                        <FunctionCall name="CAST" target_type="float">
+                            <Variable name="__v16" />
+                        </FunctionCall>
+                        <FunctionCall name="CAST" target_type="boolean">
+                            <Variable name="__v18" />
+                        </FunctionCall>
+                        <FunctionCall name="CAST" target_type="float">
+                            <Variable name="__v20" />
+                        </FunctionCall>
+                        <Constant>
+                            <boolean>true</boolean>
+                        </Constant>
+                        <FunctionCall name="CAST" target_type="float">
+                            <Variable name="__v22" />
+                        </FunctionCall>
+                    </FunctionCall>
+                </Item>
+            </arguments>
+            <ApplyPlan attr_name="__v22" cardinality_estimate="UNKNOWN">
+                <arguments>
+                    <exec_condition>
+                        <FunctionCall name="AND">
+                            <FunctionCall name="AND">
+                                <FunctionCall name="OR">
+                                    <FunctionCall name="IS NULL">
+                                        <FunctionCall name="CAST" target_type="boolean">
+                                            <Variable name="__v14" />
+                                        </FunctionCall>
+                                    </FunctionCall>
+                                    <FunctionCall name="NOT">
+                                        <FunctionCall name="CAST" target_type="boolean">
+                                            <Variable name="__v14" />
+                                        </FunctionCall>
+                                    </FunctionCall>
+                                </FunctionCall>
+                                <FunctionCall name="OR">
+                                    <FunctionCall name="IS NULL">
+                                        <FunctionCall name="CAST" target_type="boolean">
+                                            <Variable name="__v18" />
+                                        </FunctionCall>
+                                    </FunctionCall>
+                                    <FunctionCall name="NOT">
+                                        <FunctionCall name="CAST" target_type="boolean">
+                                            <Variable name="__v18" />
+                                        </FunctionCall>
+                                    </FunctionCall>
+                                </FunctionCall>
+                            </FunctionCall>
+                            <Constant>
+                                <boolean>true</boolean>
+                            </Constant>
+                        </FunctionCall>
+                    </exec_condition>
+                    <Project cardinality_estimate="UNKNOWN">
+                        <arguments>
+                            <Item alias="x">
+                                <Variable name="__v21" />
+                            </Item>
+                        </arguments>
+                        <Navigate alias="__v21" cardinality_estimate="UNKNOWN">
+                            <arguments>
+                                <QueryPath steps="x">
+                                    <Parameter>
+                                        <Variable mode="ELEMENT" name="p">
+                                            <type type="tuple">
+                                                <x type="integer" />
+                                            </type>
+                                        </Variable>
+                                    </Parameter>
+                                </QueryPath>
+                            </arguments>
+                            <Ground cardinality_estimate="UNKNOWN">
+                                <arguments />
+                            </Ground>
+                        </Navigate>
+                    </Project>
+                </arguments>
+                <ApplyPlan attr_name="__v20" cardinality_estimate="UNKNOWN">
+                    <arguments>
+                        <exec_condition>
+                            <FunctionCall name="AND">
+                                <FunctionCall name="OR">
+                                    <FunctionCall name="IS NULL">
+                                        <FunctionCall name="CAST" target_type="boolean">
+                                            <Variable name="__v14" />
+                                        </FunctionCall>
+                                    </FunctionCall>
+                                    <FunctionCall name="NOT">
+                                        <FunctionCall name="CAST" target_type="boolean">
+                                            <Variable name="__v14" />
+                                        </FunctionCall>
+                                    </FunctionCall>
+                                </FunctionCall>
+                                <FunctionCall name="CAST" target_type="boolean">
+                                    <Variable name="__v18" />
+                                </FunctionCall>
+                            </FunctionCall>
+                        </exec_condition>
+                        <Project cardinality_estimate="UNKNOWN">
+                            <arguments>
+                                <Item alias="func_call">
+                                    <FunctionCall name="/">
+                                        <Constant>
+                                            <integer>1</integer>
+                                        </Constant>
+                                        <Variable name="__v19" />
+                                    </FunctionCall>
+                                </Item>
+                            </arguments>
+                            <Navigate alias="__v19" cardinality_estimate="UNKNOWN">
+                                <arguments>
+                                    <QueryPath steps="x">
+                                        <Parameter>
+                                            <Variable mode="ELEMENT" name="p">
+                                                <type type="tuple">
+                                                    <x type="integer" />
+                                                </type>
+                                            </Variable>
+                                        </Parameter>
+                                    </QueryPath>
+                                </arguments>
+                                <Ground cardinality_estimate="UNKNOWN">
+                                    <arguments />
+                                </Ground>
+                            </Navigate>
+                        </Project>
+                    </arguments>
+                    <ApplyPlan attr_name="__v18" cardinality_estimate="UNKNOWN">
+                        <arguments>
+                            <exec_condition>
+                                <FunctionCall name="OR">
+                                    <FunctionCall name="IS NULL">
+                                        <FunctionCall name="CAST" target_type="boolean">
+                                            <Variable name="__v14" />
+                                        </FunctionCall>
+                                    </FunctionCall>
+                                    <FunctionCall name="NOT">
+                                        <FunctionCall name="CAST" target_type="boolean">
+                                            <Variable name="__v14" />
+                                        </FunctionCall>
+                                    </FunctionCall>
+                                </FunctionCall>
+                            </exec_condition>
+                            <Project cardinality_estimate="UNKNOWN">
+                                <arguments>
+                                    <Item alias="func_call">
+                                        <FunctionCall name="&lt;&gt;">
+                                            <Variable name="__v17" />
+                                            <Constant>
+                                                <integer>0</integer>
+                                            </Constant>
+                                        </FunctionCall>
+                                    </Item>
+                                </arguments>
+                                <Navigate alias="__v17" cardinality_estimate="UNKNOWN">
+                                    <arguments>
+                                        <QueryPath steps="x">
+                                            <Parameter>
+                                                <Variable mode="ELEMENT" name="p">
+                                                    <type type="tuple">
+                                                        <x type="integer" />
+                                                    </type>
+                                                </Variable>
+                                            </Parameter>
+                                        </QueryPath>
+                                    </arguments>
+                                    <Ground cardinality_estimate="UNKNOWN">
+                                        <arguments />
+                                    </Ground>
+                                </Navigate>
+                            </Project>
+                        </arguments>
+                        <ApplyPlan attr_name="__v16" cardinality_estimate="UNKNOWN">
+                            <arguments>
+                                <exec_condition>
+                                    <FunctionCall name="CAST" target_type="boolean">
+                                        <Variable name="__v14" />
+                                    </FunctionCall>
+                                </exec_condition>
+                                <Project cardinality_estimate="UNKNOWN">
+                                    <arguments>
+                                        <Item alias="func_call">
+                                            <FunctionCall name="/">
+                                                <Constant>
+                                                    <integer>1</integer>
+                                                </Constant>
+                                                <Variable name="__v15" />
+                                            </FunctionCall>
+                                        </Item>
+                                    </arguments>
+                                    <Navigate alias="__v15" cardinality_estimate="UNKNOWN">
+                                        <arguments>
+                                            <QueryPath steps="x">
+                                                <Parameter>
+                                                    <Variable mode="ELEMENT" name="p">
+                                                        <type type="tuple">
+                                                            <x type="integer" />
+                                                        </type>
+                                                    </Variable>
+                                                </Parameter>
+                                            </QueryPath>
+                                        </arguments>
+                                        <Ground cardinality_estimate="UNKNOWN">
+                                            <arguments />
+                                        </Ground>
+                                    </Navigate>
+                                </Project>
+                            </arguments>
+                            <ApplyPlan attr_name="__v14" cardinality_estimate="UNKNOWN">
+                                <arguments>
+                                    <Project cardinality_estimate="UNKNOWN">
+                                        <arguments>
+                                            <Item alias="func_call">
+                                                <FunctionCall name="&gt;">
+                                                    <Variable name="__v13" />
+                                                    <Constant>
+                                                        <integer>1</integer>
+                                                    </Constant>
+                                                </FunctionCall>
+                                            </Item>
+                                        </arguments>
+                                        <Navigate alias="__v13" cardinality_estimate="UNKNOWN">
+                                            <arguments>
+                                                <QueryPath steps="x">
+                                                    <Parameter>
+                                                        <Variable mode="ELEMENT" name="p">
+                                                            <type type="tuple">
+                                                                <x type="integer" />
+                                                            </type>
+                                                        </Variable>
+                                                    </Parameter>
+                                                </QueryPath>
+                                            </arguments>
+                                            <Ground cardinality_estimate="UNKNOWN">
+                                                <arguments />
+                                            </Ground>
+                                        </Navigate>
+                                    </Project>
+                                </arguments>
+                                <Select cardinality_estimate="UNKNOWN">
+                                    <arguments>
+                                        <FunctionCall name="CASE">
+                                            <FunctionCall name="CAST" target_type="boolean">
+                                                <Variable name="__v1" />
+                                            </FunctionCall>
+                                            <FunctionCall name="CAST" target_type="boolean">
+                                                <Variable name="__v4" />
+                                            </FunctionCall>
+                                            <FunctionCall name="CAST" target_type="boolean">
+                                                <Variable name="__v6" />
+                                            </FunctionCall>
+                                            <FunctionCall name="CAST" target_type="boolean">
+                                                <Variable name="__v9" />
+                                            </FunctionCall>
+                                            <Constant>
+                                                <boolean>true</boolean>
+                                            </Constant>
+                                            <FunctionCall name="CAST" target_type="boolean">
+                                                <Variable name="__v12" />
+                                            </FunctionCall>
+                                        </FunctionCall>
+                                    </arguments>
+                                    <ApplyPlan attr_name="__v12" cardinality_estimate="UNKNOWN">
+                                        <arguments>
+                                            <exec_condition>
+                                                <FunctionCall name="AND">
+                                                    <FunctionCall name="AND">
+                                                        <FunctionCall name="OR">
+                                                            <FunctionCall name="IS NULL">
+                                                                <FunctionCall name="CAST" target_type="boolean">
+                                                                    <Variable name="__v1" />
+                                                                </FunctionCall>
+                                                            </FunctionCall>
+                                                            <FunctionCall name="NOT">
+                                                                <FunctionCall name="CAST" target_type="boolean">
+                                                                    <Variable name="__v1" />
+                                                                </FunctionCall>
+                                                            </FunctionCall>
+                                                        </FunctionCall>
+                                                        <FunctionCall name="OR">
+                                                            <FunctionCall name="IS NULL">
+                                                                <FunctionCall name="CAST" target_type="boolean">
+                                                                    <Variable name="__v6" />
+                                                                </FunctionCall>
+                                                            </FunctionCall>
+                                                            <FunctionCall name="NOT">
+                                                                <FunctionCall name="CAST" target_type="boolean">
+                                                                    <Variable name="__v6" />
+                                                                </FunctionCall>
+                                                            </FunctionCall>
+                                                        </FunctionCall>
+                                                    </FunctionCall>
+                                                    <Constant>
+                                                        <boolean>true</boolean>
+                                                    </Constant>
+                                                </FunctionCall>
+                                            </exec_condition>
+                                            <Project cardinality_estimate="UNKNOWN">
+                                                <arguments>
+                                                    <Item alias="func_call">
+                                                        <FunctionCall name="=">
+                                                            <Variable name="__v10" />
+                                                            <Variable name="__v11" />
+                                                        </FunctionCall>
+                                                    </Item>
+                                                </arguments>
+                                                <Navigate alias="__v11" cardinality_estimate="UNKNOWN">
+                                                    <arguments>
+                                                        <QueryPath steps="x">
+                                                            <Parameter>
+                                                                <Variable mode="ELEMENT" name="p">
+                                                                    <type type="tuple">
+                                                                        <x type="integer" />
+                                                                    </type>
+                                                                </Variable>
+                                                            </Parameter>
+                                                        </QueryPath>
+                                                    </arguments>
+                                                    <Navigate alias="__v10" cardinality_estimate="UNKNOWN">
+                                                        <arguments>
+                                                            <QueryPath steps="x">
+                                                                <Parameter>
+                                                                    <Variable mode="ELEMENT" name="p">
+                                                                        <type type="tuple">
+                                                                            <x type="integer" />
+                                                                        </type>
+                                                                    </Variable>
+                                                                </Parameter>
+                                                            </QueryPath>
+                                                        </arguments>
+                                                        <Ground cardinality_estimate="UNKNOWN">
+                                                            <arguments />
+                                                        </Ground>
+                                                    </Navigate>
+                                                </Navigate>
+                                            </Project>
+                                        </arguments>
+                                        <ApplyPlan attr_name="__v9" cardinality_estimate="UNKNOWN">
+                                            <arguments>
+                                                <exec_condition>
+                                                    <FunctionCall name="AND">
+                                                        <FunctionCall name="OR">
+                                                            <FunctionCall name="IS NULL">
+                                                                <FunctionCall name="CAST" target_type="boolean">
+                                                                    <Variable name="__v1" />
+                                                                </FunctionCall>
+                                                            </FunctionCall>
+                                                            <FunctionCall name="NOT">
+                                                                <FunctionCall name="CAST" target_type="boolean">
+                                                                    <Variable name="__v1" />
+                                                                </FunctionCall>
+                                                            </FunctionCall>
+                                                        </FunctionCall>
+                                                        <FunctionCall name="CAST" target_type="boolean">
+                                                            <Variable name="__v6" />
+                                                        </FunctionCall>
+                                                    </FunctionCall>
+                                                </exec_condition>
+                                                <Project cardinality_estimate="UNKNOWN">
+                                                    <arguments>
+                                                        <Item alias="func_call">
+                                                            <FunctionCall name="=">
+                                                                <FunctionCall name="/">
+                                                                    <Constant>
+                                                                        <integer>1</integer>
+                                                                    </Constant>
+                                                                    <Variable name="__v7" />
+                                                                </FunctionCall>
+                                                                <FunctionCall name="/">
+                                                                    <Constant>
+                                                                        <integer>1</integer>
+                                                                    </Constant>
+                                                                    <Variable name="__v8" />
+                                                                </FunctionCall>
+                                                            </FunctionCall>
+                                                        </Item>
+                                                    </arguments>
+                                                    <Navigate alias="__v8" cardinality_estimate="UNKNOWN">
+                                                        <arguments>
+                                                            <QueryPath steps="x">
+                                                                <Parameter>
+                                                                    <Variable mode="ELEMENT" name="p">
+                                                                        <type type="tuple">
+                                                                            <x type="integer" />
+                                                                        </type>
+                                                                    </Variable>
+                                                                </Parameter>
+                                                            </QueryPath>
+                                                        </arguments>
+                                                        <Navigate alias="__v7" cardinality_estimate="UNKNOWN">
+                                                            <arguments>
+                                                                <QueryPath steps="x">
+                                                                    <Parameter>
+                                                                        <Variable mode="ELEMENT" name="p">
+                                                                            <type type="tuple">
+                                                                                <x type="integer" />
+                                                                            </type>
+                                                                        </Variable>
+                                                                    </Parameter>
+                                                                </QueryPath>
+                                                            </arguments>
+                                                            <Ground cardinality_estimate="UNKNOWN">
+                                                                <arguments />
+                                                            </Ground>
+                                                        </Navigate>
+                                                    </Navigate>
+                                                </Project>
+                                            </arguments>
+                                            <ApplyPlan attr_name="__v6" cardinality_estimate="UNKNOWN">
+                                                <arguments>
+                                                    <exec_condition>
+                                                        <FunctionCall name="OR">
+                                                            <FunctionCall name="IS NULL">
+                                                                <FunctionCall name="CAST" target_type="boolean">
+                                                                    <Variable name="__v1" />
+                                                                </FunctionCall>
+                                                            </FunctionCall>
+                                                            <FunctionCall name="NOT">
+                                                                <FunctionCall name="CAST" target_type="boolean">
+                                                                    <Variable name="__v1" />
+                                                                </FunctionCall>
+                                                            </FunctionCall>
+                                                        </FunctionCall>
+                                                    </exec_condition>
+                                                    <Project cardinality_estimate="UNKNOWN">
+                                                        <arguments>
+                                                            <Item alias="func_call">
+                                                                <FunctionCall name="&lt;&gt;">
+                                                                    <Variable name="__v5" />
+                                                                    <Constant>
+                                                                        <integer>0</integer>
+                                                                    </Constant>
+                                                                </FunctionCall>
+                                                            </Item>
+                                                        </arguments>
+                                                        <Navigate alias="__v5" cardinality_estimate="UNKNOWN">
+                                                            <arguments>
+                                                                <QueryPath steps="x">
+                                                                    <Parameter>
+                                                                        <Variable mode="ELEMENT" name="p">
+                                                                            <type type="tuple">
+                                                                                <x type="integer" />
+                                                                            </type>
+                                                                        </Variable>
+                                                                    </Parameter>
+                                                                </QueryPath>
+                                                            </arguments>
+                                                            <Ground cardinality_estimate="UNKNOWN">
+                                                                <arguments />
+                                                            </Ground>
+                                                        </Navigate>
+                                                    </Project>
+                                                </arguments>
+                                                <ApplyPlan attr_name="__v4" cardinality_estimate="UNKNOWN">
+                                                    <arguments>
+                                                        <exec_condition>
+                                                            <FunctionCall name="CAST" target_type="boolean">
+                                                                <Variable name="__v1" />
+                                                            </FunctionCall>
+                                                        </exec_condition>
+                                                        <Project cardinality_estimate="UNKNOWN">
+                                                            <arguments>
+                                                                <Item alias="func_call">
+                                                                    <FunctionCall name="=">
+                                                                        <FunctionCall name="/">
+                                                                            <Constant>
+                                                                                <integer>1</integer>
+                                                                            </Constant>
+                                                                            <Variable name="__v2" />
+                                                                        </FunctionCall>
+                                                                        <FunctionCall name="/">
+                                                                            <Constant>
+                                                                                <integer>1</integer>
+                                                                            </Constant>
+                                                                            <Variable name="__v3" />
+                                                                        </FunctionCall>
+                                                                    </FunctionCall>
+                                                                </Item>
+                                                            </arguments>
+                                                            <Navigate alias="__v3" cardinality_estimate="UNKNOWN">
+                                                                <arguments>
+                                                                    <QueryPath steps="x">
+                                                                        <Parameter>
+                                                                            <Variable mode="ELEMENT" name="p">
+                                                                                <type type="tuple">
+                                                                                    <x type="integer" />
+                                                                                </type>
+                                                                            </Variable>
+                                                                        </Parameter>
+                                                                    </QueryPath>
+                                                                </arguments>
+                                                                <Navigate alias="__v2" cardinality_estimate="UNKNOWN">
+                                                                    <arguments>
+                                                                        <QueryPath steps="x">
+                                                                            <Parameter>
+                                                                                <Variable mode="ELEMENT" name="p">
+                                                                                    <type type="tuple">
+                                                                                        <x type="integer" />
+                                                                                    </type>
+                                                                                </Variable>
+                                                                            </Parameter>
+                                                                        </QueryPath>
+                                                                    </arguments>
+                                                                    <Ground cardinality_estimate="UNKNOWN">
+                                                                        <arguments />
+                                                                    </Ground>
+                                                                </Navigate>
+                                                            </Navigate>
+                                                        </Project>
+                                                    </arguments>
+                                                    <ApplyPlan attr_name="__v1" cardinality_estimate="UNKNOWN">
+                                                        <arguments>
+                                                            <Project cardinality_estimate="UNKNOWN">
+                                                                <arguments>
+                                                                    <Item alias="func_call">
+                                                                        <FunctionCall name="&gt;">
+                                                                            <Variable name="__v0" />
+                                                                            <Constant>
+                                                                                <integer>1</integer>
+                                                                            </Constant>
+                                                                        </FunctionCall>
+                                                                    </Item>
+                                                                </arguments>
+                                                                <Navigate alias="__v0" cardinality_estimate="UNKNOWN">
+                                                                    <arguments>
+                                                                        <QueryPath steps="x">
+                                                                            <Parameter>
+                                                                                <Variable mode="ELEMENT" name="p">
+                                                                                    <type type="tuple">
+                                                                                        <x type="integer" />
+                                                                                    </type>
+                                                                                </Variable>
+                                                                            </Parameter>
+                                                                        </QueryPath>
+                                                                    </arguments>
+                                                                    <Ground cardinality_estimate="UNKNOWN">
+                                                                        <arguments />
+                                                                    </Ground>
+                                                                </Navigate>
+                                                            </Project>
+                                                        </arguments>
+                                                        <Scan alias="p" cardinality_estimate="UNKNOWN">
+                                                            <arguments>
+                                                                <FunctionCall name="COLLECTION">
+                                                                    <FunctionCall name="TUPLE">
+                                                                        <Constant>
+                                                                            <integer>2</integer>
+                                                                        </Constant>
+                                                                        <Constant>
+                                                                            <string>x</string>
+                                                                        </Constant>
+                                                                    </FunctionCall>
+                                                                    <FunctionCall name="TUPLE">
+                                                                        <Constant>
+                                                                            <integer>1</integer>
+                                                                        </Constant>
+                                                                        <Constant>
+                                                                            <string>x</string>
+                                                                        </Constant>
+                                                                    </FunctionCall>
+                                                                    <FunctionCall name="TUPLE">
+                                                                        <Constant>
+                                                                            <integer>0</integer>
+                                                                        </Constant>
+                                                                        <Constant>
+                                                                            <string>x</string>
+                                                                        </Constant>
+                                                                    </FunctionCall>
+                                                                </FunctionCall>
+                                                            </arguments>
+                                                            <Ground cardinality_estimate="UNKNOWN">
+                                                                <arguments />
+                                                            </Ground>
+                                                        </Scan>
+                                                    </ApplyPlan>
+                                                </ApplyPlan>
+                                            </ApplyPlan>
+                                        </ApplyPlan>
+                                    </ApplyPlan>
+                                </Select>
+                            </ApplyPlan>
+                        </ApplyPlan>
+                    </ApplyPlan>
+                </ApplyPlan>
+            </ApplyPlan>
+        </Project>
+    </query_plan>
+
+    <data_object name="output" execution_data_source="output">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <case_call type="float" />
+                </element>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <case_call>0.0</case_call>
+                </element>
+                <element>
+                    <case_call>1.0</case_call>
+                </element>
+                <element>
+                    <case_call>0.0</case_call>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+</test_case>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module rename-to='exception'>
+
+    <!-- Inherit the core Web Toolkit stuff.                        -->
+    <inherits name='com.google.gwt.user.User' />
+
+    <source path='exception'>
+        <!-- 
+        <exclude name='LocationImpl.java' />
+        <exclude name='LocationHelper.java' />
+         -->
+        <exclude name='*/**/*' />
+        <exclude name='Test*.java' />
+        <exclude name='Test*.java' />
+        <exclude name='ExceptionUtil.java' />
+    </source>
+
+    <source path='warning'>
+        <exclude name='*/**/*' />
+        <exclude name='Test*.java' />
+        <exclude name='Test*.java' />
+    </source>
+</module>

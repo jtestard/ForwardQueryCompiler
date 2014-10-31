@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <ivm_prov>{=[[tuple/did]], tuple/employees=[[tuple/eid]], tuple/employees_copy=[[tuple/eid]]}
+    </ivm_prov>
+    <uas>
+        <data_object name="departments" execution_data_source="session">
+            <data_tree>
+                <root>
+                </root>
+            </data_tree>
+            <schema_tree>
+                <root type="collection">
+                    <element type="tuple">
+                        <did type="integer" />
+                        <dname type="string" />
+                        <employees type="collection">
+                            <element type="tuple">
+                                <eid type="string" />
+                                <ename type="string" />
+                            </element>
+                            <constraints>
+                                <local-key>
+                                    <attribute path="tuple/eid" />
+                                </local-key>
+                            </constraints>
+                        </employees>
+                    </element>
+                    <constraints>
+                        <local-key>
+                            <attribute path="tuple/did" />
+                        </local-key>
+                    </constraints>
+                </root>
+            </schema_tree>
+        </data_object>
+    </uas>
+    <query_plan wrapping="false">
+        <ApplyPlan alias="__q3" attr_name="employees_copy" cardinality_estimate="UNKNOWN">
+            <arguments>
+                <Scan cardinality_estimate="UNKNOWN" alias="emp">
+                    <arguments>
+                        <Parameter>
+                            <Variable name="employees">
+                                <type type="collection">
+                                    <element type="tuple">
+                                        <eid type="string" />
+                                        <ename type="string" />
+                                    </element>
+                                    <constraints>
+                                        <local-key>
+                                            <attribute path="tuple/eid" />
+                                        </local-key>
+                                    </constraints>
+                                </type>
+                            </Variable>
+                        </Parameter>
+                        <Attribute>
+                            <QueryPath steps="eid" />
+                            <Variable name="eid" />
+                        </Attribute>
+                        <Attribute>
+                            <QueryPath steps="ename" />
+                            <Variable name="ename" />
+                        </Attribute>
+                    </arguments>
+                    <Ground cardinality_estimate="UNKNOWN">
+                        <arguments />
+                    </Ground>
+                </Scan>
+            </arguments>
+            <Scan cardinality_estimate="UNKNOWN" alias="departments">
+                <arguments>
+                    <Variable mode="ABSOLUTE" data_source="session" schema_object="departments" />
+                    <Attribute>
+                        <QueryPath steps="did" />
+                        <Variable name="did" />
+                    </Attribute>
+                    <Attribute>
+                        <QueryPath steps="dname" />
+                        <Variable name="dname" />
+                    </Attribute>
+                    <Attribute>
+                        <QueryPath steps="employees" />
+                        <Variable name="employees" />
+                    </Attribute>
+                </arguments>
+                <Ground cardinality_estimate="UNKNOWN">
+                    <arguments />
+                </Ground>
+            </Scan>
+        </ApplyPlan>
+    </query_plan>
+    <retouched>
+        <query_plan wrapping="false">
+            <ApplyPlan alias="__q3" attr_name="employees_copy" cardinality_estimate="UNKNOWN">
+                <arguments>
+                    <Scan cardinality_estimate="UNKNOWN" alias="emp">
+                        <arguments>
+                            <Parameter>
+                                <Variable name="employees">
+                                    <type type="collection">
+                                        <element type="tuple">
+                                            <eid type="string" />
+                                            <ename type="string" />
+                                        </element>
+                                        <constraints>
+                                            <local-key>
+                                                <attribute path="tuple/eid" />
+                                            </local-key>
+                                        </constraints>
+                                    </type>
+                                </Variable>
+                            </Parameter>
+                            <Attribute>
+                                <QueryPath steps="eid" />
+                                <Variable name="eid" />
+                            </Attribute>
+                            <Attribute>
+                                <QueryPath steps="ename" />
+                                <Variable name="ename" />
+                            </Attribute>
+                        </arguments>
+                        <Ground cardinality_estimate="UNKNOWN">
+                            <arguments />
+                        </Ground>
+                    </Scan>
+                </arguments>
+                <Scan cardinality_estimate="UNKNOWN" alias="departments">
+                    <arguments>
+                        <Variable mode="ABSOLUTE" data_source="session" schema_object="departments" />
+                        <Attribute>
+                            <QueryPath steps="did" />
+                            <Variable name="did" />
+                        </Attribute>
+                        <Attribute>
+                            <QueryPath steps="dname" />
+                            <Variable name="dname" />
+                        </Attribute>
+                        <Attribute>
+                            <QueryPath steps="employees" />
+                            <Variable name="employees" />
+                        </Attribute>
+                    </arguments>
+                    <Ground cardinality_estimate="UNKNOWN">
+                        <arguments />
+                    </Ground>
+                </Scan>
+            </ApplyPlan>
+        </query_plan>
+    </retouched>
+    <schema_tree>
+        <root type="collection">
+            <element type="tuple">
+                <did type="integer" />
+                <dname type="string" />
+                <employees type="collection">
+                    <element type="tuple">
+                        <eid type="string" />
+                        <ename type="string" />
+                    </element>
+                    <constraints>
+                        <local-key>
+                            <attribute path="tuple/eid" />
+                        </local-key>
+                    </constraints>
+                </employees>
+                <employees_copy type="collection">
+                    <element type="tuple">
+                        <eid type="string" />
+                        <ename type="string" />
+                    </element>
+                    <constraints>
+                        <local-key>
+                            <attribute path="tuple/eid" />
+                        </local-key>
+                    </constraints>
+                </employees_copy>
+            </element>
+            <constraints>
+                <local-key>
+                    <attribute path="tuple/did" />
+                </local-key>
+            </constraints>
+        </root>
+    </schema_tree>
+</test_case>

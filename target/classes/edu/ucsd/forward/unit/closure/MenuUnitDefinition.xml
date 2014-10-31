@@ -1,0 +1,17 @@
+<doc>
+    <entry path="/Menu">A basic menu unit.</entry>
+    <entry path="/Menu/style">This is a CSS styling attribute as defined by the CSS Styling Attribute Syntax specification.</entry>
+    <entry path="/Menu/visible">Shows or hides the container. Does nothing if the container already has the requested visibility. Otherwise, dispatches a SHOW or HIDE event as appropriate, giving listeners a chance to prevent the visibility change.</entry>
+    <entry path="/Menu/render">Registers the given renderer with the container. Changing renderers after the container has already been rendered or decorated is an error.</entry>
+    <entry path="/Menu/options/option">A Menu Item within the Menu.</entry>
+    <entry path="/Menu/options/option/content">Sets the content of the menu.</entry>
+    <entry path="/Menu/options/option/enabled">Enables/disables the container based on the enable argument. Dispatches an ENABLED or DISABLED event prior to changing the container&amp;amp;#39;s state, which may be caught and canceled to prevent the container from changing state. Also enables/disables child controls.</entry>
+    <entry path="/Menu/options/option/is_separator">Defines whether the option is a menu separator or not.</entry>
+    <entry path="/Menu/options/option/visible_option">Shows or hides the component. Does nothing if the component already has the requested visibility. Otherwise, dispatches a SHOW or HIDE event as appropriate, giving listeners a chance to prevent the visibility change. When showing a component that is both enabled and focusable, ensures that its key target has a tab index. When hiding a component that is enabled and focusable, blurs its key target and removes its tab index.</entry>
+    <entry path="/Menu/options/option/visible_separator">Shows or hides the component. Does nothing if the component already has the requested visibility. Otherwise, dispatches a SHOW or HIDE event as appropriate, giving listeners a chance to prevent the visibility change. When showing a component that is both enabled and focusable, ensures that its key target has a tab index. When hiding a component that is enabled and focusable, blurs its key target and removes its tab index.</entry>
+    <entry path="/Menu/options/option/caption">Sets the text caption of the component.</entry>
+    <entry path="/Menu/options/option/checkable">Sets the menu item to be checkable or not. Set to true for menu items that represent checkable options.</entry>
+    <entry path="/Menu/options/option/highlight">Highlights or unhighlights the component. Does nothing if this state transition is disallowed.</entry>
+    <entry path="/Menu/position">Sets the position of the menu relative to the view port.</entry>
+</doc>
+

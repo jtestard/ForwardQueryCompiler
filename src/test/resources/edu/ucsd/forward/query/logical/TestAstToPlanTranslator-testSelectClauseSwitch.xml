@@ -1,0 +1,483 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_expression>
+        <![CDATA[
+            SELECT  G.name AS name,
+                    INLINE SWITCH
+                        WHEN G.grade > 1 THEN INLINE TUPLE(G.grade AS attr0) AS outer_positive
+                        WHEN G.grade < 0 THEN INLINE TUPLE(
+                            INLINE SWITCH
+                                WHEN G.proposal_ref < 0 THEN INLINE TUPLE(G.proposal_ref AS attr1) AS inner_negative
+                                ELSE INLINE TUPLE(7 AS attr2) AS inner_whatever
+                            END AS inner_switch
+                            ) AS outer_negative
+                        ELSE INLINE TUPLE(11 AS attr3) AS outer_whatever
+                    END AS outer_switch
+            FROM src_1.grades AS G;
+        ]]>
+    </query_expression>
+    <data_object name="grades" execution_data_source="src_1" data_model="RELATIONAL">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <name type="string" />
+                    <proposal_ref type="integer" />
+                    <grade type="integer" />
+                </element>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <name>Alice1</name>
+                    <proposal_ref>1</proposal_ref>
+                    <grade>2</grade>
+                </element>
+                <element>
+                    <name>Alice2</name>
+                    <proposal_ref>-2</proposal_ref>
+                    <grade>-2</grade>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+
+    <query_plan wrapping="false">
+        <Project cardinality_estimate="UNKNOWN">
+            <arguments>
+                <Item alias="name">
+                    <Variable name="__v0" />
+                </Item>
+                <Item alias="attr0">
+                    <FunctionCall name="CASE">
+                        <FunctionCall name="&gt;">
+                            <Variable name="__v1" />
+                            <Constant>
+                                <integer>1</integer>
+                            </Constant>
+                        </FunctionCall>
+                        <Variable name="__v2" />
+                    </FunctionCall>
+                </Item>
+                <Item alias="attr1">
+                    <FunctionCall name="CASE">
+                        <FunctionCall name="AND">
+                            <FunctionCall name="AND">
+                                <FunctionCall name="OR">
+                                    <FunctionCall name="IS NULL">
+                                        <FunctionCall name="&gt;">
+                                            <Variable name="__v1" />
+                                            <Constant>
+                                                <integer>1</integer>
+                                            </Constant>
+                                        </FunctionCall>
+                                    </FunctionCall>
+                                    <FunctionCall name="NOT">
+                                        <FunctionCall name="&gt;">
+                                            <Variable name="__v1" />
+                                            <Constant>
+                                                <integer>1</integer>
+                                            </Constant>
+                                        </FunctionCall>
+                                    </FunctionCall>
+                                </FunctionCall>
+                                <FunctionCall name="&lt;">
+                                    <Variable name="__v3" />
+                                    <Constant>
+                                        <integer>0</integer>
+                                    </Constant>
+                                </FunctionCall>
+                            </FunctionCall>
+                            <FunctionCall name="&lt;">
+                                <Variable name="__v4" />
+                                <Constant>
+                                    <integer>0</integer>
+                                </Constant>
+                            </FunctionCall>
+                        </FunctionCall>
+                        <Variable name="__v5" />
+                    </FunctionCall>
+                </Item>
+                <Item alias="attr2">
+                    <FunctionCall name="CASE">
+                        <FunctionCall name="AND">
+                            <FunctionCall name="AND">
+                                <FunctionCall name="AND">
+                                    <FunctionCall name="OR">
+                                        <FunctionCall name="IS NULL">
+                                            <FunctionCall name="&gt;">
+                                                <Variable name="__v1" />
+                                                <Constant>
+                                                    <integer>1</integer>
+                                                </Constant>
+                                            </FunctionCall>
+                                        </FunctionCall>
+                                        <FunctionCall name="NOT">
+                                            <FunctionCall name="&gt;">
+                                                <Variable name="__v1" />
+                                                <Constant>
+                                                    <integer>1</integer>
+                                                </Constant>
+                                            </FunctionCall>
+                                        </FunctionCall>
+                                    </FunctionCall>
+                                    <FunctionCall name="&lt;">
+                                        <Variable name="__v3" />
+                                        <Constant>
+                                            <integer>0</integer>
+                                        </Constant>
+                                    </FunctionCall>
+                                </FunctionCall>
+                                <FunctionCall name="OR">
+                                    <FunctionCall name="IS NULL">
+                                        <FunctionCall name="&lt;">
+                                            <Variable name="__v4" />
+                                            <Constant>
+                                                <integer>0</integer>
+                                            </Constant>
+                                        </FunctionCall>
+                                    </FunctionCall>
+                                    <FunctionCall name="NOT">
+                                        <FunctionCall name="&lt;">
+                                            <Variable name="__v4" />
+                                            <Constant>
+                                                <integer>0</integer>
+                                            </Constant>
+                                        </FunctionCall>
+                                    </FunctionCall>
+                                </FunctionCall>
+                            </FunctionCall>
+                            <Constant>
+                                <boolean>true</boolean>
+                            </Constant>
+                        </FunctionCall>
+                        <Constant>
+                            <integer>7</integer>
+                        </Constant>
+                    </FunctionCall>
+                </Item>
+                <Item alias="__selected_inner_switch">
+                    <FunctionCall name="CASE">
+                        <FunctionCall name="AND">
+                            <FunctionCall name="AND">
+                                <FunctionCall name="OR">
+                                    <FunctionCall name="IS NULL">
+                                        <FunctionCall name="&gt;">
+                                            <Variable name="__v1" />
+                                            <Constant>
+                                                <integer>1</integer>
+                                            </Constant>
+                                        </FunctionCall>
+                                    </FunctionCall>
+                                    <FunctionCall name="NOT">
+                                        <FunctionCall name="&gt;">
+                                            <Variable name="__v1" />
+                                            <Constant>
+                                                <integer>1</integer>
+                                            </Constant>
+                                        </FunctionCall>
+                                    </FunctionCall>
+                                </FunctionCall>
+                                <FunctionCall name="&lt;">
+                                    <Variable name="__v3" />
+                                    <Constant>
+                                        <integer>0</integer>
+                                    </Constant>
+                                </FunctionCall>
+                            </FunctionCall>
+                            <FunctionCall name="&lt;">
+                                <Variable name="__v4" />
+                                <Constant>
+                                    <integer>0</integer>
+                                </Constant>
+                            </FunctionCall>
+                        </FunctionCall>
+                        <Constant>
+                            <string>inner_negative</string>
+                        </Constant>
+                        <FunctionCall name="AND">
+                            <FunctionCall name="AND">
+                                <FunctionCall name="AND">
+                                    <FunctionCall name="OR">
+                                        <FunctionCall name="IS NULL">
+                                            <FunctionCall name="&gt;">
+                                                <Variable name="__v1" />
+                                                <Constant>
+                                                    <integer>1</integer>
+                                                </Constant>
+                                            </FunctionCall>
+                                        </FunctionCall>
+                                        <FunctionCall name="NOT">
+                                            <FunctionCall name="&gt;">
+                                                <Variable name="__v1" />
+                                                <Constant>
+                                                    <integer>1</integer>
+                                                </Constant>
+                                            </FunctionCall>
+                                        </FunctionCall>
+                                    </FunctionCall>
+                                    <FunctionCall name="&lt;">
+                                        <Variable name="__v3" />
+                                        <Constant>
+                                            <integer>0</integer>
+                                        </Constant>
+                                    </FunctionCall>
+                                </FunctionCall>
+                                <FunctionCall name="OR">
+                                    <FunctionCall name="IS NULL">
+                                        <FunctionCall name="&lt;">
+                                            <Variable name="__v4" />
+                                            <Constant>
+                                                <integer>0</integer>
+                                            </Constant>
+                                        </FunctionCall>
+                                    </FunctionCall>
+                                    <FunctionCall name="NOT">
+                                        <FunctionCall name="&lt;">
+                                            <Variable name="__v4" />
+                                            <Constant>
+                                                <integer>0</integer>
+                                            </Constant>
+                                        </FunctionCall>
+                                    </FunctionCall>
+                                </FunctionCall>
+                            </FunctionCall>
+                            <Constant>
+                                <boolean>true</boolean>
+                            </Constant>
+                        </FunctionCall>
+                        <Constant>
+                            <string>inner_whatever</string>
+                        </Constant>
+                    </FunctionCall>
+                </Item>
+                <Item alias="attr3">
+                    <FunctionCall name="CASE">
+                        <FunctionCall name="AND">
+                            <FunctionCall name="AND">
+                                <FunctionCall name="OR">
+                                    <FunctionCall name="IS NULL">
+                                        <FunctionCall name="&gt;">
+                                            <Variable name="__v1" />
+                                            <Constant>
+                                                <integer>1</integer>
+                                            </Constant>
+                                        </FunctionCall>
+                                    </FunctionCall>
+                                    <FunctionCall name="NOT">
+                                        <FunctionCall name="&gt;">
+                                            <Variable name="__v1" />
+                                            <Constant>
+                                                <integer>1</integer>
+                                            </Constant>
+                                        </FunctionCall>
+                                    </FunctionCall>
+                                </FunctionCall>
+                                <FunctionCall name="OR">
+                                    <FunctionCall name="IS NULL">
+                                        <FunctionCall name="&lt;">
+                                            <Variable name="__v3" />
+                                            <Constant>
+                                                <integer>0</integer>
+                                            </Constant>
+                                        </FunctionCall>
+                                    </FunctionCall>
+                                    <FunctionCall name="NOT">
+                                        <FunctionCall name="&lt;">
+                                            <Variable name="__v3" />
+                                            <Constant>
+                                                <integer>0</integer>
+                                            </Constant>
+                                        </FunctionCall>
+                                    </FunctionCall>
+                                </FunctionCall>
+                            </FunctionCall>
+                            <Constant>
+                                <boolean>true</boolean>
+                            </Constant>
+                        </FunctionCall>
+                        <Constant>
+                            <integer>11</integer>
+                        </Constant>
+                    </FunctionCall>
+                </Item>
+                <Item alias="__selected_outer_switch">
+                    <FunctionCall name="CASE">
+                        <FunctionCall name="&gt;">
+                            <Variable name="__v1" />
+                            <Constant>
+                                <integer>1</integer>
+                            </Constant>
+                        </FunctionCall>
+                        <Constant>
+                            <string>outer_positive</string>
+                        </Constant>
+                        <FunctionCall name="AND">
+                            <FunctionCall name="OR">
+                                <FunctionCall name="IS NULL">
+                                    <FunctionCall name="&gt;">
+                                        <Variable name="__v1" />
+                                        <Constant>
+                                            <integer>1</integer>
+                                        </Constant>
+                                    </FunctionCall>
+                                </FunctionCall>
+                                <FunctionCall name="NOT">
+                                    <FunctionCall name="&gt;">
+                                        <Variable name="__v1" />
+                                        <Constant>
+                                            <integer>1</integer>
+                                        </Constant>
+                                    </FunctionCall>
+                                </FunctionCall>
+                            </FunctionCall>
+                            <FunctionCall name="&lt;">
+                                <Variable name="__v3" />
+                                <Constant>
+                                    <integer>0</integer>
+                                </Constant>
+                            </FunctionCall>
+                        </FunctionCall>
+                        <Constant>
+                            <string>outer_negative</string>
+                        </Constant>
+                        <FunctionCall name="AND">
+                            <FunctionCall name="AND">
+                                <FunctionCall name="OR">
+                                    <FunctionCall name="IS NULL">
+                                        <FunctionCall name="&gt;">
+                                            <Variable name="__v1" />
+                                            <Constant>
+                                                <integer>1</integer>
+                                            </Constant>
+                                        </FunctionCall>
+                                    </FunctionCall>
+                                    <FunctionCall name="NOT">
+                                        <FunctionCall name="&gt;">
+                                            <Variable name="__v1" />
+                                            <Constant>
+                                                <integer>1</integer>
+                                            </Constant>
+                                        </FunctionCall>
+                                    </FunctionCall>
+                                </FunctionCall>
+                                <FunctionCall name="OR">
+                                    <FunctionCall name="IS NULL">
+                                        <FunctionCall name="&lt;">
+                                            <Variable name="__v3" />
+                                            <Constant>
+                                                <integer>0</integer>
+                                            </Constant>
+                                        </FunctionCall>
+                                    </FunctionCall>
+                                    <FunctionCall name="NOT">
+                                        <FunctionCall name="&lt;">
+                                            <Variable name="__v3" />
+                                            <Constant>
+                                                <integer>0</integer>
+                                            </Constant>
+                                        </FunctionCall>
+                                    </FunctionCall>
+                                </FunctionCall>
+                            </FunctionCall>
+                            <Constant>
+                                <boolean>true</boolean>
+                            </Constant>
+                        </FunctionCall>
+                        <Constant>
+                            <string>outer_whatever</string>
+                        </Constant>
+                    </FunctionCall>
+                </Item>
+            </arguments>
+            <Navigate alias="__v5" cardinality_estimate="UNKNOWN">
+                <arguments>
+                    <QueryPath steps="proposal_ref">
+                        <Variable mode="ELEMENT" name="G" />
+                    </QueryPath>
+                </arguments>
+                <Navigate alias="__v4" cardinality_estimate="UNKNOWN">
+                    <arguments>
+                        <QueryPath steps="proposal_ref">
+                            <Variable mode="ELEMENT" name="G" />
+                        </QueryPath>
+                    </arguments>
+                    <Navigate alias="__v3" cardinality_estimate="UNKNOWN">
+                        <arguments>
+                            <QueryPath steps="grade">
+                                <Variable mode="ELEMENT" name="G" />
+                            </QueryPath>
+                        </arguments>
+                        <Navigate alias="__v2" cardinality_estimate="UNKNOWN">
+                            <arguments>
+                                <QueryPath steps="grade">
+                                    <Variable mode="ELEMENT" name="G" />
+                                </QueryPath>
+                            </arguments>
+                            <Navigate alias="__v1" cardinality_estimate="UNKNOWN">
+                                <arguments>
+                                    <QueryPath steps="grade">
+                                        <Variable mode="ELEMENT" name="G" />
+                                    </QueryPath>
+                                </arguments>
+                                <Navigate alias="__v0" cardinality_estimate="UNKNOWN">
+                                    <arguments>
+                                        <QueryPath steps="name">
+                                            <Variable mode="ELEMENT" name="G" />
+                                        </QueryPath>
+                                    </arguments>
+                                    <Scan alias="G" cardinality_estimate="UNKNOWN">
+                                        <arguments>
+                                            <Variable data_source="src_1" mode="ABSOLUTE" schema_object="grades" />
+                                        </arguments>
+                                        <Ground cardinality_estimate="UNKNOWN">
+                                            <arguments />
+                                        </Ground>
+                                    </Scan>
+                                </Navigate>
+                            </Navigate>
+                        </Navigate>
+                    </Navigate>
+                </Navigate>
+            </Navigate>
+        </Project>
+    </query_plan>
+
+    <data_object name="output" execution_data_source="output">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <name type="string" />
+                    <attr0 type="integer" />
+                    <attr1 type="integer" />
+                    <attr2 type="integer" />
+                    <__selected_inner_switch type="string" />
+                    <attr3 type="integer" />
+                    <__selected_outer_switch type="string" />
+                </element>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <name>Alice1</name>
+                    <attr0>2</attr0>
+                    <attr1 null="true" />
+                    <attr2 null="true" />
+                    <__selected_inner_switch null="true" />
+                    <attr3 null="true" />
+                    <__selected_outer_switch>outer_positive</__selected_outer_switch>
+                </element>
+                <element>
+                    <name>Alice2</name>
+                    <attr0 null="true" />
+                    <attr1>-2</attr1>
+                    <attr2 null="true" />
+                    <__selected_inner_switch>inner_negative</__selected_inner_switch>
+                    <attr3 null="true" />
+                    <__selected_outer_switch>outer_negative</__selected_outer_switch>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+</test_case>

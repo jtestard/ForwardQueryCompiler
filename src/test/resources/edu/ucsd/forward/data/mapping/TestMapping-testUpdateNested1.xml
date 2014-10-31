@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_expression>
+        <![CDATA[
+            UPDATE context.proposals
+            SET title = 2
+            WHERE proposal_id = 2
+        ]]>
+    </query_expression>
+    <mapping_group>
+        <mapping source_path="/proposals" target_path="/proposals">
+            <predicates/>
+        </mapping>
+    </mapping_group>
+    <data_object name="context" execution_data_source="context">
+        <schema_tree>
+            <root type="tuple">
+                <proposals type="collection">
+                    <element type="tuple">
+                        <proposal_id type="integer" />
+                        <title type="integer" />
+                    </element>
+                    <constraints>
+                        <local-key collection="/proposals">
+                            <attribute path="tuple/proposal_id" />
+                        </local-key>
+                    </constraints>
+                </proposals>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <proposals>
+                    <element>
+                        <proposal_id>1</proposal_id>
+                        <title>7</title>
+                    </element>
+                    <element>
+                        <proposal_id>2</proposal_id>
+                        <title>8</title>
+                    </element>
+                </proposals>
+            </root>
+        </data_tree>
+    </data_object>
+    <data_object name="page" execution_data_source="__page">
+        <schema_tree>
+            <root type="tuple">
+                <proposals type="collection">
+                    <element type="tuple">
+                        <proposal_id type="integer" />
+                        <title type="integer" />
+                    </element>
+                    <constraints>
+                        <local-key collection="/proposals">
+                            <attribute path="tuple/proposal_id" />
+                        </local-key>
+                    </constraints>
+                </proposals>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <proposals>
+                    <element>
+                        <proposal_id>1</proposal_id>
+                        <title>7</title>
+                    </element>
+                    <element>
+                        <proposal_id>2</proposal_id>
+                        <title>8</title>
+                    </element>
+                </proposals>
+            </root>
+        </data_tree>
+    </data_object>
+    <data_object name="event" execution_data_source="__page">
+        <schema_tree>
+            <root type="tuple">
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+            </root>
+        </data_tree>
+    </data_object>
+    <data_object name="page" execution_data_source="output">
+        <schema_tree>
+            <root type="tuple">
+                <proposals type="collection">
+                    <element type="tuple">
+                        <proposal_id type="integer" />
+                        <title type="integer" />
+                    </element>
+                    <constraints>
+                        <local-key collection="/proposals">
+                            <attribute path="tuple/proposal_id" />
+                        </local-key>
+                    </constraints>
+                </proposals>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <proposals>
+                    <element>
+                        <proposal_id>1</proposal_id>
+                        <title>7</title>
+                    </element>
+                    <element>
+                        <proposal_id>2</proposal_id>
+                        <title>2</title>
+                    </element>
+                </proposals>
+            </root>
+        </data_tree>
+    </data_object>
+</test_case>

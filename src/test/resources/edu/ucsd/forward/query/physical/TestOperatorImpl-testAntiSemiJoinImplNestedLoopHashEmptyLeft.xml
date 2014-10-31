@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_plan wrapping="false">
+        <SendPlan cardinality_estimate="UNKNOWN" execution_data_source="mediator" impl="SendPlanImplInMemory">
+            <arguments>
+                <Project cardinality_estimate="UNKNOWN" execution_data_source="mediator" impl="ProjectImpl">
+                    <arguments>
+                        <Item alias="proposal_id">
+                            <Variable name="__v2" />
+                        </Item>
+                    </arguments>
+                    <Navigate alias="__v2" cardinality_estimate="UNKNOWN" execution_data_source="mediator" impl="NavigateImpl">
+                        <arguments>
+                            <QueryPath steps="proposal_id">
+                                <Variable mode="ELEMENT" name="p" />
+                            </QueryPath>
+                        </arguments>
+                        <AntiSemiJoin cardinality_estimate="UNKNOWN" execution_data_source="mediator" impl="AntiSemiJoinImplNestedLoop">
+                            <arguments>
+                                <FunctionCall name="=">
+                                    <Variable name="__v0" />
+                                    <Variable name="__v1" />
+                                </FunctionCall>
+                            </arguments>
+                            <Navigate alias="__v0" cardinality_estimate="UNKNOWN" execution_data_source="mediator" impl="NavigateImpl">
+                                <arguments>
+                                    <QueryPath steps="proposal_id">
+                                        <Variable mode="ELEMENT" name="p" />
+                                    </QueryPath>
+                                </arguments>
+                                <Scan alias="p" cardinality_estimate="UNKNOWN" execution_data_source="mediator" impl="ScanImpl">
+                                    <arguments>
+                                        <Variable data_source="src_1" mode="ABSOLUTE" schema_object="proposals" />
+                                    </arguments>
+                                    <Ground cardinality_estimate="UNKNOWN" execution_data_source="mediator" impl="GroundImpl">
+                                        <arguments />
+                                    </Ground>
+                                </Scan>
+                            </Navigate>
+                            <Navigate alias="__v1" cardinality_estimate="UNKNOWN" execution_data_source="mediator" impl="NavigateImpl">
+                                <arguments>
+                                    <QueryPath steps="proposal_ref">
+                                        <Variable mode="ELEMENT" name="r" />
+                                    </QueryPath>
+                                </arguments>
+                                <Scan alias="r" cardinality_estimate="UNKNOWN" execution_data_source="mediator" impl="ScanImpl">
+                                    <arguments>
+                                        <Variable data_source="src_1" mode="ABSOLUTE" schema_object="reviewers" />
+                                    </arguments>
+                                    <Ground cardinality_estimate="UNKNOWN" execution_data_source="mediator" impl="GroundImpl">
+                                        <arguments />
+                                    </Ground>
+                                </Scan>
+                            </Navigate>
+                        </AntiSemiJoin>
+                    </Navigate>
+                </Project>
+            </arguments>
+        </SendPlan>
+    </query_plan>
+    <data_object name="proposals" execution_data_source="src_1">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <proposal_id type="integer" />
+                </element>
+                <constraints>
+                    <local-key collection="/">
+                        <attribute path="tuple/proposal_id" />
+                    </local-key>
+                </constraints>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+            </root>
+        </data_tree>
+    </data_object>
+    <data_object name="reviewers" execution_data_source="src_1">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <name type="string" />
+                    <proposal_ref type="integer" />
+                </element>
+                <constraints>
+                    <local-key collection="/">
+                        <attribute path="tuple/name" />
+                    </local-key>
+                </constraints>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <name>john</name>
+                    <proposal_ref>1</proposal_ref>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+    <data_object name="output" execution_data_source="output">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <proposal_id type="integer" />
+                    <name type="string" />
+                    <proposal_ref type="integer" />
+                </element>
+                <constraints>
+                    <local-key collection="/">
+                        <attribute path="tuple/proposal_id" />
+                        <attribute path="tuple/name" />
+                    </local-key>
+                </constraints>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+            </root>
+        </data_tree>
+    </data_object>
+</test_case>

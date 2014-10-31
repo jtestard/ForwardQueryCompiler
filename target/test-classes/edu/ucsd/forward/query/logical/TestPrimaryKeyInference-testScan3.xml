@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_plan wrapping="false">
+        <Scan alias="nested" cardinality_estimate="UNKNOWN">
+            <arguments>
+                <QueryPath steps="employees">
+                    <Variable name="departments" />
+                </QueryPath>
+            </arguments>
+            <Scan alias="departments" cardinality_estimate="UNKNOWN">
+                <arguments>
+                    <Variable data_source="session" mode="ABSOLUTE" schema_object="departments" />
+                </arguments>
+                <Ground cardinality_estimate="UNKNOWN">
+                    <arguments />
+                </Ground>
+            </Scan>
+        </Scan>
+    </query_plan>
+    <output_schema>
+        <root type="collection">
+            <element type="tuple">
+                <departments type="tuple">
+                    <did type="integer" />
+                    <dname type="string" />
+                    <employees type="collection">
+                        <element type="tuple">
+                            <eid type="string" />
+                            <ename type="string" />
+                        </element>
+                        <constraints>
+                            <local-key collection="/tuple/employees">
+                                <attribute path="tuple/eid" />
+                            </local-key>
+                        </constraints>
+                    </employees>
+                </departments>
+                <nested type="tuple">
+                    <eid type="string" />
+                    <ename type="string" />
+                </nested>
+            </element>
+            <constraints>
+                <local-key collection="/">
+                    <attribute path="tuple/departments/did" />
+                    <attribute path="tuple/nested/eid" />
+                </local-key>
+            </constraints>
+        </root>
+        <constraints />
+    </output_schema>
+</test_case>

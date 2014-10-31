@@ -1,0 +1,2 @@
+SELECT reviews.comment
+FROM proposals AS P

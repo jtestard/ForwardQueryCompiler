@@ -1,0 +1,5 @@
+The alias is missing for the FROM item 
+         SELECT T.proposal_id
+         FROM proposals AS T
+         WHERE T.title = ''
+  

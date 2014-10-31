@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <data_tree>
+        <root>
+            <set>
+                <element>
+                    <id>1</id>
+                    <string>abc</string>
+                </element>
+                <element>
+                    <id>2</id>
+                    <string>def</string>
+                </element>
+                <element>
+                    <id>3</id>
+                    <string>ghi</string>
+                </element>
+            </set>
+        </root>
+    </data_tree>
+    <data_tree>
+        <root>
+            <set>
+                <element>
+                    <id>2</id>
+                    <string>def</string>
+                </element>
+                <element>
+                    <id>3</id>
+                    <string>ghi</string>
+                </element>
+            </set>
+        </root>
+    </data_tree>
+    <schema_tree>
+        <root type="tuple">
+            <set type="collection">
+                <element type="tuple">
+                    <id type="integer" />
+                    <string type="string" />
+                </element>
+                <constraints>
+                    <local-key>
+                        <attribute path="tuple/id" />
+                    </local-key>
+                </constraints>
+            </set>
+        </root>
+    </schema_tree>
+</root>

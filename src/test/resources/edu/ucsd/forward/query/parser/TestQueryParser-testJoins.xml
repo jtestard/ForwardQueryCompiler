@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_expression>
+        <![CDATA[
+            SELECT Z.proposal_id AS pid
+            FROM
+            -- single table reference 
+            src1.proposals AS Z,
+            -- all possible joined tables
+            src1.reviews AS A
+            INNER JOIN src1.proposals AS B ON A.pid = B.proposal_id
+            LEFT OUTER JOIN src1.proposals AS C ON C.proposal_id = A.pid AND C.title = B.title OR C.proposal_id = A.pid
+            RIGHT OUTER JOIN src1.proposals AS D ON D.title = C.title
+            FULL OUTER JOIN src1.proposals AS E ON E.proposal_id = C.proposal_id
+            CROSS JOIN src1.proposals AS F
+            NATURAL JOIN src1.reviews AS G,
+            -- nested joined tables
+            src1.proposals AS K INNER JOIN src1.proposals AS L LEFT JOIN src1.proposals AS M ON L.title = M.title ON K.title = L.title,
+            -- parenthesized joined tables
+            (((src1.proposals AS R LEFT JOIN src1.proposals AS S ON R.title = S.title) INNER JOIN (src1.proposals AS T LEFT JOIN src1.proposals AS U ON T.title = U.title) ON R.title = U.title)),
+            -- nested parenthesized joined tables
+            (
+                src1.proposals AS V
+                LEFT JOIN
+                (
+                    src1.proposals AS W RIGHT OUTER JOIN src1.proposals AS X ON W.title = X.title
+                ) ON V.title = X.title
+                FULL OUTER JOIN src1.proposals AS Y ON V.proposal_id = Y.proposal_id
+            );
+        ]]>
+    </query_expression>
+    <query_expression><![CDATA[SELECT Z.proposal_id AS pid
+FROM src1.proposals AS Z, (((((src1.reviews AS A INNER JOIN src1.proposals AS B ON A.pid = B.proposal_id) LEFT OUTER JOIN src1.proposals AS C ON ((C.proposal_id = A.pid AND C.title = B.title) OR C.proposal_id = A.pid)) RIGHT OUTER JOIN src1.proposals AS D ON D.title = C.title) FULL OUTER JOIN src1.proposals AS E ON E.proposal_id = C.proposal_id) CROSS JOIN src1.proposals AS F) INNER JOIN src1.reviews AS G ON A.pid = G.pid AND A.comment = G.comment, src1.proposals AS K INNER JOIN (src1.proposals AS L LEFT OUTER JOIN src1.proposals AS M ON L.title = M.title) ON K.title = L.title, (src1.proposals AS R LEFT OUTER JOIN src1.proposals AS S ON R.title = S.title) INNER JOIN (src1.proposals AS T LEFT OUTER JOIN src1.proposals AS U ON T.title = U.title) ON R.title = U.title, (src1.proposals AS V LEFT OUTER JOIN (src1.proposals AS W RIGHT OUTER JOIN src1.proposals AS X ON W.title = X.title) ON V.title = X.title) FULL OUTER JOIN src1.proposals AS Y ON V.proposal_id = Y.proposal_id]]>
+</query_expression>
+    <data_object name="proposals" execution_data_source="src1" cardinality_estimate="LARGE" data_model="RELATIONAL" storage_system="INMEMORY">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <proposal_id type="integer" />
+                    <title type="string" />
+                </element>
+                <constraints>
+                    <local-key>
+                        <attribute path="tuple/proposal_id" />
+                    </local-key>
+                </constraints>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+            </root>
+        </data_tree>
+    </data_object>
+    <data_object name="reviews" execution_data_source="src1" cardinality_estimate="LARGE" data_model="RELATIONAL" storage_system="INMEMORY">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <pid type="integer" />
+                    <comment type="string" />
+                </element>
+                <constraints>
+                    <local-key>
+                        <attribute path="tuple/pid" />
+                    </local-key>
+                </constraints>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+            </root>
+        </data_tree>
+    </data_object>
+</test_case>

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_expression>
+        <![CDATA[
+            DELETE FROM src1.reviews
+            WHERE grade = 1 AND reviews.reviewer = src2.params.pnumber;
+        ]]>
+    </query_expression>
+    <data_object name="reviews" execution_data_source="src1" cardinality_estimate="SMALL">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <proposal type="integer" />
+                    <comment type="string" />
+                    <grade type="integer" />
+                    <reviewer type="integer" />
+                </element>
+                <constraints>
+                    <local-key>
+                        <attribute path="tuple/proposal" />
+                        <attribute path="tuple/reviewer" />
+                    </local-key>
+                </constraints>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <proposal>1</proposal>
+                    <comment>Cool proposal!</comment>
+                    <grade>1</grade>
+                    <reviewer>1</reviewer>
+                </element>
+                <element>
+                    <proposal>2</proposal>
+                    <comment>Not so cool...</comment>
+                    <grade>1</grade>
+                    <reviewer>2</reviewer>
+                </element>
+                <element>
+                    <proposal>2</proposal>
+                    <comment>Not bad</comment>
+                    <grade>2</grade>
+                    <reviewer>2</reviewer>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+    <data_object name="params" execution_data_source="src2" cardinality_estimate="SMALL">
+        <schema_tree>
+            <root type="tuple">
+                <pname type="string" />
+                <pnumber type="integer" />
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <pname>Alice</pname>
+                <pnumber>2</pnumber>
+            </root>
+        </data_tree>
+    </data_object>
+    <query_plan wrapping="false">
+        <Delete cardinality_estimate="UNKNOWN" delete_var="reviews" target_data_source="src1">
+            <arguments>
+                <target>
+                    <Variable data_source="src1" mode="ABSOLUTE" schema_object="reviews" />
+                </target>
+            </arguments>
+            <Select cardinality_estimate="UNKNOWN">
+                <arguments>
+                    <FunctionCall name="=">
+                        <Variable name="__v0" />
+                        <Constant>
+                            <integer>1</integer>
+                        </Constant>
+                    </FunctionCall>
+                    <FunctionCall name="=">
+                        <Variable name="__v1" />
+                        <Variable name="__v2" />
+                    </FunctionCall>
+                </arguments>
+                <Navigate alias="__v2" cardinality_estimate="UNKNOWN">
+                    <arguments>
+                        <QueryPath steps="pnumber">
+                            <Variable data_source="src2" mode="ABSOLUTE" schema_object="params" />
+                        </QueryPath>
+                    </arguments>
+                    <Navigate alias="__v1" cardinality_estimate="UNKNOWN">
+                        <arguments>
+                            <QueryPath steps="reviewer">
+                                <Variable mode="ELEMENT" name="reviews" />
+                            </QueryPath>
+                        </arguments>
+                        <Navigate alias="__v0" cardinality_estimate="UNKNOWN">
+                            <arguments>
+                                <QueryPath steps="grade">
+                                    <Variable mode="ELEMENT" name="reviews" />
+                                </QueryPath>
+                            </arguments>
+                            <Scan alias="reviews" cardinality_estimate="UNKNOWN">
+                                <arguments>
+                                    <Variable data_source="src1" mode="ABSOLUTE" schema_object="reviews" />
+                                </arguments>
+                                <Ground cardinality_estimate="UNKNOWN">
+                                    <arguments />
+                                </Ground>
+                            </Scan>
+                        </Navigate>
+                    </Navigate>
+                </Navigate>
+            </Select>
+        </Delete>
+    </query_plan>
+
+    <data_object name="output" execution_data_source="output">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <count type="integer" />
+                </element>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <count>1</count>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+</test_case>

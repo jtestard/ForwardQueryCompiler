@@ -1,0 +1,35 @@
+<email>
+    <input>
+        <schema_tree>
+            <root type="tuple">
+                <smtp_server type="tuple">
+                    <host type="string"/>
+                    <port type="integer"/>
+                    <user_name type="string"/>
+                    <password type="string"/>
+                    <tls default="false" type="boolean"/>
+                </smtp_server>
+                <from_address type="string"/>
+                <to_addresses type="collection">
+                    <element type="tuple">
+                        <to_address type="string"/>
+                    </element>
+                </to_addresses>
+                <subject type="string"/>
+                <body type="string"/>
+            </root>
+        </schema_tree>
+    </input>
+    <outcome name="sent">
+        <schema_tree>
+            <root type="tuple"/>
+        </schema_tree>
+    </outcome>
+    <outcome name="not_sent">
+        <schema_tree>
+            <root type="tuple">
+                <error_message type="string"/>
+            </root>
+        </schema_tree>
+    </outcome>
+</email>

@@ -1,0 +1,4 @@
+SELECT CASE WHEN P.proposal_id > 1 THEN 1
+            WHEN P.proposal_id > 5 THEN TUPLE('a' AS foo)
+       END AS cc
+FROM proposals AS P

@@ -1,0 +1,3 @@
+The ORDER BY item 
+TUPLE(P.title AS t
+) must be scalar type, not type tuple

@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_expression>
+        <![CDATA[
+            ACCESS context.proposals
+            WHERE proposal_id = 1
+            DELETE FROM reviews
+            WHERE review_id  =2
+        ]]>
+    </query_expression>
+    <mapping_group>
+        <mapping source_path="/proposals" target_path="/proposals">
+            <predicates></predicates>
+        </mapping>
+        <mapping source_path="/proposal_id" target_path="/proposals/tuple[proposal_id=?]/proposal_id">
+            <predicates>
+                <predicate parameter="/proposal_id" />
+            </predicates>
+        </mapping>
+        <mapping source_path="/title" target_path="/proposals/tuple[proposal_id=?]/title">
+            <predicates>
+                <predicate parameter="/proposal_id" />
+            </predicates>
+        </mapping>
+        <mapping source_path="/reviews" target_path="/proposals/tuple[proposal_id=?]/reviews">
+            <predicates>
+                <predicate parameter="/proposal_id" />
+            </predicates>
+        </mapping>
+    </mapping_group>
+    <data_object name="context" execution_data_source="context">
+        <schema_tree>
+            <root type="tuple">
+                <proposals type="collection">
+                    <element type="tuple">
+                        <proposal_id type="integer" />
+                        <title type="integer" />
+                        <reviews type="collection">
+                            <element type="tuple">
+                                <review_id type="integer" />
+                                <reviewer type="string" />
+                            </element>
+                            <constraints>
+                                <local-key collection="/proposals/tuple/reviews">
+                                    <attribute path="tuple/review_id" />
+                                </local-key>
+                            </constraints>
+                        </reviews>
+                    </element>
+                    <constraints>
+                        <local-key collection="/proposals">
+                            <attribute path="tuple/proposal_id" />
+                        </local-key>
+                    </constraints>
+                </proposals>
+                <proposal_id type="integer" />
+                <title type="integer" />
+                <reviews type="collection">
+                    <element type="tuple">
+                        <review_id type="integer" />
+                        <reviewer type="string" />
+                    </element>
+                    <constraints>
+                        <local-key collection="/proposals/tuple/reviews">
+                            <attribute path="tuple/review_id" />
+                        </local-key>
+                    </constraints>
+                </reviews>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <proposals>
+                    <element>
+                        <proposal_id>1</proposal_id>
+                        <title>7</title>
+                        <reviews>
+                            <element>
+                                <review_id>1</review_id>
+                                <reviewer>Allen</reviewer>
+                            </element>
+                            <element>
+                                <review_id>2</review_id>
+                                <reviewer>Bob</reviewer>
+                            </element>
+                        </reviews>
+                    </element>
+                    <element>
+                        <proposal_id>2</proposal_id>
+                        <title>8</title>
+                        <reviews>
+                        </reviews>
+                    </element>
+                </proposals>
+                <proposal_id>1</proposal_id>
+                <title>7</title>
+                <reviews>
+                    <element>
+                        <review_id>1</review_id>
+                        <reviewer>Allen</reviewer>
+                    </element>
+                    <element>
+                        <review_id>2</review_id>
+                        <reviewer>Bob</reviewer>
+                    </element>
+                </reviews>
+            </root>
+        </data_tree>
+    </data_object>
+    <data_object name="page" execution_data_source="__page">
+        <schema_tree>
+            <root type="tuple">
+                <proposals type="collection">
+                    <element type="tuple">
+                        <proposal_id type="integer" />
+                        <title type="integer" />
+                        <reviews type="collection">
+                            <element type="tuple">
+                                <review_id type="integer" />
+                                <reviewer type="string" />
+                            </element>
+                            <constraints>
+                                <local-key collection="/proposals/tuple/reviews">
+                                    <attribute path="tuple/review_id" />
+                                </local-key>
+                            </constraints>
+                        </reviews>
+                    </element>
+                    <constraints>
+                        <local-key collection="/proposals">
+                            <attribute path="tuple/proposal_id" />
+                        </local-key>
+                    </constraints>
+                </proposals>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <proposals>
+                    <element>
+                        <proposal_id>1</proposal_id>
+                        <title>7</title>
+                        <reviews>
+                            <element>
+                                <review_id>1</review_id>
+                                <reviewer>Allen</reviewer>
+                            </element>
+                            <element>
+                                <review_id>2</review_id>
+                                <reviewer>Bob</reviewer>
+                            </element>
+                        </reviews>
+                    </element>
+                    <element>
+                        <proposal_id>2</proposal_id>
+                        <title>8</title>
+                        <reviews>
+                        </reviews>
+                    </element>
+                </proposals>
+            </root>
+        </data_tree>
+    </data_object>
+    <data_object name="event" execution_data_source="__page">
+        <schema_tree>
+            <root type="tuple">
+                <proposal_id type="integer" />
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <proposal_id>1</proposal_id>
+            </root>
+        </data_tree>
+    </data_object>
+    <data_object name="page" execution_data_source="output">
+        <schema_tree>
+            <root type="tuple">
+                <proposals type="collection">
+                    <element type="tuple">
+                        <proposal_id type="integer" />
+                        <title type="integer" />
+                        <reviews type="collection">
+                            <element type="tuple">
+                                <review_id type="integer" />
+                                <reviewer type="string" />
+                            </element>
+                            <constraints>
+                                <local-key collection="/proposals/tuple/reviews">
+                                    <attribute path="tuple/review_id" />
+                                </local-key>
+                            </constraints>
+                        </reviews>
+                    </element>
+                    <constraints>
+                        <local-key collection="/proposals">
+                            <attribute path="tuple/proposal_id" />
+                        </local-key>
+                    </constraints>
+                </proposals>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <proposals>
+                    <element>
+                        <proposal_id>1</proposal_id>
+                        <title>7</title>
+                        <reviews>
+                            <element>
+                                <review_id>1</review_id>
+                                <reviewer>Allen</reviewer>
+                            </element>
+                        </reviews>
+                    </element>
+                    <element>
+                        <proposal_id>2</proposal_id>
+                        <title>8</title>
+                        <reviews>
+                        </reviews>
+                    </element>
+                </proposals>
+            </root>
+        </data_tree>
+    </data_object>
+</test_case>

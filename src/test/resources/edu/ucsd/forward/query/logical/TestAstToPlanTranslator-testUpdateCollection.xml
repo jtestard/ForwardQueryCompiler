@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_expression>
+        <![CDATA[
+            UPDATE src1.proposals AS p
+            SET p.proposal = 5, p.reviews = (SELECT * FROM src2.reviews)
+            WHERE p.proposal = 1
+        ]]>
+    </query_expression>
+    <data_object name="proposals" execution_data_source="src1" cardinality_estimate="SMALL">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <proposal type="integer" />
+                    <author type="string" />
+                    <reviews type="collection">
+                        <element type="tuple">
+                            <grade type="integer" />
+                            <reviewer type="integer" />
+                            <comments type="collection">
+                                <element type="tuple">
+                                    <comment type="string" />
+                                    <date type="date" />
+                                </element>
+                            </comments>
+                        </element>
+                        <constraints>
+                            <local-key collection="/tuple/reviews">
+                                <attribute path="tuple/reviewer" />
+                            </local-key>
+                        </constraints>
+                    </reviews>
+                </element>
+                <constraints>
+                    <local-key collection="/">
+                        <attribute path="tuple/proposal" />
+                    </local-key>
+                </constraints>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <proposal>1</proposal>
+                    <author>Alice</author>
+                    <reviews>
+                    </reviews>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+    <data_object name="reviews" execution_data_source="src2" cardinality_estimate="SMALL">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <grade type="integer" />
+                    <reviewer type="integer" />
+                    <comments type="collection">
+                        <element type="tuple">
+                            <comment type="string" />
+                            <date type="date" />
+                        </element>
+                    </comments>
+                </element>
+                <constraints>
+                    <local-key collection="/tuple/reviews">
+                        <attribute path="tuple/reviewer" />
+                    </local-key>
+                </constraints>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <grade>1</grade>
+                    <reviewer>2</reviewer>
+                    <comments>
+                    </comments>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+    <query_plan wrapping="false">
+        <Update cardinality_estimate="UNKNOWN" target_data_source="src1" update_var="p">
+            <arguments>
+                <target>
+                    <Variable data_source="src1" mode="ABSOLUTE" schema_object="proposals" />
+                </target>
+                <assignment>
+                    <target>
+                        <Variable name="__v1" />
+                    </target>
+                    <query_plan wrapping="true">
+                        <Project cardinality_estimate="UNKNOWN">
+                            <arguments>
+                                <Item alias="constant">
+                                    <Constant>
+                                        <integer>5</integer>
+                                    </Constant>
+                                </Item>
+                            </arguments>
+                            <Ground cardinality_estimate="UNKNOWN">
+                                <arguments />
+                            </Ground>
+                        </Project>
+                    </query_plan>
+                </assignment>
+                <assignment>
+                    <target>
+                        <Variable name="__v2" />
+                    </target>
+                    <query_plan wrapping="false">
+                        <Project cardinality_estimate="UNKNOWN">
+                            <arguments>
+                                <Item alias="grade">
+                                    <Variable name="__v3" />
+                                </Item>
+                                <Item alias="reviewer">
+                                    <Variable name="__v4" />
+                                </Item>
+                                <Item alias="comments">
+                                    <Variable name="__v5" />
+                                </Item>
+                            </arguments>
+                            <Navigate alias="__v5" cardinality_estimate="UNKNOWN">
+                                <arguments>
+                                    <QueryPath steps="comments">
+                                        <Variable mode="ELEMENT" name="reviews" />
+                                    </QueryPath>
+                                </arguments>
+                                <Navigate alias="__v4" cardinality_estimate="UNKNOWN">
+                                    <arguments>
+                                        <QueryPath steps="reviewer">
+                                            <Variable mode="ELEMENT" name="reviews" />
+                                        </QueryPath>
+                                    </arguments>
+                                    <Navigate alias="__v3" cardinality_estimate="UNKNOWN">
+                                        <arguments>
+                                            <QueryPath steps="grade">
+                                                <Variable mode="ELEMENT" name="reviews" />
+                                            </QueryPath>
+                                        </arguments>
+                                        <Scan alias="reviews" cardinality_estimate="UNKNOWN">
+                                            <arguments>
+                                                <Variable data_source="src2" mode="ABSOLUTE" schema_object="reviews" />
+                                            </arguments>
+                                            <Ground cardinality_estimate="UNKNOWN">
+                                                <arguments />
+                                            </Ground>
+                                        </Scan>
+                                    </Navigate>
+                                </Navigate>
+                            </Navigate>
+                        </Project>
+                    </query_plan>
+                </assignment>
+            </arguments>
+            <Navigate alias="__v2" cardinality_estimate="UNKNOWN">
+                <arguments>
+                    <QueryPath steps="reviews">
+                        <Variable mode="ELEMENT" name="p" />
+                    </QueryPath>
+                </arguments>
+                <Navigate alias="__v1" cardinality_estimate="UNKNOWN">
+                    <arguments>
+                        <QueryPath steps="proposal">
+                            <Variable mode="ELEMENT" name="p" />
+                        </QueryPath>
+                    </arguments>
+                    <Select cardinality_estimate="UNKNOWN">
+                        <arguments>
+                            <FunctionCall name="=">
+                                <Variable name="__v0" />
+                                <Constant>
+                                    <integer>1</integer>
+                                </Constant>
+                            </FunctionCall>
+                        </arguments>
+                        <Navigate alias="__v0" cardinality_estimate="UNKNOWN">
+                            <arguments>
+                                <QueryPath steps="proposal">
+                                    <Variable mode="ELEMENT" name="p" />
+                                </QueryPath>
+                            </arguments>
+                            <Scan alias="p" cardinality_estimate="UNKNOWN">
+                                <arguments>
+                                    <Variable data_source="src1" mode="ABSOLUTE" schema_object="proposals" />
+                                </arguments>
+                                <Ground cardinality_estimate="UNKNOWN">
+                                    <arguments />
+                                </Ground>
+                            </Scan>
+                        </Navigate>
+                    </Select>
+                </Navigate>
+            </Navigate>
+        </Update>
+    </query_plan>
+
+    <data_object name="output" execution_data_source="output">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <count type="integer" />
+                </element>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <count>1</count>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+</test_case>

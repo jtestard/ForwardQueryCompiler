@@ -1,0 +1,10 @@
+<doc>
+    <entry path="/Ratings">A UI Control used for rating things.</entry>
+    <entry path="/Ratings/style">This is a CSS styling attribute as defined by the CSS Styling Attribute Syntax specification.</entry>
+    <entry path="/Ratings/ratings_ranks">Ratings. Default: [1,2,3,4,5]</entry>
+    <entry path="/Ratings/ratings_ranks/rank">Rank pairing to associate value and label of a particular rank.</entry>
+    <entry path="/Ratings/ratings_ranks/rank/value">Value of the ratings rank.</entry>
+    <entry path="/Ratings/ratings_ranks/rank/label">Label associated with the rank</entry>
+    <entry path="/Ratings/selected_value">Sets the selected value for the rating.</entry>
+</doc>
+

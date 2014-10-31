@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <schema_tree>
+        <root type="collection">
+            <element type="tuple">
+                <key type="integer" />
+                <value type="string" />
+            </element>
+        </root>
+    </schema_tree>
+    <data_tree>
+        <root>
+            <element type="tuple">
+                <key>1</key>
+                <value>t1</value>
+            </element>
+            <element type="tuple">
+                <key>2</key>
+                <value>t2</value>
+            </element>
+        </root>
+    </data_tree>
+</root>

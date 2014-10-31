@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <data_source name="test_source" storage_system="INMEMORY" data_model="SQLPLUSPLUS" />
+    <data_object name="employees" execution_data_source="mem_src">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <eid type="integer" />
+                </element>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <query_expression execution_data_source="test_source">
+                <![CDATA[
+                    SELECT * FROM some_table
+                ]]>
+            </query_expression>
+        </data_tree>
+    </data_object>
+</test_case>

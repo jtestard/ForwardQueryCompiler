@@ -1,0 +1,3 @@
+SELECT title
+FROM proposals
+WHERE EXISTS( SELECT count(proposal_id) AS t)

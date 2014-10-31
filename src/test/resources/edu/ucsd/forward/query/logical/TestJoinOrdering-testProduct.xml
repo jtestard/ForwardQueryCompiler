@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_expression>
+        <![CDATA[
+            SELECT p.title AS title
+            FROM src1.proposals AS p, src3.reviews AS r2, src2.reviewers AS r1
+            WHERE r1.reviewer_id = 1
+        ]]>
+    </query_expression>
+    <data_object name="proposals" execution_data_source="src1" cardinality_estimate="LARGE" data_model="RELATIONAL"
+        storage_system="INMEMORY">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <proposal_id type="integer" />
+                    <title type="string" />
+                    <summary type="string" />
+                    <description type="string" />
+                </element>
+                <constraints>
+                    <local-key collection="/">
+                        <attribute path="tuple/proposal_id" />
+                    </local-key>
+                </constraints>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <proposal_id>1</proposal_id>
+                    <title>My proposal</title>
+                    <summary>Foo</summary>
+                    <description>Bar</description>
+                </element>
+                <element>
+                    <proposal_id>2</proposal_id>
+                    <title>My proposal</title>
+                    <summary>Foo</summary>
+                    <description>Bar</description>
+                </element>
+                <element>
+                    <proposal_id>3</proposal_id>
+                    <title>My proposal</title>
+                    <summary>Foo</summary>
+                    <description>Bar</description>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+    <data_object name="reviewers" execution_data_source="src2" cardinality_estimate="SMALL">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <reviewer_id type="integer" />
+                    <email type="string" />
+                </element>
+                <constraints>
+                    <local-key collection="/">
+                        <attribute path="tuple/reviewer_id" />
+                    </local-key>
+                </constraints>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <reviewer_id>1</reviewer_id>
+                    <email>bar@bar</email>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+    <data_object name="reviews" execution_data_source="src3" cardinality_estimate="SMALL">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <proposal type="integer" />
+                    <comment type="string" />
+                    <grade type="integer" />
+                    <reviewer type="integer" />
+                </element>
+                <constraints>
+                    <local-key collection="/">
+                        <attribute path="tuple/proposal" />
+                        <attribute path="tuple/reviewer" />
+                    </local-key>
+                </constraints>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <proposal>1</proposal>
+                    <comment>Good</comment>
+                    <grade>5</grade>
+                    <reviewer>1</reviewer>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+
+    <query_plan wrapping="false">
+        <Project cardinality_estimate="UNKNOWN">
+            <arguments>
+                <Item alias="title">
+                    <Variable name="__v1" />
+                </Item>
+            </arguments>
+            <Navigate alias="__v1" cardinality_estimate="UNKNOWN">
+                <arguments>
+                    <QueryPath steps="title">
+                        <Variable mode="ELEMENT" name="p" />
+                    </QueryPath>
+                </arguments>
+                <Select cardinality_estimate="UNKNOWN">
+                    <arguments>
+                        <FunctionCall name="=">
+                            <Variable name="__v0" />
+                            <Constant>
+                                <integer>1</integer>
+                            </Constant>
+                        </FunctionCall>
+                    </arguments>
+                    <Navigate alias="__v0" cardinality_estimate="UNKNOWN">
+                        <arguments>
+                            <QueryPath steps="reviewer_id">
+                                <Variable mode="ELEMENT" name="r1" />
+                            </QueryPath>
+                        </arguments>
+                        <Product cardinality_estimate="UNKNOWN">
+                            <arguments />
+                            <Scan alias="p" cardinality_estimate="UNKNOWN">
+                                <arguments>
+                                    <Variable data_source="src1" mode="ABSOLUTE" schema_object="proposals" />
+                                </arguments>
+                                <Ground cardinality_estimate="UNKNOWN">
+                                    <arguments />
+                                </Ground>
+                            </Scan>
+                            <Scan alias="r2" cardinality_estimate="UNKNOWN">
+                                <arguments>
+                                    <Variable data_source="src3" mode="ABSOLUTE" schema_object="reviews" />
+                                </arguments>
+                                <Ground cardinality_estimate="UNKNOWN">
+                                    <arguments />
+                                </Ground>
+                            </Scan>
+                            <Scan alias="r1" cardinality_estimate="UNKNOWN">
+                                <arguments>
+                                    <Variable data_source="src2" mode="ABSOLUTE" schema_object="reviewers" />
+                                </arguments>
+                                <Ground cardinality_estimate="UNKNOWN">
+                                    <arguments />
+                                </Ground>
+                            </Scan>
+                        </Product>
+                    </Navigate>
+                </Select>
+            </Navigate>
+        </Project>
+    </query_plan>
+
+    <query_plan wrapping="false">
+        <Project cardinality_estimate="SMALL">
+            <arguments>
+                <Item alias="title">
+                    <Variable name="__v1" />
+                </Item>
+            </arguments>
+            <Navigate alias="__v1" cardinality_estimate="SMALL">
+                <arguments>
+                    <QueryPath steps="title">
+                        <Variable mode="ELEMENT" name="p" />
+                    </QueryPath>
+                </arguments>
+                <Select cardinality_estimate="SMALL">
+                    <arguments>
+                        <FunctionCall name="=">
+                            <Variable name="__v0" />
+                            <Constant>
+                                <integer>1</integer>
+                            </Constant>
+                        </FunctionCall>
+                    </arguments>
+                    <Navigate alias="__v0" cardinality_estimate="LARGE">
+                        <arguments>
+                            <QueryPath steps="reviewer_id">
+                                <Variable mode="ELEMENT" name="r1" />
+                            </QueryPath>
+                        </arguments>
+                        <Product cardinality_estimate="LARGE">
+                            <arguments />
+                            <Product cardinality_estimate="SMALL">
+                                <arguments />
+                                <Scan alias="r1" cardinality_estimate="SMALL">
+                                    <arguments>
+                                        <Variable data_source="src2" mode="ABSOLUTE" schema_object="reviewers" />
+                                    </arguments>
+                                    <Ground cardinality_estimate="ONE">
+                                        <arguments />
+                                    </Ground>
+                                </Scan>
+                                <Scan alias="r2" cardinality_estimate="SMALL">
+                                    <arguments>
+                                        <Variable data_source="src3" mode="ABSOLUTE" schema_object="reviews" />
+                                    </arguments>
+                                    <Ground cardinality_estimate="ONE">
+                                        <arguments />
+                                    </Ground>
+                                </Scan>
+                            </Product>
+                            <Scan alias="p" cardinality_estimate="LARGE">
+                                <arguments>
+                                    <Variable data_source="src1" mode="ABSOLUTE" schema_object="proposals" />
+                                </arguments>
+                                <Ground cardinality_estimate="ONE">
+                                    <arguments />
+                                </Ground>
+                            </Scan>
+                        </Product>
+                    </Navigate>
+                </Select>
+            </Navigate>
+        </Project>
+    </query_plan>
+
+    <data_object name="output" execution_data_source="output">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <title type="string" />
+                </element>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <title>My proposal</title>
+                </element>
+                <element>
+                    <title>My proposal</title>
+                </element>
+                <element>
+                    <title>My proposal</title>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+</test_case>

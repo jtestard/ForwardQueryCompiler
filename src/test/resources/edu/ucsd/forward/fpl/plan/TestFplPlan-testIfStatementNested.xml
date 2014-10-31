@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <action_statement>
+        <![CDATA[
+create action test_ifstatement_nested() as    
+begin
+    if actual.cond = 0 then actual.actual :=0;
+    elsif actual.cond = 1 then
+        if actual.actual = 3 then actual.actual :=2; 
+        else actual.actual := 4;
+        end if;
+    else actual.actual := -1;    
+    end if;
+    return;
+end;
+        ]]>
+    </action_statement>
+    <query_expression>test_ifstatement_nested();</query_expression>
+    <data_object name="cond" execution_data_source="actual" cardinality_estimate="SMALL" storage_system="INMEMORY">        
+        <schema_tree>
+            <root type="integer" />
+        </schema_tree>
+        <data_tree>
+            <root>
+                <integer>1</integer>
+            </root>
+        </data_tree>
+    </data_object>    
+    <data_object name="actual" execution_data_source="actual" cardinality_estimate="SMALL" storage_system="INMEMORY">        
+        <schema_tree>
+            <root type="integer" />
+        </schema_tree>
+        <data_tree>
+            <root>
+                <integer>3</integer>
+            </root>
+        </data_tree>
+    </data_object>
+    <data_object name="expected" execution_data_source="expected" cardinality_estimate="SMALL" storage_system="INMEMORY">
+        <schema_tree>
+            <root type="integer" />
+        </schema_tree>
+        <data_tree>
+            <root>
+                <integer>2</integer>
+            </root>
+        </data_tree>
+    </data_object>
+</test_case>

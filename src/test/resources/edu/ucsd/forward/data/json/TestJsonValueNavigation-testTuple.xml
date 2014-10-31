@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <schema_tree>
+        <root type="json">
+        </root>
+    </schema_tree>
+    <data_tree>
+        <root>
+            {
+            "title": "example",
+            "name":"test"
+            }
+        </root>
+    </data_tree>
+    <schema_tree>
+        <root type="json">
+        </root>
+    </schema_tree>
+    <data_tree>
+        <root>
+            "test"
+        </root>
+    </data_tree>
+</root>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_plan>
+        <SendPlan cardinality_estimate="SMALL" execution_data_source="mediator" impl="SendPlanImplInMemory">
+            <arguments>
+                <Project cardinality_estimate="SMALL" execution_data_source="mediator" impl="ProjectImpl">
+                    <arguments>
+                        <Item alias="cast_error">
+                            <FunctionCall name="CAST" target_type="integer">
+                                <Constant>
+                                    <string>abc</string>
+                                </Constant>
+                            </FunctionCall>
+                        </Item>
+                    </arguments>
+                    <Ground cardinality_estimate="ONE" execution_data_source="mediator" impl="GroundImpl" />
+                </Project>
+            </arguments>
+        </SendPlan>
+    </query_plan>
+    <query_plan>
+        <SendPlan execution_data_source="mediator" impl="SendPlanImplInMemory">
+            <arguments>
+                <Scan alias="customers" execution_data_source="mediator" cardinality_estimate="SMALL">
+                    <arguments>
+                        <Variable mode="ABSOLUTE" data_source="mediator" schema_object="customers" />
+                        <Attribute>
+                            <QueryPath steps="cid"/>
+                            <Variable name="cid"/>
+                        </Attribute>
+                        <Attribute>
+                            <QueryPath steps="name"/>
+                            <Variable name="name"/>
+                        </Attribute>
+                    </arguments>
+                    <Ground execution_data_source="mediator" cardinality_estimate="SMALL" />
+                </Scan>
+            </arguments>
+        </SendPlan>
+    </query_plan>
+    <data_object name="customers" execution_data_source="mediator" cardinality_estimate="SMALL">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <cid type="integer" />
+                    <name type="string" />
+                </element>
+                <constraints>
+                    <local-key>
+                        <attribute path="tuple/cid" />
+                    </local-key>
+                </constraints>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <cid>1</cid>
+                    <name>John</name>
+                </element>
+                <element>
+                    <cid>2</cid>
+                    <name>Mary</name>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+    <data_object name="output" execution_data_source="output">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <cid type="integer" />
+                    <name type="string" />
+                </element>
+                <constraints>
+                    <local-key>
+                        <attribute path="tuple/cid" />
+                    </local-key>
+                </constraints>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <cid>1</cid>
+                    <name>John</name>
+                </element>
+                <element>
+                    <cid>2</cid>
+                    <name>Mary</name>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+</test_case>

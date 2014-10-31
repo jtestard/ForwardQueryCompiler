@@ -1,0 +1,3 @@
+SELECT reviews
+FROM proposals
+KEY ON reviews

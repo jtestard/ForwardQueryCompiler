@@ -1,0 +1,4 @@
+SELECT CASE WHEN 1 THEN 1 
+              ELSE 2
+       END AS ss, P.proposal_id
+FROM proposals AS P              

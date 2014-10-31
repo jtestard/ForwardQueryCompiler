@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_expression>
+        <![CDATA[
+            SELECT  upper('first line
+            second line') AS string_literal,
+                    lower('TESTING ' || 'LITERAL''S: ') || .1 || 2 || 3.25 || -4.44E+10 || .5E-10 || (TRUE || FALSE) || ('null' IS NOT NULL) AS func_string_concat,
+                    char_length('abc') AS func_string_char_length,
+                    character_length('abc') AS func_string_character_length,
+                    substring('abc' FROM 2) AS func_string_substring_from,
+                    substring('abc' FROM 2 FOR 3) AS func_string_substring_from_for,
+                    escape_xml('abc') AS func_string_escape_xml,
+                    escape_xhtml('abc') AS func_string_escape_xhtml,
+                    escape_javascript('abc') AS func_string_escape_javascript;
+        ]]>
+    </query_expression>
+    <query_plan wrapping="false">
+        <Project cardinality_estimate="UNKNOWN">
+            <arguments>
+                <Item alias="string_literal">
+                    <FunctionCall name="upper">
+                        <Constant>
+                            <string>first line
+            second line</string>
+                        </Constant>
+                    </FunctionCall>
+                </Item>
+                <Item alias="func_string_concat">
+                    <FunctionCall name="||">
+                        <FunctionCall name="lower">
+                            <FunctionCall name="||">
+                                <Constant>
+                                    <string>TESTING </string>
+                                </Constant>
+                                <Constant>
+                                    <string>LITERAL'S: </string>
+                                </Constant>
+                            </FunctionCall>
+                        </FunctionCall>
+                        <FunctionCall name="CAST" target_type="string">
+                            <Constant>
+                                <decimal>0.1</decimal>
+                            </Constant>
+                        </FunctionCall>
+                        <FunctionCall name="CAST" target_type="string">
+                            <Constant>
+                                <integer>2</integer>
+                            </Constant>
+                        </FunctionCall>
+                        <FunctionCall name="CAST" target_type="string">
+                            <Constant>
+                                <float>3.25</float>
+                            </Constant>
+                        </FunctionCall>
+                        <FunctionCall name="CAST" target_type="string">
+                            <FunctionCall name="NEG">
+                                <Constant>
+                                    <long>44400000000</long>
+                                </Constant>
+                            </FunctionCall>
+                        </FunctionCall>
+                        <FunctionCall name="CAST" target_type="string">
+                            <Constant>
+                                <decimal>5E-11</decimal>
+                            </Constant>
+                        </FunctionCall>
+                        <FunctionCall name="||">
+                            <FunctionCall name="CAST" target_type="string">
+                                <Constant>
+                                    <boolean>true</boolean>
+                                </Constant>
+                            </FunctionCall>
+                            <FunctionCall name="CAST" target_type="string">
+                                <Constant>
+                                    <boolean>false</boolean>
+                                </Constant>
+                            </FunctionCall>
+                        </FunctionCall>
+                        <FunctionCall name="CAST" target_type="string">
+                            <FunctionCall name="NOT">
+                                <FunctionCall name="IS NULL">
+                                    <Constant>
+                                        <string>null</string>
+                                    </Constant>
+                                </FunctionCall>
+                            </FunctionCall>
+                        </FunctionCall>
+                    </FunctionCall>
+                </Item>
+                <Item alias="func_string_char_length">
+                    <FunctionCall name="character_length">
+                        <Constant>
+                            <string>abc</string>
+                        </Constant>
+                    </FunctionCall>
+                </Item>
+                <Item alias="func_string_character_length">
+                    <FunctionCall name="character_length">
+                        <Constant>
+                            <string>abc</string>
+                        </Constant>
+                    </FunctionCall>
+                </Item>
+                <Item alias="func_string_substring_from">
+                    <FunctionCall name="substring">
+                        <Constant>
+                            <string>abc</string>
+                        </Constant>
+                        <Constant>
+                            <integer>2</integer>
+                        </Constant>
+                    </FunctionCall>
+                </Item>
+                <Item alias="func_string_substring_from_for">
+                    <FunctionCall name="substring">
+                        <Constant>
+                            <string>abc</string>
+                        </Constant>
+                        <Constant>
+                            <integer>2</integer>
+                        </Constant>
+                        <Constant>
+                            <integer>3</integer>
+                        </Constant>
+                    </FunctionCall>
+                </Item>
+                <Item alias="func_string_escape_xml">
+                    <FunctionCall name="escape_xml">
+                        <Constant>
+                            <string>abc</string>
+                        </Constant>
+                    </FunctionCall>
+                </Item>
+                <Item alias="func_string_escape_xhtml">
+                    <FunctionCall name="escape_xhtml">
+                        <Constant>
+                            <string>abc</string>
+                        </Constant>
+                    </FunctionCall>
+                </Item>
+                <Item alias="func_string_escape_javascript">
+                    <FunctionCall name="escape_javascript">
+                        <Constant>
+                            <string>abc</string>
+                        </Constant>
+                    </FunctionCall>
+                </Item>
+            </arguments>
+            <Ground cardinality_estimate="UNKNOWN">
+                <arguments />
+            </Ground>
+        </Project>
+    </query_plan>
+    <data_object name="output" execution_data_source="output">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <string_literal type="string" />
+                    <func_string_concat type="string" />
+                    <func_string_char_length type="string" />
+                    <func_string_character_length type="string" />
+                    <func_string_substring_from type="string" />
+                    <func_string_substring_from_for type="string" />
+                    <func_string_escape_xml type="string" />
+                    <func_string_escape_xhtml type="string" />
+                    <func_string_escape_javascript type="string" />
+                </element>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <string_literal>FIRST LINE
+            SECOND LINE</string_literal>
+                    <func_string_concat>testing literal's: 0.123.25-444000000005E-11truefalsetrue</func_string_concat>
+                    <func_string_char_length>3</func_string_char_length>
+                    <func_string_character_length>3</func_string_character_length>
+                    <func_string_substring_from>bc</func_string_substring_from>
+                    <func_string_substring_from_for>bc</func_string_substring_from_for>
+                    <func_string_escape_xml>abc</func_string_escape_xml>
+                    <func_string_escape_xhtml>abc</func_string_escape_xhtml>
+                    <func_string_escape_javascript>abc</func_string_escape_javascript>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+</test_case>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module rename-to='application'>
+
+    <!-- Inherit the core Web Toolkit stuff.                        -->
+    <inherits name='com.google.gwt.user.User' />
+
+    <source path='application'>
+        <include name='Application.java' />
+        <include name='ApplicationException.java' />        
+    </source>
+
+    <source path='application/auth'>
+        <include name='Realm.java' />
+        <include name='RealmException.java' />
+        <include name='SecurityConstraint.java' />        
+    </source>
+
+</module>

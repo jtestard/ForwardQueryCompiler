@@ -1,0 +1,3 @@
+SELECT P.proposal_id AS pid
+FROM proposals AS P
+KEY ON P.proposal_id

@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_expression>
+        <![CDATA[
+            SELECT *
+            FROM src_1.complex.proposals as P, P.nested_tuple.reviews as R, src_1.complex AS C
+            WHERE R.comment <> C.name.firstn
+            
+        ]]>
+    </query_expression>
+    
+    <data_object name="complex" execution_data_source="src_1" cardinality_estimate="LARGE" data_model="SQLPLUSPLUS" storage_system="INMEMORY">
+        <schema_tree>
+            <root type="tuple">
+                <name type="tuple">
+                    <firstn type="string" />
+                    <lastn type="string" />
+                </name>
+                <proposals type="collection">
+                    <element type="tuple">
+                        <proposal_id type="integer" />
+                        <title type="string" />
+                        <nested_tuple type="tuple">
+                            <reviews type="collection">
+                                <element type="tuple">
+                                    <reviewer_id type="integer" />
+                                    <comment type="string" />
+                                    <grade type="integer" />
+                                </element>
+                            </reviews>
+                        </nested_tuple>
+                    </element>
+                </proposals>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <name>
+                    <firstn>Barbie</firstn>
+                    <lastn>Smith</lastn>
+                </name>
+                <proposals>
+                    <element>
+                        <proposal_id>2</proposal_id>
+                        <title>Beach House</title>
+                        <nested_tuple>
+                            <reviews>
+                                <element>
+                                    <reviewer_id>20</reviewer_id>
+                                    <comment>Lame...</comment>
+                                    <grade>1</grade>
+                                </element>
+                                <element>
+                                    <reviewer_id>30</reviewer_id>
+                                    <comment>Average...</comment>
+                                    <grade>2</grade>
+                                </element>
+                            </reviews>
+                        </nested_tuple>
+                    </element>
+                    <element>
+                        <proposal_id>4</proposal_id>
+                        <title>City House</title>
+                        <nested_tuple>
+                            <reviews>
+                                <element>
+                                    <reviewer_id>30</reviewer_id>
+                                    <comment>Not bad...</comment>
+                                    <grade>3</grade>
+                                </element>
+                                <element>
+                                    <reviewer_id>40</reviewer_id>
+                                    <comment>Average...</comment>
+                                    <grade>2</grade>
+                                </element>
+                            </reviews>
+                        </nested_tuple>
+                    </element>
+                </proposals>
+            </root>
+        </data_tree>
+    </data_object>
+    <data_object name="output" execution_data_source="output">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <pid type="integer" />
+                    <my_name type="tuple">
+                        <firstn type="string" />
+                        <lastn type="string" />
+                    </my_name>
+                    <my_grade type="integer" />
+                    <nested type="collection">
+                        <element type="tuple">
+                            <my_grade type="integer" />
+                        </element>
+                    </nested>
+                </element>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <pid>2</pid>
+                    <my_name>
+                        <firstn>Barbie</firstn>
+                        <lastn>Smith</lastn>
+                    </my_name>
+                    <my_grade>1</my_grade>
+                    <nested>
+                        <element>
+                            <my_grade>1</my_grade>
+                        </element>
+                        <element>
+                            <my_grade>2</my_grade>
+                        </element>
+                    </nested>
+                </element>
+                <element>
+                    <pid>2</pid>
+                    <my_name>
+                        <firstn>Barbie</firstn>
+                        <lastn>Smith</lastn>
+                    </my_name>
+                    <my_grade>2</my_grade>
+                    <nested>
+                        <element>
+                            <my_grade>1</my_grade>
+                        </element>
+                        <element>
+                            <my_grade>2</my_grade>
+                        </element>
+                    </nested>
+                </element>
+                <element>
+                    <pid>4</pid>
+                    <my_name>
+                        <firstn>Barbie</firstn>
+                        <lastn>Smith</lastn>
+                    </my_name>
+                    <my_grade>3</my_grade>
+                    <nested>
+                        <element>
+                            <my_grade>3</my_grade>
+                        </element>
+                        <element>
+                            <my_grade>2</my_grade>
+                        </element>
+                    </nested>
+                </element>
+                <element>
+                    <pid>4</pid>
+                    <my_name>
+                        <firstn>Barbie</firstn>
+                        <lastn>Smith</lastn>
+                    </my_name>
+                    <my_grade>2</my_grade>
+                    <nested>
+                        <element>
+                            <my_grade>3</my_grade>
+                        </element>
+                        <element>
+                            <my_grade>2</my_grade>
+                        </element>
+                    </nested>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>    
+    
+    </test_case>

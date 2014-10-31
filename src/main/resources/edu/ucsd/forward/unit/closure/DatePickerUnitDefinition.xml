@@ -1,0 +1,25 @@
+<doc>
+    <entry path="/DatePicker">DatePicker widget. Allows a single date to be selected from a calendar like view.</entry>
+    <entry path="/DatePicker/style">This is a CSS styling attribute as defined by the CSS Styling Attribute Syntax specification.</entry>
+    <entry path="/DatePicker/selected_date">Sets the selected date.</entry>
+    <entry path="/DatePicker/allow_none">Sets whether none is a valid selection.</entry>
+    <entry path="/DatePicker/extra_week_at_end">Sets whether a the extra week(s) added always should be at the end. Only applicable if a fixed number of weeks are shown.</entry>
+    <entry path="/DatePicker/first_weekday">Sets the first day of week</entry>
+    <entry path="/DatePicker/show_fixed_num_weeks">Sets whether a fixed number of weeks should be showed. If not only weeks for the current month will be showed.</entry>
+    <entry path="/DatePicker/show_other_months">Sets whether a days from the previous and/or next month should be shown.</entry>
+    <entry path="/DatePicker/show_today">Sets whether the today button should be shown.</entry>
+    <entry path="/DatePicker/show_week_num">Sets whether week numbers should be shown.</entry>
+    <entry path="/DatePicker/show_weekday_names">Sets whether weekday names should be shown.</entry>
+    <entry path="/DatePicker/use_narrow_weekday_names">Sets whether the picker uses narrow weekday names ('M', 'T', 'W', ...). The default behavior is to use short names ('Mon', 'Tue', 'Wed', ...).</entry>
+    <entry path="/DatePicker/use_simple_naviagtion_menu">Sets whether the picker should use a simple navigation menu that only contains controls for navigating to the next and previous month. The default navigation menu contains controls for navigating to the next/previous month, next/previous year, and menus for jumping to specific months and years.</entry>
+    <entry path="/DatePicker/monday_class">Sets class name associated with specified weekday.</entry>
+    <entry path="/DatePicker/tuesday_class">Sets class name associated with specified weekday.</entry>
+    <entry path="/DatePicker/wednesday_class">Sets class name associated with specified weekday.</entry>
+    <entry path="/DatePicker/thursday_class">Sets class name associated with specified weekday.</entry>
+    <entry path="/DatePicker/friday_class">Sets class name associated with specified weekday.</entry>
+    <entry path="/DatePicker/saturday_class">Sets class name associated with specified weekday.</entry>
+    <entry path="/DatePicker/sunday_class">Sets class name associated with specified weekday.</entry>
+    <entry path="/DatePicker/right_to_left">Set is right-to-left. This function should be used if the component needs to know the rendering direction during dom creation (i.e. before #enterDocument is called and is right-to-left is set).</entry>
+    <entry path="/DatePicker/date_time_symbols">Date and time symbols to use. Defaults to goog.i18n.DateTimeSymbols if not set.</entry>
+</doc>
+

@@ -1,0 +1,7 @@
+<decision>
+    <input>
+        <schema_tree>
+            <root type="string"/>
+        </schema_tree>
+    </input>
+</decision>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data-model>
+    <data>
+        <dataset>
+            <element>
+                <attribute name="applications">
+                    <relation>
+                        <element>
+                            <attribute name="application_id">
+                                <integer>1</integer>
+                            </attribute>
+                            <attribute name="first_name">
+                                <string>Sally</string>
+                            </attribute>
+                            <attribute name="last_name">
+                                <string>Green</string>
+                            </attribute>
+                            <attribute name="info">
+                                <tuple>
+                                    <attribute name="school">
+                                        <string>UC Berkeley
+                                                </string>
+                                    </attribute>
+                                </tuple>
+                            </attribute>
+                        </element>
+                    </relation>
+                </attribute>
+            </element>
+        </dataset>
+    </data>
+    <type>
+        <dataset>
+            <element>
+                <attribute name="applications">
+                    <relation>
+                        <element>
+                            <attribute name="application_id">
+                                <integer />
+                            </attribute>
+                            <attribute name="first_name">
+                                <string />
+                            </attribute>
+                            <attribute name="last_name">
+                                <string />
+                            </attribute>
+                            <attribute name="info">
+                                <tuple>
+                                    <attribute name="school">
+                                        <string />
+                                    </attribute>
+                                </tuple>
+                            </attribute>
+                        </element>
+                    </relation>
+                </attribute>
+            </element>
+        </dataset>
+    </type>
+    <constraints>
+        <local-key>
+            <attribute path="applications/tuple/application_id" />
+        </local-key>
+    </constraints>
+</data-model>

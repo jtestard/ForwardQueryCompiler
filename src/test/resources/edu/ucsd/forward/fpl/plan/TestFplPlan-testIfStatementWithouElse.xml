@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <action_statement>
+        <![CDATA[
+create action test_ifstatement_without_else() as    
+begin
+    if actual.actual = 3 then 
+        actual.actual := 2;
+        return;
+    end if;
+    actual.actual := 4;
+    return;
+end;
+        ]]>
+    </action_statement>
+    <query_expression>test_ifstatement_without_else();</query_expression>
+    <data_object name="actual" execution_data_source="actual" cardinality_estimate="SMALL" storage_system="INMEMORY">
+        <schema_tree>
+            <root type="integer" />
+        </schema_tree>
+        <data_tree>
+            <root>
+                <integer>3</integer>
+            </root>
+        </data_tree>
+    </data_object>
+    <data_object name="expected" execution_data_source="expected" cardinality_estimate="SMALL" storage_system="INMEMORY">
+        <schema_tree>
+            <root type="integer" />
+        </schema_tree>
+        <data_tree>
+            <root>
+                <integer>2</integer>
+            </root>
+        </data_tree>
+    </data_object>
+</test_case>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test-case>
+    <schema_tree>
+        <root type="collection">
+            <element type="tuple">
+                <proposal_id type="integer" />
+                <title type="string" />
+                <author type="string" />
+            </element>
+            <constraints>
+                <local-key>
+                    <attribute path="tuple/proposal_id" />
+                </local-key>
+            </constraints>
+        </root>
+    </schema_tree>
+    <data_tree>
+        <root>
+            <element>
+                <proposal_id>1</proposal_id>
+                <title>My title</title>
+                <author>My author</author>
+            </element>
+            <element>
+                <proposal_id>3</proposal_id>
+                <title>My title 3</title>
+                <author>My author 3</author>
+            </element>
+        </root>
+    </data_tree>
+    <data_tree>
+        <root>
+            <element>
+                <proposal_id>1</proposal_id>
+                <title>My title</title>
+                <author>My author</author>
+            </element>
+            <element>
+                <proposal_id>2</proposal_id>
+                <title>My title 2</title>
+                <author>My author 2</author>
+            </element>
+            <element>
+                <proposal_id>3</proposal_id>
+                <title>My title 3</title>
+                <author>My author 3</author>
+            </element>
+        </root>
+    </data_tree>
+</test-case>

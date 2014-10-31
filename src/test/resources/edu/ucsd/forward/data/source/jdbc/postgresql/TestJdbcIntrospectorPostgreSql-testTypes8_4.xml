@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <data_source name="jdbc" storage_system="JDBC">
+        <properties environment="jenkins" user="postgres" password="postgres" maxPoolSize="20"
+            unreturnedConnectionTimeout="0" debugUnreturnedConnectionStackTraces="true" driver="postgresql" host="localhost" port="5432"
+            database="forward" schema="introspect" />
+        <properties environment="testing" user="postgres" password="postgres" maxPoolSize="20"
+            unreturnedConnectionTimeout="0" debugUnreturnedConnectionStackTraces="true" driver="postgresql" host="localhost" port="5432"
+            database="forward" schema="introspect" />
+        <properties environment="development" user="postgres" password="postgres" maxPoolSize="20"
+            unreturnedConnectionTimeout="0" debugUnreturnedConnectionStackTraces="true" driver="postgresql" host="localhost" port="5432"
+            database="forward" schema="introspect" />
+    </data_source>
+    <output>
+        <!-- Supported -->
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <id type="integer">
+                        <constraints>
+                            <non-null />
+                        </constraints>
+                    </id>
+                    <bigint_ type="long" />
+                    <int8_ type="long" />
+                    <bigserial_ type="long">
+                        <constraints>
+                            <non-null />
+                        </constraints>
+                    </bigserial_>
+                    <serial8_ type="long">
+                        <constraints>
+                            <non-null />
+                        </constraints>
+                    </serial8_>
+                    <bit_ type="boolean" />
+                    <boolean_ type="boolean" />
+                    <bool_ type="boolean" />
+                    <character_varying type="string" />
+                    <varchar_ type="string" />
+                    <character_ type="string" />
+                    <char_ type="string" />
+                    <date_ type="date" />
+                    <double_precision type="double" />
+                    <float8_ type="double" />
+                    <integer_ type="integer" />
+                    <int_ type="integer" />
+                    <int4_ type="integer" />
+                    <money_ type="double" />
+                    <numeric_ type="decimal" />
+                    <decimal_ type="decimal" />
+                    <real_ type="float" />
+                    <smallint_ type="integer" />
+                    <serial_ type="integer">
+                        <constraints>
+                            <non-null />
+                        </constraints>
+                    </serial_>
+                    <serial4_ type="integer">
+                        <constraints>
+                            <non-null />
+                        </constraints>
+                    </serial4_>
+                    <text_ type="string" />
+                    <timestamp_ type="timestamp" />
+                    <timestamp_wo_time_zone type="timestamp" />
+                    <timestamp_w_time_zone type="timestamp" />
+                    <timestamptz_ type="timestamp" />
+                </element>
+                <constraints>
+                    <local-key>
+                        <attribute path="tuple/id" />
+                    </local-key>
+                </constraints>
+            </root>
+        </schema_tree>
+        <!-- Unsupported -->
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <id type="integer"/>
+                </element>
+            </root>
+        </schema_tree>
+    </output>
+</test_case>

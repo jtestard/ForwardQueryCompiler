@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_expression>
+        <![CDATA[
+            SELECT * FROM src_2.groups AS g JOIN src_1.users AS u ON g.name = u.username            
+        ]]>
+    </query_expression>
+    <data_source name="src_1" storage_system="REMOTE">
+    </data_source>
+    <data_source name="src_2" storage_system="REMOTE">
+    </data_source>    
+    <data_object name="groups" execution_data_source="src_2">
+        <data_tree>
+        </data_tree>
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <name type="string" />
+                </element>
+            </root>
+        </schema_tree>
+    </data_object>
+    <data_object name="users" execution_data_source="src_1">
+        <data_tree>
+        </data_tree>
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <user_id type="string" />
+                    <username type="string" />
+                </element>
+            </root>
+        </schema_tree>
+    </data_object>
+<query_plan wrapping="false">
+    <SendPlan cardinality_estimate="SMALL" execution_data_source="mediator" impl="SendPlanImplInMemory">
+        <arguments>
+            <Project cardinality_estimate="SMALL" execution_data_source="mediator" impl="ProjectImpl">
+                <arguments>
+                    <Item alias="name">
+                        <QueryPath steps="name">
+                            <Variable name="g"/>
+                        </QueryPath>
+                    </Item>
+                    <Item alias="user_id">
+                        <QueryPath steps="user_id">
+                            <Variable name="u"/>
+                        </QueryPath>
+                    </Item>
+                    <Item alias="username">
+                        <QueryPath steps="username">
+                            <Variable name="u"/>
+                        </QueryPath>
+                    </Item>
+                </arguments>
+                <InnerJoin cardinality_estimate="SMALL" execution_data_source="mediator" impl="InnerJoinImplNestedLoop">
+                    <arguments>
+                        <FunctionCall name="=">
+                            <QueryPath steps="name">
+                                <Variable name="g"/>
+                            </QueryPath>
+                            <QueryPath steps="username">
+                                <Variable name="u"/>
+                            </QueryPath>
+                        </FunctionCall>
+                    </arguments>
+                    <SendPlan cardinality_estimate="SMALL" execution_data_source="src_2" impl="SendPlanImplRemote">
+                        <arguments>
+                            <AccessPath alias="g" cardinality_estimate="SMALL" execution_data_source="src_2" impl="AccessPathImpl">
+                                <arguments>
+                                    <Variable data_source="src_2" mode="ABSOLUTE" schema_object="groups"/>
+                                </arguments>
+                                <Ground cardinality_estimate="ONE" execution_data_source="src_2" impl="GroundImpl">
+                                    <arguments/>
+                                </Ground>
+                            </AccessPath>
+                        </arguments>
+                    </SendPlan>
+                    <SendPlan cardinality_estimate="SMALL" execution_data_source="src_1" impl="SendPlanImplRemote">
+                        <arguments>
+                            <AccessPath alias="u" cardinality_estimate="SMALL" execution_data_source="src_1" impl="AccessPathImpl">
+                                <arguments>
+                                    <Variable data_source="src_1" mode="ABSOLUTE" schema_object="users"/>
+                                </arguments>
+                                <Ground cardinality_estimate="ONE" execution_data_source="src_1" impl="GroundImpl">
+                                    <arguments/>
+                                </Ground>
+                            </AccessPath>
+                        </arguments>
+                    </SendPlan>
+                </InnerJoin>
+            </Project>
+        </arguments>
+    </SendPlan>
+</query_plan>
+
+</test_case>

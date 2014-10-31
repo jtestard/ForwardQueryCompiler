@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <schema_tree>
+        <root type="tuple">
+            <departments type="collection">
+                <element type="tuple">
+                    <department_id type="integer"/>
+                    <department type="string"/>
+                    <employees type="collection">
+                        <element type="tuple">
+                            <employee_id type="integer"/>
+                            <name type="string"/>
+                        </element>
+                        <constraints>
+                            <local-key>
+                                <attribute path="tuple/employee_id"/>
+                            </local-key>
+                        </constraints>
+                    </employees>
+                </element>
+                <constraints>
+                    <local-key>
+                        <attribute path="tuple/department_id"/>
+                    </local-key>
+                </constraints>
+            </departments>
+        </root>
+    </schema_tree>
+    <data_tree>
+        <root>
+            <departments>
+                <element>
+                    <department_id>1</department_id>
+                    <department>Accounting</department>
+                    <employees>
+                        <element>
+                            <employee_id>101</employee_id>
+                            <name>Green Bean</name>
+                        </element>
+                        <element>
+                            <employee_id>102</employee_id>
+                            <name>Red Bean</name>
+                        </element>
+                    </employees>
+                </element>
+                <element>
+                    <department_id>2</department_id>
+                    <department>Marketing</department>
+                    <employees>
+                        <element>
+                            <employee_id>201</employee_id>
+                            <name>Flash</name>
+                        </element>
+                        <element>
+                            <employee_id>202</employee_id>
+                            <name>Thunder</name>
+                        </element>
+                    </employees>
+                </element>
+            </departments>
+        </root>
+    </data_tree>
+</test_case>

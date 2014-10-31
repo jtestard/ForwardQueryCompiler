@@ -1,0 +1,5 @@
+SELECT P.proposal_id, SWITCH WHEN proposal_id < 2 THEN title
+                             ELSE '' AS empty
+                      END
+                      AS title
+FROM proposals AS P

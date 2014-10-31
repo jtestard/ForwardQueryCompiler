@@ -1,0 +1,10 @@
+The payload type 
+ [
+  {application_id : integer, first_name : integer, last_name : integer}
+  (local)
+ ]
+ in applications does not conform the source type 
+ [
+  {application_id : integer, first_name : string, last_name : string, info : {school : string}}
+  (local)
+ ]

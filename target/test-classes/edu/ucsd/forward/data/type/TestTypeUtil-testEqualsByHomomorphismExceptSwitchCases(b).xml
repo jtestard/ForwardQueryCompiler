@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <schema_tree>
+        <root type="tuple">
+            <s type="switch">
+                <sb type="tuple">
+                    <q type="collection">
+                        <element type="tuple">
+                            <qid type="string" />
+                        </element>
+                        <constraints>
+                            <local-key>
+                                <attribute path="tuple/qid" />
+                            </local-key>
+                        </constraints>
+                    </q>
+                </sb>
+            </s>
+        </root>
+    </schema_tree>
+</root>

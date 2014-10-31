@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_plan wrapping="false">
+        <Project cardinality_estimate="UNKNOWN">
+            <arguments>
+                <Item alias="dname">
+                    <QueryPath steps="dname">
+                        <Variable name="departments" />
+                    </QueryPath>
+                </Item>
+                <Item alias="did">
+                    <QueryPath steps="did">
+                        <Variable name="departments" />
+                    </QueryPath>
+                </Item>
+                <Item alias="employees">
+                    <QueryPath steps="employees">
+                        <Variable name="departments" />
+                    </QueryPath>
+                </Item>
+            </arguments>
+            <Scan alias="departments" cardinality_estimate="UNKNOWN">
+                <arguments>
+                    <Variable data_source="session" mode="ABSOLUTE" schema_object="departments" />
+                </arguments>
+                <Ground cardinality_estimate="UNKNOWN">
+                    <arguments />
+                </Ground>
+            </Scan>
+        </Project>
+    </query_plan>
+    <output_schema>
+        <root type="collection">
+            <element type="tuple">
+                <dname type="string" />
+                <did type="integer" />
+                <employees type="collection">
+                    <element type="tuple">
+                        <eid type="string" />
+                        <ename type="string" />
+                    </element>
+                    <constraints>
+                        <local-key collection="/tuple/employees">
+                            <attribute path="tuple/eid" />
+                        </local-key>
+                    </constraints>
+                </employees>
+            </element>
+            <constraints>
+                <local-key collection="/">
+                    <attribute path="tuple/did" />
+                </local-key>
+            </constraints>
+        </root>
+        <constraints />
+    </output_schema>
+</test_case>

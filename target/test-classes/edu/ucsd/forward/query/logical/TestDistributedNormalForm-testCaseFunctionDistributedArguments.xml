@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_expression>
+        <![CDATA[
+             SELECT CASE WHEN proposal_id < 10 THEN proposal_id ELSE src2.params.proposal.id END as casewhen
+             FROM src1.proposals AS p
+        ]]>
+    </query_expression>
+
+    <query_plan wrapping="false">
+        <Project cardinality_estimate="UNKNOWN">
+            <arguments>
+                <Item alias="casewhen">
+                    <FunctionCall name="CASE">
+                        <FunctionCall name="&lt;">
+                            <Variable name="__v0" />
+                            <Constant>
+                                <integer>10</integer>
+                            </Constant>
+                        </FunctionCall>
+                        <Variable name="__v1" />
+                        <Constant>
+                            <boolean>true</boolean>
+                        </Constant>
+                        <Variable name="__v2" />
+                    </FunctionCall>
+                </Item>
+            </arguments>
+            <Navigate alias="__v2" cardinality_estimate="UNKNOWN">
+                <arguments>
+                    <QueryPath steps="proposal.id">
+                        <Variable data_source="src2" mode="ABSOLUTE" schema_object="params" />
+                    </QueryPath>
+                </arguments>
+                <Navigate alias="__v1" cardinality_estimate="UNKNOWN">
+                    <arguments>
+                        <QueryPath steps="proposal_id">
+                            <Variable mode="ELEMENT" name="p" />
+                        </QueryPath>
+                    </arguments>
+                    <Navigate alias="__v0" cardinality_estimate="UNKNOWN">
+                        <arguments>
+                            <QueryPath steps="proposal_id">
+                                <Variable mode="ELEMENT" name="p" />
+                            </QueryPath>
+                        </arguments>
+                        <Scan alias="p" cardinality_estimate="UNKNOWN">
+                            <arguments>
+                                <Variable data_source="src1" mode="ABSOLUTE" schema_object="proposals" />
+                            </arguments>
+                            <Ground cardinality_estimate="UNKNOWN">
+                                <arguments />
+                            </Ground>
+                        </Scan>
+                    </Navigate>
+                </Navigate>
+            </Navigate>
+        </Project>
+    </query_plan>
+
+    <query_plan wrapping="false">
+        <SendPlan cardinality_estimate="UNKNOWN" execution_data_source="src1">
+            <arguments>
+                <Project cardinality_estimate="UNKNOWN" execution_data_source="src1">
+                    <arguments>
+                        <Item alias="casewhen">
+                            <FunctionCall name="CASE">
+                                <FunctionCall name="&lt;">
+                                    <Variable name="__v0" />
+                                    <Constant>
+                                        <integer>10</integer>
+                                    </Constant>
+                                </FunctionCall>
+                                <Variable name="__v1" />
+                                <Constant>
+                                    <boolean>true</boolean>
+                                </Constant>
+                                <Variable name="__v2" />
+                            </FunctionCall>
+                        </Item>
+                    </arguments>
+                    <Navigate alias="__v2" cardinality_estimate="UNKNOWN" execution_data_source="src1">
+                        <arguments>
+                            <QueryPath steps="proposal.id">
+                                <Variable data_source="src2" mode="ABSOLUTE" schema_object="params" />
+                            </QueryPath>
+                        </arguments>
+                        <Navigate alias="__v1" cardinality_estimate="UNKNOWN" execution_data_source="src1">
+                            <arguments>
+                                <QueryPath steps="proposal_id">
+                                    <Variable mode="ELEMENT" name="p" />
+                                </QueryPath>
+                            </arguments>
+                            <Navigate alias="__v0" cardinality_estimate="UNKNOWN" execution_data_source="src1">
+                                <arguments>
+                                    <QueryPath steps="proposal_id">
+                                        <Variable mode="ELEMENT" name="p" />
+                                    </QueryPath>
+                                </arguments>
+                                <Scan alias="p" cardinality_estimate="UNKNOWN" execution_data_source="src1">
+                                    <arguments>
+                                        <Variable data_source="src1" mode="ABSOLUTE" schema_object="proposals" />
+                                    </arguments>
+                                    <Ground cardinality_estimate="UNKNOWN" execution_data_source="src1">
+                                        <arguments />
+                                    </Ground>
+                                </Scan>
+                            </Navigate>
+                        </Navigate>
+                    </Navigate>
+                </Project>
+            </arguments>
+        </SendPlan>
+    </query_plan>
+
+
+    <data_source name="src1" storage_system="JDBC" data_model="RELATIONAL">
+        <properties environment="testing" overwrite="true" user="postgres" password="postgres" maxPoolSize="20"
+            unreturnedConnectionTimeout="0" debugUnreturnedConnectionStackTraces="true" driver="postgresql" host="localhost" port="5432"
+            database="forward" schema="public" />
+        <properties environment="jenkins" overwrite="true" user="postgres" password="postgres" maxPoolSize="20"
+            unreturnedConnectionTimeout="0" debugUnreturnedConnectionStackTraces="true" driver="postgresql" host="localhost" port="5432"
+            database="forward" schema="public" />
+    </data_source>
+    <data_object name="proposals" execution_data_source="src1" cardinality_estimate="LARGE">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <proposal_id type="integer" />
+                    <title type="string" />
+                    <summary type="string" />
+                    <description type="string" />
+                </element>
+                <constraints>
+                    <local-key collection="/">
+                        <attribute path="tuple/proposal_id" />
+                    </local-key>
+                </constraints>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+            </root>
+        </data_tree>
+    </data_object>
+
+    <data_object name="reviewers" execution_data_source="src3" cardinality_estimate="LARGE">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <reviewer_id type="integer" />
+                    <email type="string" />
+                </element>
+                <constraints>
+                    <local-key collection="/">
+                        <attribute path="tuple/reviewer_id" />
+                    </local-key>
+                </constraints>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+            </root>
+        </data_tree>
+    </data_object>
+    <data_object name="reviews" execution_data_source="src3" cardinality_estimate="SMALL">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <proposal type="integer" />
+                    <comment type="string" />
+                    <grade type="integer" />
+                    <reviewer type="integer" />
+                </element>
+                <constraints>
+                    <local-key collection="/">
+                        <attribute path="tuple/proposal" />
+                        <attribute path="tuple/reviewer" />
+                    </local-key>
+                </constraints>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+            </root>
+        </data_tree>
+    </data_object>
+
+
+    <data_object name="params" execution_data_source="src2" cardinality_estimate="SMALL">
+        <schema_tree>
+            <root type="tuple">
+                <proposal type="tuple">
+                    <id type="integer" />
+                    <name type="string" />
+                </proposal>
+                <new_grade type="integer" />
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <proposal>
+                    <id>1</id>
+                    <name>test</name>
+                </proposal>
+                <new_grade>5</new_grade>
+            </root>
+        </data_tree>
+    </data_object>
+</test_case>

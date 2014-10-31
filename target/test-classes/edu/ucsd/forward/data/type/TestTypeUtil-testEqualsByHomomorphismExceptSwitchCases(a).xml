@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <schema_tree>
+        <root type="tuple">
+            <s type="switch">
+                <sa type="tuple">
+                    <p type="collection">
+                        <element type="tuple">
+                            <pid type="integer" />
+                            <pn type="collection">
+                                <element type="tuple">
+                                    <pnid type="string" />
+                                </element>
+                                <constraints>
+                                    <local-key>
+                                        <attribute path="tuple/pnid" />
+                                    </local-key>
+                                </constraints>
+                            </pn>
+                        </element>
+                        <constraints>
+                            <local-key>
+                                <attribute path="tuple/pid" />
+                            </local-key>
+                        </constraints>
+                    </p>
+                </sa>
+                <sb type="tuple">
+                    <q type="collection">
+                        <element type="tuple">
+                            <qid type="string" />
+                        </element>
+                        <constraints>
+                            <local-key>
+                                <attribute path="tuple/qid" />
+                            </local-key>
+                        </constraints>
+                    </q>
+                </sb>
+            </s>
+        </root>
+    </schema_tree>
+</root>

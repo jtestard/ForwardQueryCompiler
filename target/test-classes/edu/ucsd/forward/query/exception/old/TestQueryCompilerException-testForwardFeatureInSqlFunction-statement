@@ -1,0 +1,7 @@
+SELECT title
+FROM proposals AS p
+WHERE EXISTS(
+      SELECT TUPLE_ELEMENT(SELECT comment AS c) AS comment
+      FROM p.reviews AS r
+      WHERE r.review_id = p.proposal_id
+)

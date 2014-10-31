@@ -1,0 +1,23 @@
+<test_case>
+    <query_expression>
+        <![CDATA[
+SELECT s.s_suppkey, s.s_name, (
+           SELECT p_brand, count(*) AS total
+           FROM public.partx10 AS p, public.partsuppx10 AS ps
+           WHERE s.s_suppkey = ps.ps_suppkey AND ps.ps_partkey = p.p_partkey
+           GROUP BY p_brand
+           ORDER BY total DESC
+           LIMIT 3
+       ) AS aggregates
+FROM public.supplierx10 AS s
+WHERE s.s_suppkey < 101
+        ]]>
+    </query_expression>
+
+    <data_source name="public" storage_system="JDBC" data_model="RELATIONAL">
+        <properties environment="testing" user="ubuntu" password="ubuntu" maxPoolSize="1"
+            unreturnedConnectionTimeout="0" debugUnreturnedConnectionStackTraces="true" overwrite="false" driver="postgresql" host="localhost"
+            port="9000" database="tpch3_1200" />
+    </data_source>
+
+</test_case>

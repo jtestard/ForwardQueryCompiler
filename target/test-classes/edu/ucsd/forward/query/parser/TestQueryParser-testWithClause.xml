@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_expression>
+        <![CDATA[
+            WITH a AS (SELECT * FROM mem.src1), 
+                 b AS (SELECT * FROM a JOIN mem.src2 ON a.r = b.s)
+            SELECT b.s, (WITH c AS (SELECT * FROM b.t
+                                    GROUP BY t1)
+                         SELECT * FROM mem.src3, c) AS item2                         
+            FROM b                  
+        ]]>
+    </query_expression>
+    <query_expression><![CDATA[WITH a AS (
+   SELECT ALL
+      *
+   FROM
+      mem.src1
+), b AS (
+   SELECT ALL
+      *
+   FROM
+         a
+         INNER JOIN 
+         mem.src2
+         ON       (a.r = b.s)
+
+)SELECT ALL
+   b.s, 
+   (
+      WITH c AS (
+   SELECT ALL
+      *
+   FROM
+      b.t
+   GROUP BY t1
+)      SELECT ALL
+         *
+      FROM
+         mem.src3, 
+         c
+   ) AS item2
+FROM
+   b]]>
+</query_expression>
+</test_case>

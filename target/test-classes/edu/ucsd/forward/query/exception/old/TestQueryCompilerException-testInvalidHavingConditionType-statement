@@ -1,0 +1,3 @@
+SELECT title
+FROM proposals
+HAVING title

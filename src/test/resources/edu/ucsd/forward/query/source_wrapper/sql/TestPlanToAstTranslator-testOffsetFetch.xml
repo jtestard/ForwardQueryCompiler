@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_expression>
+        <![CDATA[
+SELECT
+    R.name AS name, 
+    R.proposal_ref AS proposal_ref
+FROM
+    src_1.reviewers AS R
+ORDER BY name || name DESC NULLS FIRST, proposal_ref ASC NULLS LAST
+OFFSET 1 ROW
+LIMIT 2
+        ]]>
+    </query_expression>
+    <data_source name="src_1" storage_system="JDBC" data_model="RELATIONAL">
+        <properties environment="testing" overwrite="true" user="postgres" password="postgres" maxPoolSize="20"
+            unreturnedConnectionTimeout="0" debugUnreturnedConnectionStackTraces="true" driver="postgresql" host="localhost" port="5432"
+            database="forward" schema="public" />
+        <properties environment="jenkins" overwrite="true" user="postgres" password="postgres" maxPoolSize="20"
+            unreturnedConnectionTimeout="0" debugUnreturnedConnectionStackTraces="true" driver="postgresql" host="localhost" port="5432"
+            database="forward" schema="public" />
+    </data_source>
+    <data_object name="reviewers" execution_data_source="src_1">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <name type="string" />
+                    <proposal_ref type="integer" />
+                </element>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <name>Alice</name>
+                    <proposal_ref>1</proposal_ref>
+                </element>
+                <element>
+                    <name>Bob</name>
+                    <proposal_ref>2</proposal_ref>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+    <query_plan wrapping="false">
+        <SendPlan cardinality_estimate="UNKNOWN" execution_data_source="src_1">
+            <arguments>
+                <Project cardinality_estimate="UNKNOWN" execution_data_source="src_1">
+                    <arguments>
+                        <Item alias="name">
+                            <Variable name="__v0" />
+                        </Item>
+                        <Item alias="proposal_ref">
+                            <Variable name="__v1" />
+                        </Item>
+                    </arguments>
+                    <OffsetFetch cardinality_estimate="UNKNOWN" execution_data_source="src_1">
+                        <arguments>
+                            <offset>
+                                <Constant>
+                                    <integer>1</integer>
+                                </Constant>
+                            </offset>
+                            <fetch>
+                                <Constant>
+                                    <integer>2</integer>
+                                </Constant>
+                            </fetch>
+                        </arguments>
+                        <Sort cardinality_estimate="UNKNOWN" execution_data_source="src_1">
+                            <arguments>
+                                <Item nulls="FIRST" spec="DESC">
+                                    <FunctionCall name="||">
+                                        <Variable name="__v2" />
+                                        <Variable name="__v3" />
+                                    </FunctionCall>
+                                </Item>
+                                <Item nulls="LAST" spec="ASC">
+                                    <Variable name="__v1" />
+                                </Item>
+                            </arguments>
+                            <Navigate alias="__v3" cardinality_estimate="UNKNOWN" execution_data_source="src_1">
+                                <arguments>
+                                    <QueryPath steps="name">
+                                        <Variable mode="ELEMENT" name="R" />
+                                    </QueryPath>
+                                </arguments>
+                                <Navigate alias="__v2" cardinality_estimate="UNKNOWN" execution_data_source="src_1">
+                                    <arguments>
+                                        <QueryPath steps="name">
+                                            <Variable mode="ELEMENT" name="R" />
+                                        </QueryPath>
+                                    </arguments>
+                                    <Navigate alias="__v1" cardinality_estimate="UNKNOWN" execution_data_source="src_1">
+                                        <arguments>
+                                            <QueryPath steps="proposal_ref">
+                                                <Variable mode="ELEMENT" name="R" />
+                                            </QueryPath>
+                                        </arguments>
+                                        <Navigate alias="__v0" cardinality_estimate="UNKNOWN" execution_data_source="src_1">
+                                            <arguments>
+                                                <QueryPath steps="name">
+                                                    <Variable mode="ELEMENT" name="R" />
+                                                </QueryPath>
+                                            </arguments>
+                                            <Scan alias="R" cardinality_estimate="UNKNOWN" execution_data_source="src_1">
+                                                <arguments>
+                                                    <Variable data_source="src_1" mode="ABSOLUTE" schema_object="reviewers" />
+                                                </arguments>
+                                                <Ground cardinality_estimate="UNKNOWN" execution_data_source="src_1">
+                                                    <arguments />
+                                                </Ground>
+                                            </Scan>
+                                        </Navigate>
+                                    </Navigate>
+                                </Navigate>
+                            </Navigate>
+                        </Sort>
+                    </OffsetFetch>
+                </Project>
+            </arguments>
+        </SendPlan>
+    </query_plan>
+
+    <query_expression>
+        <![CDATA[SELECT ALL
+   R.name AS name, 
+   R.proposal_ref AS proposal_ref
+FROM
+   public.reviewers AS R
+ORDER BY (R.name || R.name) DESC NULLS FIRST, R.proposal_ref ASC NULLS LAST
+OFFSET 1 ROWS
+FETCH NEXT 2 ROWS ONLY]]>
+    </query_expression>
+    <data_object name="output" execution_data_source="output">
+        <schema_tree>
+            <root ordered="true" type="collection">
+                <element type="tuple">
+                    <name type="string" />
+                    <proposal_ref type="integer" />
+                </element>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root ordered="true">
+                <element>
+                    <name>Alice</name>
+                    <proposal_ref>1</proposal_ref>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+</test_case>

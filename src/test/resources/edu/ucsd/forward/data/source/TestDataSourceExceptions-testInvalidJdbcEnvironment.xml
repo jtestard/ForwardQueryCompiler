@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <data_source name="test_source" storage_system="JDBC" data_model="RELATIONAL">
+        <properties user="postgres" password="postgres" environment="production" driver="postgresql" host="localhost"
+            port="5432" database="forward" schema="public" />
+        <properties user="postgres" password="postgres" environment="production" driver="postgresql" host="localhost"
+            port="5432" database="forward" schema="public" />
+    </data_source>
+</test_case>

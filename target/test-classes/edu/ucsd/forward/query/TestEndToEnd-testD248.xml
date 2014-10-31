@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_expression>
+        <![CDATA[
+            select  -1 as id, 'None' as title
+            union all
+            select  * 
+            from    (
+                        select      id, title
+                        from        d248_db.executed_queries
+                        limit       1
+                    ) as t
+        ]]>
+    </query_expression>
+    <data_source name="d248_db" storage_system="JDBC" data_model="RELATIONAL">
+        <properties environment="testing" overwrite="true" user="postgres" password="postgres" maxPoolSize="20"
+            unreturnedConnectionTimeout="0" debugUnreturnedConnectionStackTraces="true" driver="postgresql" host="localhost" port="5432"
+            database="forward" schema="public" />
+        <properties environment="jenkins" overwrite="true" user="postgres" password="postgres" maxPoolSize="20"
+            unreturnedConnectionTimeout="0" debugUnreturnedConnectionStackTraces="true" driver="postgresql" host="localhost" port="5432"
+            database="forward" schema="public" />
+    </data_source>
+    <data_object name="executed_queries" execution_data_source="d248_db" cardinality_estimate="LARGE">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <id type="integer"/>
+                    <title type="string"/>
+                    <user_ref type="integer"/>
+                </element>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <id>1</id>
+                    <title>QP1</title>
+                    <user_ref>1</user_ref>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+    <data_object name="output" execution_data_source="output">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <id type="integer"/>
+                    <title type="string"/>
+                </element>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <id>-1</id>
+                    <title>None</title>
+                </element>
+                <element>
+                    <id>1</id>
+                    <title>QP1</title>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+</test_case>

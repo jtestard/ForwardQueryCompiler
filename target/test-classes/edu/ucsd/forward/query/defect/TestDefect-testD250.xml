@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_expression>
+        <![CDATA[
+        select  rid as r_ref,
+                cast((toffset/tlimit)+1 as string) as pg_number
+        from    d250_db.d250_reports as r
+        ]]>
+    </query_expression>
+    <data_source name="d250_db" storage_system="INMEMORY" data_model="RELATIONAL">
+        <properties environment="testing" driver="postgresql" host="localhost" port="5432" database="forward" schema="public"
+            user="postgres" password="postgres" maxPoolSize="20" unreturnedConnectionTimeout="0"
+            debugUnreturnedConnectionStackTraces="true" />
+    </data_source>
+    <data_object name="d250_reports" execution_data_source="d250_db" cardinality_estimate="LARGE">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <rid type="integer"/>
+                    <toffset type="integer"/>
+                    <tlimit type="integer"/>
+                </element>
+                <constraints>
+                    <local-key>
+                        <attribute path="tuple/rid" />
+                    </local-key>
+                </constraints>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <rid>1</rid>
+                    <toffset>0</toffset>
+                    <tlimit>10</tlimit>
+                </element>
+                <element>
+                    <rid>2</rid>
+                    <toffset>11</toffset>
+                    <tlimit>10</tlimit>
+                </element>
+                <element>
+                    <rid>3</rid>
+                    <toffset>21</toffset>
+                    <tlimit>10</tlimit>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+    <data_object name="output" execution_data_source="output">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <r_ref type="integer"/>
+                    <pg_number type="integer"/>
+                </element>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <r_ref>1</r_ref>
+                    <pg_number>1</pg_number>
+                </element>
+                <element>
+                    <r_ref>2</r_ref>
+                    <pg_number>2</pg_number>
+                </element>
+                <element>
+                    <r_ref>3</r_ref>
+                    <pg_number>3</pg_number>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+</test_case>

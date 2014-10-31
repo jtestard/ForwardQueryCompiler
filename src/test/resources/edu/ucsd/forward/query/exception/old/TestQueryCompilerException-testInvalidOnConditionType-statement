@@ -1,0 +1,2 @@
+SELECT P.proposal_id
+FROM proposals AS P JOIN proposals AS T ON (P.title||T.title)

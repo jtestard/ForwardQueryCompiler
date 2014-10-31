@@ -1,0 +1,13 @@
+<doc>
+    <entry path="/ClosureButton">A button control, rendered as a native browser button by default.</entry>
+    <entry path="/ClosureButton/style">This is a CSS styling attribute as defined by the CSS Styling Attribute Syntax specification.</entry>
+    <entry path="/ClosureButton/enabled">Enables or disables the component. Does nothing if this state transition is disallowed. If the component is both visible and focusable, updates its focused state and tab index as needed. If the component is being disabled, ensures that it is also deactivated and un-highlighted first. Note that the component&#39;s enabled/disabled state is &quot;locked&quot; as long as it is hosted in a goog.ui.Container that is itself disabled; this is to prevent clients from accidentally re-enabling a control that is in a disabled container.</entry>
+    <entry path="/ClosureButton/collapse_side">Collapses the border on one or both sides of the button, allowing it to be combined with the adjancent button(s), forming a single UI componenet with multiple targets.</entry>
+    <entry path="/ClosureButton/tooltip">Sets the tooltip for the button, and updates its DOM.</entry>
+    <entry path="/ClosureButton/highlight">Highlights or unhighlights the component. Does nothing if this state transition is disallowed.</entry>
+    <entry path="/ClosureButton/visible">Shows or hides the component. Does nothing if the component already has the requested visibility. Otherwise, dispatches a SHOW or HIDE event as appropriate, giving listeners a chance to prevent the visibility change. When showing a component that is both enabled and focusable, ensures that its key target has a tab index. When hiding a component that is enabled and focusable, blurs its key target and removes its tab index.</entry>
+    <entry path="/ClosureButton/selected">Selects or unselects the component. Does nothing if this state transition is disallowed.</entry>
+    <entry path="/ClosureButton/caption">Sets the text caption of the component.</entry>
+    <entry path="/ClosureButton/content">Sets the component's content to the given text caption, element, or array of nodes. (If the argument is an array of nodes, it must be an actual array, not an array-like object.)</entry>
+</doc>
+

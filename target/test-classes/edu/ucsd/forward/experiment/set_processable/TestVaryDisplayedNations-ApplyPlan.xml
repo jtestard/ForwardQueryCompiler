@@ -1,0 +1,252 @@
+<test_case>
+
+    <query_plan>
+        <SendPlan cardinality_estimate="SMALL" execution_data_source="mediator" impl="SendPlanImplInMemory">
+            <arguments>
+                <Project cardinality_estimate="SMALL" execution_data_source="mediator" impl="ProjectImpl">
+                    <arguments>
+                        <Item alias="name">
+                            <Variable name="n_name" />
+                        </Item>
+                        <Item alias="agg_orders">
+                            <Variable name="agg_orders" />
+                        </Item>
+                    </arguments>
+                    <Sort cardinality_estimate="SMALL" execution_data_source="mediator" impl="SortImpl">
+                        <arguments>
+                            <Item nulls="LAST" spec="ASC">
+                                <Variable name="n_name" />
+                            </Item>
+                        </arguments>
+                        <ApplyPlan attr_name="agg_orders" cardinality_estimate="LARGE" execution_data_source="mediator"
+                            impl="ApplyPlanImpl">
+                            <arguments>
+
+                                <SendPlan cardinality_estimate="LARGE" execution_data_source="public" impl="SendPlanImplJdbc">
+                                    <arguments>
+                                        <offset_fetch execution_data_source="public" cardinality_estimate="SMALL">
+                                            <arguments>
+                                                <fetch>
+                                                    <constant>
+                                                        <integer>3</integer>
+                                                    </constant>
+                                                </fetch>
+                                            </arguments>
+                                            <Sort cardinality_estimate="LARGE" execution_data_source="public" impl="SortImpl">
+                                                <arguments>
+                                                    <item spec="ASC" nulls="LAST">
+                                                        <Variable name="sum_call__v28" />
+                                                    </item>
+                                                </arguments>
+                                                <Project cardinality_estimate="LARGE" execution_data_source="public" impl="ProjectImpl">
+                                                    <arguments>
+
+                                                        <Item alias="o_orderdate">
+                                                            <Variable name="o_orderdate" />
+                                                        </Item>
+                                                        <Item alias="sum_call__v28">
+                                                            <Variable name="sum_call__v28" />
+                                                        </Item>
+                                                    </arguments>
+
+                                                    <GroupBy cardinality_estimate="SMALL" execution_data_source="public"
+                                                        impl="GroupByImpl">
+                                                        <arguments>
+                                                            <GroupByItem>
+                                                                <Variable name="o_orderdate" />
+                                                            </GroupByItem>
+                                                            <Aggregate alias="sum_call__v28">
+                                                                <FunctionCall name="SUM" set_quantifier="ALL">
+                                                                    <Variable name="o_totalprice" />
+                                                                </FunctionCall>
+                                                            </Aggregate>
+                                                        </arguments>
+                                                        <Select cardinality_estimate="LARGE" execution_data_source="public"
+                                                            impl="SelectImplSeq">
+                                                            <arguments>
+                                                                <FunctionCall name="=">
+                                                                    <Parameter>
+                                                                        <Variable name="n_nationkey">
+                                                                            <type type="integer" />
+                                                                        </Variable>
+                                                                    </Parameter>
+                                                                    <Variable name="c_nationkey" />
+                                                                </FunctionCall>
+                                                            </arguments>
+                                                            <InnerJoin cardinality_estimate="LARGE" execution_data_source="public"
+                                                                impl="InnerJoinImplNestedLoop">
+                                                                <arguments>
+                                                                    <FunctionCall name="=">
+                                                                        <Variable name="o_custkey" />
+                                                                        <Variable name="c_custkey" />
+                                                                    </FunctionCall>
+                                                                </arguments>
+                                                                <Scan alias="o" cardinality_estimate="LARGE"
+                                                                    execution_data_source="public" impl="ScanImpl">
+                                                                    <arguments>
+                                                                        <Variable data_source="public" mode="ABSOLUTE"
+                                                                            schema_object="orders" />
+                                                                        <Attribute>
+                                                                            <QueryPath steps="o_custkey" />
+                                                                            <Variable name="o_custkey" />
+                                                                        </Attribute>
+                                                                        <Attribute>
+                                                                            <QueryPath steps="o_totalprice" />
+                                                                            <Variable name="o_totalprice" />
+                                                                        </Attribute>
+                                                                        <Attribute>
+                                                                            <QueryPath steps="o_orderdate" />
+                                                                            <Variable name="o_orderdate" />
+                                                                        </Attribute>
+                                                                    </arguments>
+                                                                    <Ground cardinality_estimate="ONE" execution_data_source="public"
+                                                                        impl="GroundImpl">
+                                                                        <arguments />
+                                                                    </Ground>
+                                                                </Scan>
+                                                                <Scan alias="c" cardinality_estimate="LARGE"
+                                                                    execution_data_source="public" impl="ScanImpl">
+                                                                    <arguments>
+                                                                        <Variable data_source="public" mode="ABSOLUTE"
+                                                                            schema_object="customers" />
+                                                                        <Attribute>
+                                                                            <QueryPath steps="c_custkey" />
+                                                                            <Variable name="c_custkey" />
+                                                                        </Attribute>
+                                                                        <Attribute>
+                                                                            <QueryPath steps="c_nationkey" />
+                                                                            <Variable name="c_nationkey" />
+                                                                        </Attribute>
+                                                                    </arguments>
+                                                                    <Ground cardinality_estimate="ONE" execution_data_source="public"
+                                                                        impl="GroundImpl">
+                                                                        <arguments />
+                                                                    </Ground>
+                                                                </Scan>
+                                                            </InnerJoin>
+
+                                                        </Select>
+                                                    </GroupBy>
+                                                </Project>
+                                            </Sort>
+                                        </offset_fetch>
+                                    </arguments>
+                                </SendPlan>
+                            </arguments>
+
+
+
+
+                            <SendPlan execution_data_source="public" impl="SendPlanImplJdbc">
+                                <arguments>
+                                    <Project cardinality_estimate="SMALL" execution_data_source="public" impl="ProjectImpl">
+                                        <arguments>
+                                            <Item alias="n_nationkey">
+                                                <Variable name="n_nationkey" />
+                                            </Item>
+                                            <Item alias="n_name">
+                                                <Variable name="n_name" />
+                                            </Item>
+                                        </arguments>
+                                        <InnerJoin execution_data_source="public" impl="InnerJoinImplNestedLoop">
+                                            <arguments>
+                                                <FunctionCall name="=">
+                                                    <Variable name="n_nationkey" />
+                                                    <Variable name="key" />
+                                                </FunctionCall>
+                                            </arguments>
+                                            <Scan alias="__param_2" cardinality_estimate="SMALL" execution_data_source="public"
+                                                impl="ScanImpl">
+                                                <arguments>
+                                                    <Parameter instantiation="COPY" data_source="public" schema_object="__param_2">
+                                                        <Variable name="__param_2">
+                                                            <type type="collection">
+                                                                <element type="tuple">
+                                                                    <key type="integer" />
+                                                                </element>
+                                                            </type>
+                                                        </Variable>
+                                                    </Parameter>
+                                                    <Attribute>
+                                                        <QueryPath steps="key" />
+                                                        <Variable name="key" />
+                                                    </Attribute>
+                                                </arguments>
+                                                <Ground cardinality_estimate="ONE" execution_data_source="public" impl="GroundImpl">
+                                                    <arguments />
+                                                </Ground>
+                                            </Scan>
+                                            <Scan alias="n" execution_data_source="public" cardinality_estimate="SMALL" impl="ScanImpl">
+                                                <arguments>
+                                                    <Variable data_source="public" mode="ABSOLUTE" schema_object="nation" />
+                                                    <Attribute>
+                                                        <QueryPath steps="n_nationkey" />
+                                                        <Variable name="n_nationkey" />
+                                                    </Attribute>
+                                                    <Attribute>
+                                                        <QueryPath steps="n_name" />
+                                                        <Variable name="n_name" />
+                                                    </Attribute>
+                                                </arguments>
+                                                <Ground cardinality_estimate="ONE" execution_data_source="public" impl="GroundImpl" />
+                                            </Scan>
+                                        </InnerJoin>
+                                    </Project>
+                                </arguments>
+
+                                <Copy target_schema_object="__param_2" execution_data_source="mediator" target_data_source="public"
+                                    impl="CopyImplInMemory">
+                                    <arguments>
+                                        <SendPlan execution_data_source="src" impl="SendPlanImplInMemory">
+                                            <arguments>
+                                                <Scan alias="s" execution_data_source="mediator" cardinality_estimate="SMALL"
+                                                    impl="ScanImpl">
+                                                    <arguments>
+                                                        <Variable data_source="src" mode="ABSOLUTE" schema_object="selected_nations" />
+                                                        <Attribute>
+                                                            <QueryPath steps="key" />
+                                                            <Variable name="key" />
+                                                        </Attribute>
+                                                    </arguments>
+                                                    <Ground cardinality_estimate="ONE" execution_data_source="src" impl="GroundImpl" />
+                                                </Scan>
+                                            </arguments>
+                                        </SendPlan>
+                                    </arguments>
+                                </Copy>
+                            </SendPlan>
+                        </ApplyPlan>
+                    </Sort>
+                </Project>
+            </arguments>
+        </SendPlan>
+    </query_plan>
+
+
+    <data_source name="public" storage_system="JDBC" data_model="RELATIONAL">
+        <properties environment="testing" user="ubuntu" password="ubuntu" maxPoolSize="1"
+            unreturnedConnectionTimeout="0" debugUnreturnedConnectionStackTraces="true" overwrite="false" driver="postgresql" host="localhost"
+            port="9000" database="tpch3_1200" />
+    </data_source>
+
+
+    <data_object name="selected_nations" execution_data_source="src" cardinality_estimate="SMALL">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <key type="integer" />
+                    <!-- <name type="string" /> -->
+                </element>
+                <constraints>
+                    <local-key>
+                        <attribute path="tuple/key" />
+                    </local-key>
+                </constraints>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root />
+        </data_tree>
+    </data_object>
+
+</test_case>

@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_expression>
+        <![CDATA[       
+SELECT COUNT(*) AS star, COUNT(DISTINCT grade) AS m_count, SUM(DISTINCT grade) AS m_sum, AVG(DISTINCT grade) AS m_avg, MIN(DISTINCT grade) AS m_min, MAX(DISTINCT grade) AS m_max, NEST(DISTINCT proposal, comment, grade, reviewer) AS m_nest, STRING_AGG(DISTINCT CAST(grade AS string), ':') AS m_string_agg
+FROM src_1.reviews AS R
+        ]]>
+    </query_expression>
+    <query_plan wrapping="false">
+        <SendPlan cardinality_estimate="UNKNOWN" execution_data_source="mediator" impl="SendPlanImplInMemory">
+            <arguments>
+                <Project cardinality_estimate="UNKNOWN" execution_data_source="mediator" impl="ProjectImpl">
+                    <arguments>
+                        <Item alias="star">
+                            <Variable name="count_call__v0" />
+                        </Item>
+                        <Item alias="m_count">
+                            <Variable name="count_call__v2" />
+                        </Item>
+                        <Item alias="m_sum">
+                            <Variable name="sum_call__v4" />
+                        </Item>
+                        <Item alias="m_avg">
+                            <Variable name="avg_call__v6" />
+                        </Item>
+                        <Item alias="m_min">
+                            <Variable name="min_call__v8" />
+                        </Item>
+                        <Item alias="m_max">
+                            <Variable name="max_call__v10" />
+                        </Item>
+                        <Item alias="m_nest">
+                            <Variable name="nest_call__v15" />
+                        </Item>
+                        <Item alias="m_string_agg">
+                            <Variable name="string_agg_call__v17" />
+                        </Item>
+                    </arguments>
+                    <GroupBy cardinality_estimate="UNKNOWN" execution_data_source="mediator" impl="GroupByImpl">
+                        <arguments>
+                            <Aggregate alias="count_call__v0">
+                                <FunctionCall name="COUNT" set_quantifier="ALL" />
+                            </Aggregate>
+                            <Aggregate alias="count_call__v2">
+                                <FunctionCall name="COUNT" set_quantifier="DISTINCT">
+                                    <Variable name="__v1" />
+                                </FunctionCall>
+                            </Aggregate>
+                            <Aggregate alias="sum_call__v4">
+                                <FunctionCall name="SUM" set_quantifier="DISTINCT">
+                                    <Variable name="__v3" />
+                                </FunctionCall>
+                            </Aggregate>
+                            <Aggregate alias="avg_call__v6">
+                                <FunctionCall name="AVG" set_quantifier="DISTINCT">
+                                    <Variable name="__v5" />
+                                </FunctionCall>
+                            </Aggregate>
+                            <Aggregate alias="min_call__v8">
+                                <FunctionCall name="MIN" set_quantifier="DISTINCT">
+                                    <Variable name="__v7" />
+                                </FunctionCall>
+                            </Aggregate>
+                            <Aggregate alias="max_call__v10">
+                                <FunctionCall name="MAX" set_quantifier="DISTINCT">
+                                    <Variable name="__v9" />
+                                </FunctionCall>
+                            </Aggregate>
+                            <Aggregate alias="nest_call__v15">
+                                <FunctionCall name="NEST" set_quantifier="DISTINCT">
+                                    <Variable name="__v11" />
+                                    <Variable name="__v12" />
+                                    <Variable name="__v13" />
+                                    <Variable name="__v14" />
+                                </FunctionCall>
+                            </Aggregate>
+                            <Aggregate alias="string_agg_call__v17">
+                                <FunctionCall name="STRING_AGG" set_quantifier="DISTINCT">
+                                    <FunctionCall name="CAST" target_type="string">
+                                        <Variable name="__v16" />
+                                    </FunctionCall>
+                                    <Constant>
+                                        <string>:</string>
+                                    </Constant>
+                                </FunctionCall>
+                            </Aggregate>
+                        </arguments>
+                        <Navigate alias="__v16" cardinality_estimate="UNKNOWN" execution_data_source="mediator" impl="NavigateImpl">
+                            <arguments>
+                                <QueryPath steps="grade">
+                                    <Variable mode="ELEMENT" name="R" />
+                                </QueryPath>
+                            </arguments>
+                            <Navigate alias="__v14" cardinality_estimate="UNKNOWN" execution_data_source="mediator" impl="NavigateImpl">
+                                <arguments>
+                                    <QueryPath steps="reviewer">
+                                        <Variable mode="ELEMENT" name="R" />
+                                    </QueryPath>
+                                </arguments>
+                                <Navigate alias="__v13" cardinality_estimate="UNKNOWN" execution_data_source="mediator"
+                                    impl="NavigateImpl">
+                                    <arguments>
+                                        <QueryPath steps="grade">
+                                            <Variable mode="ELEMENT" name="R" />
+                                        </QueryPath>
+                                    </arguments>
+                                    <Navigate alias="__v12" cardinality_estimate="UNKNOWN" execution_data_source="mediator"
+                                        impl="NavigateImpl">
+                                        <arguments>
+                                            <QueryPath steps="comment">
+                                                <Variable mode="ELEMENT" name="R" />
+                                            </QueryPath>
+                                        </arguments>
+                                        <Navigate alias="__v11" cardinality_estimate="UNKNOWN" execution_data_source="mediator"
+                                            impl="NavigateImpl">
+                                            <arguments>
+                                                <QueryPath steps="proposal">
+                                                    <Variable mode="ELEMENT" name="R" />
+                                                </QueryPath>
+                                            </arguments>
+                                            <Navigate alias="__v9" cardinality_estimate="UNKNOWN" execution_data_source="mediator"
+                                                impl="NavigateImpl">
+                                                <arguments>
+                                                    <QueryPath steps="grade">
+                                                        <Variable mode="ELEMENT" name="R" />
+                                                    </QueryPath>
+                                                </arguments>
+                                                <Navigate alias="__v7" cardinality_estimate="UNKNOWN"
+                                                    execution_data_source="mediator" impl="NavigateImpl">
+                                                    <arguments>
+                                                        <QueryPath steps="grade">
+                                                            <Variable mode="ELEMENT" name="R" />
+                                                        </QueryPath>
+                                                    </arguments>
+                                                    <Navigate alias="__v5" cardinality_estimate="UNKNOWN"
+                                                        execution_data_source="mediator" impl="NavigateImpl">
+                                                        <arguments>
+                                                            <QueryPath steps="grade">
+                                                                <Variable mode="ELEMENT" name="R" />
+                                                            </QueryPath>
+                                                        </arguments>
+                                                        <Navigate alias="__v3" cardinality_estimate="UNKNOWN"
+                                                            execution_data_source="mediator" impl="NavigateImpl">
+                                                            <arguments>
+                                                                <QueryPath steps="grade">
+                                                                    <Variable mode="ELEMENT" name="R" />
+                                                                </QueryPath>
+                                                            </arguments>
+                                                            <Navigate alias="__v1" cardinality_estimate="UNKNOWN"
+                                                                execution_data_source="mediator" impl="NavigateImpl">
+                                                                <arguments>
+                                                                    <QueryPath steps="grade">
+                                                                        <Variable mode="ELEMENT" name="R" />
+                                                                    </QueryPath>
+                                                                </arguments>
+                                                                <Scan alias="R" cardinality_estimate="UNKNOWN"
+                                                                    execution_data_source="mediator" impl="ScanImpl">
+                                                                    <arguments>
+                                                                        <Variable data_source="src_1" mode="ABSOLUTE"
+                                                                            schema_object="reviews" />
+                                                                    </arguments>
+                                                                    <Ground cardinality_estimate="UNKNOWN"
+                                                                        execution_data_source="mediator" impl="GroundImpl">
+                                                                        <arguments />
+                                                                    </Ground>
+                                                                </Scan>
+                                                            </Navigate>
+                                                        </Navigate>
+                                                    </Navigate>
+                                                </Navigate>
+                                            </Navigate>
+                                        </Navigate>
+                                    </Navigate>
+                                </Navigate>
+                            </Navigate>
+                        </Navigate>
+                    </GroupBy>
+                </Project>
+            </arguments>
+        </SendPlan>
+    </query_plan>
+    <data_object name="reviews" execution_data_source="src_1" cardinality_estimate="SMALL">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <proposal type="integer" />
+                    <comment type="string" />
+                    <grade type="integer" />
+                    <reviewer type="integer" />
+                </element>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <proposal>2</proposal>
+                    <comment>abc</comment>
+                    <grade>10</grade>
+                    <reviewer>3</reviewer>
+                </element>
+                <element>
+                    <proposal>2</proposal>
+                    <comment>abc</comment>
+                    <grade>10</grade>
+                    <reviewer>3</reviewer>
+                </element>
+                <element>
+                    <proposal null="true" />
+                    <comment>abc</comment>
+                    <grade>1</grade>
+                    <reviewer>1</reviewer>
+                </element>
+                <element>
+                    <proposal null="true" />
+                    <comment>abc</comment>
+                    <grade>3</grade>
+                    <reviewer>1</reviewer>
+                </element>
+                <element>
+                    <proposal null="true" />
+                    <comment>abc</comment>
+                    <grade>6</grade>
+                    <reviewer null="true" />
+                </element>
+                <element>
+                    <proposal null="true" />
+                    <comment>abc</comment>
+                    <grade null="true" />
+                    <reviewer null="true" />
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+    <data_object name="output" execution_data_source="output">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <star type="decimal" />
+                    <m_count type="decimal" />
+                    <m_sum type="decimal" />
+                    <m_avg type="decimal" />
+                    <m_min type="decimal" />
+                    <m_max type="decimal" />
+                    <m_nest type="collection">
+                        <element type="tuple">
+                            <proposal type="integer" />
+                            <comment type="string" />
+                            <grade type="integer" />
+                            <reviewer type="integer" />
+                        </element>
+                    </m_nest>
+                    <m_string_agg type="string" />
+                </element>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <star>6</star>
+                    <m_count>4</m_count>
+                    <m_sum>20</m_sum>
+                    <m_avg>5</m_avg>
+                    <m_min>1</m_min>
+                    <m_max>10</m_max>
+                    <m_nest>
+                        <element>
+                            <proposal>2</proposal>
+                            <comment>abc</comment>
+                            <grade>10</grade>
+                            <reviewer>3</reviewer>
+                        </element>
+                        <element>
+                            <proposal null="true" />
+                            <comment>abc</comment>
+                            <grade>1</grade>
+                            <reviewer>1</reviewer>
+                        </element>
+                        <element>
+                            <proposal null="true" />
+                            <comment>abc</comment>
+                            <grade>3</grade>
+                            <reviewer>1</reviewer>
+                        </element>
+                        <element>
+                            <proposal null="true" />
+                            <comment>abc</comment>
+                            <grade>6</grade>
+                            <reviewer null="true" />
+                        </element>
+                        <element>
+                            <proposal null="true" />
+                            <comment>abc</comment>
+                            <grade null="true" />
+                            <reviewer null="true" />
+                        </element>
+                    </m_nest>
+                    <m_string_agg>10:1:3:6:</m_string_agg>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+</test_case>

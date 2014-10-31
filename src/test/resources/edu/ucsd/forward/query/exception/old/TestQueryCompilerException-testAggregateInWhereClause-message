@@ -1,0 +1,1 @@
+Aggregate function COUNT(proposals.proposal_id) is not allowed in WHERE clause

@@ -1,0 +1,2 @@
+SELECT ccount(title) AS cc
+FROM proposals

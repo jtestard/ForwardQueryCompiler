@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <uas>
+        <data_object name="offices" execution_data_source="session">
+            <data_tree>
+                <root />
+            </data_tree>
+            <schema_tree>
+                <root type="collection">
+                    <element type="tuple">
+                        <oid type="integer" />
+                        <oname type="string" />
+                    </element>
+                    <constraints>
+                        <local-key>
+                            <attribute path="tuple/oid" />
+                        </local-key>
+                    </constraints>
+                </root>
+            </schema_tree>
+        </data_object>
+        <data_object name="departments" execution_data_source="session">
+            <data_tree>
+                <root />
+            </data_tree>
+            <schema_tree>
+                <root type="collection">
+                    <element type="tuple">
+                        <did type="integer" />
+                        <dname type="string" />
+                        <employees type="collection">
+                            <element type="tuple">
+                                <eid type="string" />
+                                <ename type="string" />
+                            </element>
+                            <constraints>
+                                <local-key>
+                                    <attribute path="tuple/eid" />
+                                </local-key>
+                            </constraints>
+                        </employees>
+                    </element>
+                    <constraints>
+                        <local-key>
+                            <attribute path="tuple/did" />
+                        </local-key>
+                    </constraints>
+                </root>
+            </schema_tree>
+        </data_object>
+    </uas>
+    <query_plan wrapping="false">
+        <OUTER_UNION cardinality_estimate="UNKNOWN" set_quantifier="ALL">
+            <Scan cardinality_estimate="UNKNOWN" alias="departments">
+                <arguments>
+                    <Variable data_source="session" mode="ABSOLUTE" schema_object="departments" />
+                    <Attribute>
+                        <QueryPath steps="dname" />
+                        <Variable name="dname" />
+                    </Attribute>
+                    <Attribute>
+                        <QueryPath steps="did" />
+                        <Variable name="did" />
+                    </Attribute>
+                    <Attribute>
+                        <QueryPath steps="employees" />
+                        <Variable name="employees" />
+                    </Attribute>
+                </arguments>
+                <Ground cardinality_estimate="UNKNOWN">
+                    <arguments />
+                </Ground>
+            </Scan>
+            <Scan cardinality_estimate="UNKNOWN" alias="departments">
+                <arguments>
+                    <Variable data_source="session" mode="ABSOLUTE" schema_object="departments" />
+                    <Attribute>
+                        <QueryPath steps="dname" />
+                        <Variable name="dname" />
+                    </Attribute>
+                    <Attribute>
+                        <QueryPath steps="did" />
+                        <Variable name="did" />
+                    </Attribute>
+                    <Attribute>
+                        <QueryPath steps="employees" />
+                        <Variable name="employees" />
+                    </Attribute>
+                </arguments>
+                <Ground cardinality_estimate="UNKNOWN">
+                    <arguments />
+                </Ground>
+            </Scan>
+        </OUTER_UNION>
+    </query_plan>
+    <retouched>
+        <query_plan wrapping="false">
+            <OUTER_UNION cardinality_estimate="UNKNOWN" set_quantifier="ALL">
+                <arguments />
+                <Project cardinality_estimate="UNKNOWN">
+                    <arguments>
+                        <Item alias="dname">
+                            <Variable name="dname" />
+                        </Item>
+                        <Item alias="did">
+                            <Variable name="did" />
+                        </Item>
+                        <Item alias="employees">
+                            <Variable name="employees" />
+                        </Item>
+                        <Item alias="__key0">
+                            <Constant>
+                                <integer>1</integer>
+                            </Constant>
+                        </Item>
+                    </arguments>
+                    <Scan alias="departments" cardinality_estimate="UNKNOWN">
+                        <arguments>
+                            <Variable data_source="session" mode="ABSOLUTE" schema_object="departments" />
+                            <Attribute>
+                                <QueryPath steps="dname" />
+                                <Variable name="dname" />
+                            </Attribute>
+                            <Attribute>
+                                <QueryPath steps="did" />
+                                <Variable name="did" />
+                            </Attribute>
+                            <Attribute>
+                                <QueryPath steps="employees" />
+                                <Variable name="employees" />
+                            </Attribute>
+                        </arguments>
+                        <Ground cardinality_estimate="UNKNOWN">
+                            <arguments />
+                        </Ground>
+                    </Scan>
+                </Project>
+                <Project cardinality_estimate="UNKNOWN">
+                    <arguments>
+                        <Item alias="dname">
+                            <Variable name="dname" />
+                        </Item>
+                        <Item alias="did">
+                            <Variable name="did" />
+                        </Item>
+                        <Item alias="employees">
+                            <Variable name="employees" />
+                        </Item>
+                        <Item alias="__key0">
+                            <Constant>
+                                <integer>2</integer>
+                            </Constant>
+                        </Item>
+                    </arguments>
+                    <Scan alias="departments" cardinality_estimate="UNKNOWN">
+                        <arguments>
+                            <Variable data_source="session" mode="ABSOLUTE" schema_object="departments" />
+                            <Attribute>
+                                <QueryPath steps="dname" />
+                                <Variable name="dname" />
+                            </Attribute>
+                            <Attribute>
+                                <QueryPath steps="did" />
+                                <Variable name="did" />
+                            </Attribute>
+                            <Attribute>
+                                <QueryPath steps="employees" />
+                                <Variable name="employees" />
+                            </Attribute>
+                        </arguments>
+                        <Ground cardinality_estimate="UNKNOWN">
+                            <arguments />
+                        </Ground>
+                    </Scan>
+                </Project>
+            </OUTER_UNION>
+        </query_plan>
+    </retouched>
+    <schema_tree>
+        <root type="collection">
+            <element type="tuple">
+                <dname type="string" />
+                <did type="integer" />
+                <employees type="collection">
+                    <element type="tuple">
+                        <eid type="string" />
+                        <ename type="string" />
+                    </element>
+                    <constraints>
+                        <local-key>
+                            <attribute path="tuple/eid" />
+                        </local-key>
+                    </constraints>
+                </employees>
+                <__key0 type="integer" />
+            </element>
+            <constraints>
+                <local-key>
+                    <attribute path="tuple/did" />
+                    <attribute path="tuple/__key0" />
+                </local-key>
+            </constraints>
+        </root>
+    </schema_tree>
+</test_case>

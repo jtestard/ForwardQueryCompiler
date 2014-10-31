@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_expression>
+        <![CDATA[
+            UPDATE  context.proposals
+            SET     authors = (select 1 as author_id, 'Auth-Modified' as author)
+            WHERE   proposal_id = 1;   
+        ]]>
+    </query_expression>
+    <query_expression>
+        <![CDATA[
+            ACCESS  context.proposals
+            WHERE   proposal_id = 1
+            UPDATE  authors
+            SET     author = 'Auth-Modifiedx2'
+            WHERE   author_id = 1;     
+        ]]>
+    </query_expression>
+    <mapping_group>
+        <mapping source_path="/proposals" target_path="/proposals">
+            <predicates></predicates>
+        </mapping>
+    </mapping_group>
+    <data_object name="context" execution_data_source="context">
+        <schema_tree>
+            <root type="tuple">
+                <proposals type="collection">
+                    <element type="tuple">
+                        <proposal_id type="integer" />
+                        <title type="integer" />
+                        <authors type="collection">
+                            <element type="tuple">
+                                <author_id type="integer" />
+                                <author type="string" />
+                            </element>
+                            <constraints>
+                                <local-key collection="/authors">
+                                    <attribute path="tuple/author_id" />
+                                </local-key>
+                            </constraints>
+                        </authors>
+                    </element>
+                    <constraints>
+                        <local-key collection="/proposals">
+                            <attribute path="tuple/proposal_id" />
+                        </local-key>
+                    </constraints>
+                </proposals>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <proposals>
+                    <element>
+                        <proposal_id>1</proposal_id>
+                        <title>7</title>
+                        <authors>
+                            <element>
+                                <author_id>1</author_id>
+                                <author>Auth1</author>
+                            </element>
+                        </authors>
+                    </element>
+                    <element>
+                        <proposal_id>2</proposal_id>
+                        <title>8</title>
+                        <authors />
+                    </element>
+                </proposals>
+            </root>
+        </data_tree>
+    </data_object>
+    <data_object name="page" execution_data_source="__page">
+        <schema_tree>
+            <root type="tuple">
+                <proposals type="collection">
+                    <element type="tuple">
+                        <proposal_id type="integer" />
+                        <title type="integer" />
+                        <authors type="collection">
+                            <element type="tuple">
+                                <author_id type="integer" />
+                                <author type="string" />
+                            </element>
+                            <constraints>
+                                <local-key collection="/authors">
+                                    <attribute path="tuple/author_id" />
+                                </local-key>
+                            </constraints>
+                        </authors>
+                    </element>
+                    <constraints>
+                        <local-key collection="/proposals">
+                            <attribute path="tuple/proposal_id" />
+                        </local-key>
+                    </constraints>
+                </proposals>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <proposals>
+                    <element>
+                        <proposal_id>1</proposal_id>
+                        <title>7</title>
+                        <authors>
+                            <element>
+                                <author_id>1</author_id>
+                                <author>Auth1</author>
+                            </element>
+                        </authors>
+                    </element>
+                    <element>
+                        <proposal_id>2</proposal_id>
+                        <title>8</title>
+                        <authors />
+                    </element>
+                </proposals>
+            </root>
+        </data_tree>
+    </data_object>
+    <data_object name="event" execution_data_source="__page">
+        <schema_tree>
+            <root type="tuple">
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+            </root>
+        </data_tree>
+    </data_object>
+    <data_object name="page" execution_data_source="output">
+        <schema_tree>
+            <root type="tuple">
+                <proposals type="collection">
+                    <element type="tuple">
+                        <proposal_id type="integer" />
+                        <title type="integer" />
+                        <authors type="collection">
+                            <element type="tuple">
+                                <author_id type="integer" />
+                                <author type="string" />
+                            </element>
+                            <constraints>
+                                <local-key collection="/authors">
+                                    <attribute path="tuple/author_id" />
+                                </local-key>
+                            </constraints>
+                        </authors>
+                    </element>
+                    <constraints>
+                        <local-key collection="/proposals">
+                            <attribute path="tuple/proposal_id" />
+                        </local-key>
+                    </constraints>
+                </proposals>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <proposals>
+                    <element>
+                        <proposal_id>1</proposal_id>
+                        <title>7</title>
+                        <authors>
+                            <element>
+                                <author_id>1</author_id>
+                                <author>Auth-Modifiedx2</author>
+                            </element>
+                        </authors>
+                    </element>
+                    <element>
+                        <proposal_id>2</proposal_id>
+                        <title>8</title>
+                        <authors />
+                    </element>
+                </proposals>
+            </root>
+        </data_tree>
+    </data_object>
+</test_case>

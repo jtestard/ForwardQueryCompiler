@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_expression>
+        <![CDATA[
+            SELECT      'ab' || 'c' = .1 + 2 * 3.25 - -4.44E+10 / (+.5E-10 + 0.0) 
+                        AND NOT FALSE IS NOT FALSE 
+                    OR 
+                        TRUE 
+                        AND 2 = 2 
+                        AND 2 IS NULL IS TRUE
+                    OR 
+                        2 IS NOT NULL 
+                        AND 'tom' NOT LIKE 'j%' 
+                        AND 'tom' LIKE '_o%_%' AS precedence;;;;;;;
+        ]]>
+    </query_expression>
+    <query_expression><![CDATA[SELECT ALL ((((('ab' || 'c') = ((.1 + (2 * 3.25)) - (-(4.44E+10) / (.5E-10 + 0.0)))) AND NOT((false = true))) OR ((true AND (2 = 2)) AND (((2)IS NULL) = true))) OR ((NOT(((2)IS NULL)) AND NOT(('tom' LIKE 'j%'))) AND ('tom' LIKE '_o%_%'))) AS precedence]]>
+</query_expression>
+</test_case>

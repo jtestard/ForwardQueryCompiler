@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<diffs>
+    <DeleteDiff context="/tuple[proposal_id=3]"/>
+    <InsertDiff context="/tuple[proposal_id=2]">
+        <payload>
+            <proposal_id>2</proposal_id>
+            <title>My title 2</title>
+            <author>My author 2</author>
+        </payload>
+    </InsertDiff>
+    <InsertDiff context="/tuple[proposal_id=3]">
+        <payload>
+            <proposal_id>3</proposal_id>
+            <title>My title 3</title>
+            <author>My author 3</author>
+        </payload>
+    </InsertDiff>
+</diffs>

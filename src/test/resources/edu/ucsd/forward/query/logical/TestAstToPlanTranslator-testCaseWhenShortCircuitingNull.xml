@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_expression>
+        <![CDATA[SELECT CASE 
+                WHEN x = 2 THEN CAST((select x) AS integer)
+                WHEN x is null THEN CAST((select -1) AS integer)
+                END
+            FROM 
+              {{ { x: 2 }, { x: null } }} AS p
+        ]]>
+    </query_expression>
+
+    <query_plan wrapping="false">
+        <Project cardinality_estimate="UNKNOWN">
+            <arguments>
+                <Item alias="case_call">
+                    <FunctionCall name="CASE">
+                        <FunctionCall name="=">
+                            <Variable name="__v0" />
+                            <Constant>
+                                <integer>2</integer>
+                            </Constant>
+                        </FunctionCall>
+                        <FunctionCall name="CAST" target_type="integer">
+                            <Variable name="__v2" />
+                        </FunctionCall>
+                        <FunctionCall name="IS NULL">
+                            <Variable name="__v3" />
+                        </FunctionCall>
+                        <FunctionCall name="CAST" target_type="integer">
+                            <Variable name="__v4" />
+                        </FunctionCall>
+                    </FunctionCall>
+                </Item>
+            </arguments>
+            <ApplyPlan attr_name="__v4" cardinality_estimate="UNKNOWN">
+                <arguments>
+                    <exec_condition>
+                        <FunctionCall name="AND">
+                            <FunctionCall name="OR">
+                                <FunctionCall name="IS NULL">
+                                    <FunctionCall name="=">
+                                        <Variable name="__v0" />
+                                        <Constant>
+                                            <integer>2</integer>
+                                        </Constant>
+                                    </FunctionCall>
+                                </FunctionCall>
+                                <FunctionCall name="NOT">
+                                    <FunctionCall name="=">
+                                        <Variable name="__v0" />
+                                        <Constant>
+                                            <integer>2</integer>
+                                        </Constant>
+                                    </FunctionCall>
+                                </FunctionCall>
+                            </FunctionCall>
+                            <FunctionCall name="IS NULL">
+                                <Variable name="__v3" />
+                            </FunctionCall>
+                        </FunctionCall>
+                    </exec_condition>
+                    <Project cardinality_estimate="UNKNOWN">
+                        <arguments>
+                            <Item alias="neg_call">
+                                <FunctionCall name="NEG">
+                                    <Constant>
+                                        <integer>1</integer>
+                                    </Constant>
+                                </FunctionCall>
+                            </Item>
+                        </arguments>
+                        <Ground cardinality_estimate="UNKNOWN">
+                            <arguments />
+                        </Ground>
+                    </Project>
+                </arguments>
+                <Navigate alias="__v3" cardinality_estimate="UNKNOWN">
+                    <arguments>
+                        <QueryPath steps="x">
+                            <Variable mode="ELEMENT" name="p" />
+                        </QueryPath>
+                    </arguments>
+                    <ApplyPlan attr_name="__v2" cardinality_estimate="UNKNOWN">
+                        <arguments>
+                            <exec_condition>
+                                <FunctionCall name="=">
+                                    <Variable name="__v0" />
+                                    <Constant>
+                                        <integer>2</integer>
+                                    </Constant>
+                                </FunctionCall>
+                            </exec_condition>
+                            <Project cardinality_estimate="UNKNOWN">
+                                <arguments>
+                                    <Item alias="x">
+                                        <Variable name="__v1" />
+                                    </Item>
+                                </arguments>
+                                <Navigate alias="__v1" cardinality_estimate="UNKNOWN">
+                                    <arguments>
+                                        <QueryPath steps="x">
+                                            <Parameter>
+                                                <Variable mode="ELEMENT" name="p">
+                                                    <type type="tuple">
+                                                        <x type="integer" />
+                                                    </type>
+                                                </Variable>
+                                            </Parameter>
+                                        </QueryPath>
+                                    </arguments>
+                                    <Ground cardinality_estimate="UNKNOWN">
+                                        <arguments />
+                                    </Ground>
+                                </Navigate>
+                            </Project>
+                        </arguments>
+                        <Navigate alias="__v0" cardinality_estimate="UNKNOWN">
+                            <arguments>
+                                <QueryPath steps="x">
+                                    <Variable mode="ELEMENT" name="p" />
+                                </QueryPath>
+                            </arguments>
+                            <Scan alias="p" cardinality_estimate="UNKNOWN">
+                                <arguments>
+                                    <FunctionCall name="COLLECTION">
+                                        <FunctionCall name="TUPLE">
+                                            <Constant>
+                                                <integer>2</integer>
+                                            </Constant>
+                                            <Constant>
+                                                <string>x</string>
+                                            </Constant>
+                                        </FunctionCall>
+                                        <FunctionCall name="TUPLE">
+                                            <Constant>
+                                                <unknown null="true" />
+                                            </Constant>
+                                            <Constant>
+                                                <string>x</string>
+                                            </Constant>
+                                        </FunctionCall>
+                                    </FunctionCall>
+                                </arguments>
+                                <Ground cardinality_estimate="UNKNOWN">
+                                    <arguments />
+                                </Ground>
+                            </Scan>
+                        </Navigate>
+                    </ApplyPlan>
+                </Navigate>
+            </ApplyPlan>
+        </Project>
+    </query_plan>
+
+
+    <data_object name="output" execution_data_source="output">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <case_call type="integer" />
+                </element>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <case_call>2</case_call>
+                </element>
+                <element>
+                    <case_call>-1</case_call>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+</test_case>

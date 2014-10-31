@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<test_case>
+    <action_statement>
+        <![CDATA[
+create function get_tree() as
+declare
+    temp_tree collection(
+		id			integer,
+		value		string,
+		parent		integer,
+		hasChildren boolean
+	);
+begin
+	set temp_tree = (
+    	select 1 as id, 'one' as value, null as parent, false as hasChildren
+    	union all
+    	select 2 as id, 'two' as value, 1 as parent, false as hasChildren
+    	union all
+    	select 3 as id, 'three' as value, 1 as parent, false as hasChildren
+    	union all
+    	select 4 as id, 'four' as value, 2 as parent, false as hasChildren
+    );
+	
+	update temp_tree as tt
+	set hasChildren = true
+	where exists(select * from temp_tree as tt2 where tt2.parent = tt.id) and
+		tt.id is not null;
+	
+    set actual.actual = temp_tree;
+end;
+        ]]>
+    </action_statement>
+    <query_expression>
+    get_tree();
+    </query_expression>
+    <data_object name="actual" execution_data_source="actual" cardinality_estimate="SMALL" storage_system="INMEMORY">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <id type="integer"/>
+                    <value type="string"/>
+                    <parent type="integer"/>
+                    <hasChildren type="boolean"/>
+                </element>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root/>
+        </data_tree>
+    </data_object>
+    <data_object name="expected" execution_data_source="expected" cardinality_estimate="SMALL" storage_system="INMEMORY">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <id type="integer"/>
+                    <value type="string"/>
+                    <parent type="integer"/>
+                    <hasChildren type="boolean"/>
+                </element>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <id>1</id>
+                    <value>one</value>
+                    <parent null="true"/>
+                    <hasChildren>true</hasChildren>
+                </element>
+                <element>
+                    <id>2</id>
+                    <value>two</value>
+                    <parent>1</parent>
+                    <hasChildren>true</hasChildren>
+                </element>
+                <element>
+                    <id>3</id>
+                    <value>three</value>
+                    <parent>1</parent>
+                    <hasChildren>false</hasChildren>
+                </element>
+                <element>
+                    <id>4</id>
+                    <value>four</value>
+                    <parent>2</parent>
+                    <hasChildren>false</hasChildren>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+</test_case>

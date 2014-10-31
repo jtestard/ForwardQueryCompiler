@@ -1,0 +1,38 @@
+<visual_diff>
+    <schema_tree>
+        <root type="tuple">
+            <template type="xhtml" />
+            <children type="tuple">
+                <options type="collection">
+                    <element type="tuple">
+                        <id type="string" />
+                        <label type="string" />
+                        <checked type="boolean" />
+                    </element>
+                </options>
+            </children>
+        </root>
+        <constraints>
+            <local-key collection="/children/options">
+                <attribute path="tuple/id" />
+            </local-key>
+        </constraints>
+    </schema_tree>
+    <data_tree>
+        <root>
+            <template>
+                <div class="choice">
+                    <placeholder name="options">
+                        <input type="checkbox" />
+                        <placeholder name="label" />
+                    </placeholder>
+                </div>
+            </template>
+            <children>
+                <options />
+            </children>
+        </root>
+    </data_tree>
+</visual_diff>
+
+

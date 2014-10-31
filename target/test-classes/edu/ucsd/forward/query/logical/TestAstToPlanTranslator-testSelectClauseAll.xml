@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_expression>
+        <![CDATA[
+            SELECT ALL V.reviewer AS rid, V.grade AS grade, CAST(V.grade AS string) AS grade_str
+            FROM src3.reviews AS V;
+        ]]>
+    </query_expression>
+    <data_object name="reviews" execution_data_source="src3" cardinality_estimate="SMALL">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <proposal type="integer" />
+                    <comment type="string" />
+                    <grade type="integer" />
+                    <reviewer type="integer" />
+                </element>
+                <constraints>
+                    <local-key>
+                        <attribute path="tuple/proposal" />
+                        <attribute path="tuple/reviewer" />
+                    </local-key>
+                </constraints>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <proposal>1</proposal>
+                    <comment>Cool proposal!</comment>
+                    <grade>3</grade>
+                    <reviewer>1</reviewer>
+                </element>
+                <element>
+                    <proposal>2</proposal>
+                    <comment>Not so cool...</comment>
+                    <grade>1</grade>
+                    <reviewer>1</reviewer>
+                </element>
+                <element>
+                    <proposal>2</proposal>
+                    <comment>Not bad</comment>
+                    <grade>2</grade>
+                    <reviewer>2</reviewer>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+    <query_plan wrapping="false">
+        <Project cardinality_estimate="UNKNOWN">
+            <arguments>
+                <Item alias="rid">
+                    <Variable name="__v0" />
+                </Item>
+                <Item alias="grade">
+                    <Variable name="__v1" />
+                </Item>
+                <Item alias="grade_str">
+                    <FunctionCall name="CAST" target_type="string">
+                        <Variable name="__v2" />
+                    </FunctionCall>
+                </Item>
+            </arguments>
+            <Navigate alias="__v2" cardinality_estimate="UNKNOWN">
+                <arguments>
+                    <QueryPath steps="grade">
+                        <Variable mode="ELEMENT" name="V" />
+                    </QueryPath>
+                </arguments>
+                <Navigate alias="__v1" cardinality_estimate="UNKNOWN">
+                    <arguments>
+                        <QueryPath steps="grade">
+                            <Variable mode="ELEMENT" name="V" />
+                        </QueryPath>
+                    </arguments>
+                    <Navigate alias="__v0" cardinality_estimate="UNKNOWN">
+                        <arguments>
+                            <QueryPath steps="reviewer">
+                                <Variable mode="ELEMENT" name="V" />
+                            </QueryPath>
+                        </arguments>
+                        <Scan alias="V" cardinality_estimate="UNKNOWN">
+                            <arguments>
+                                <Variable data_source="src3" mode="ABSOLUTE" schema_object="reviews" />
+                            </arguments>
+                            <Ground cardinality_estimate="UNKNOWN">
+                                <arguments />
+                            </Ground>
+                        </Scan>
+                    </Navigate>
+                </Navigate>
+            </Navigate>
+        </Project>
+    </query_plan>
+
+    <data_object name="output" execution_data_source="output">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <rid type="integer">1</rid>
+                    <grade type="integer">3</grade>
+                    <grade_str type="string">3</grade_str>
+                </element>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <rid>1</rid>
+                    <grade>3</grade>
+                    <grade_str>3</grade_str>
+                </element>
+                <element>
+                    <rid>1</rid>
+                    <grade>1</grade>
+                    <grade_str>1</grade_str>
+                </element>
+                <element>
+                    <rid>2</rid>
+                    <grade>2</grade>
+                    <grade_str>2</grade_str>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+</test_case>

@@ -1,0 +1,20 @@
+<test_case>
+    <query_expression>
+        <![CDATA[
+select *
+from public.person_messages as m
+order by m.mdate desc
+FETCH FIRST 50 ROWS ONLY
+--select count(*)
+--from mem_src.messages as m
+        ]]>
+    </query_expression>
+    <data_source name="public" storage_system="JDBC" data_model="RELATIONAL">
+        <properties environment="testing" user="postgres" password="postgres" maxPoolSize="20"
+            unreturnedConnectionTimeout="0" debugUnreturnedConnectionStackTraces="true" driver="postgresql" host="localhost" port="5432"
+            database="enron" />
+        <properties environment="jenkins" user="postgres" password="postgres" maxPoolSize="20"
+            unreturnedConnectionTimeout="0" debugUnreturnedConnectionStackTraces="true" driver="postgresql" host="localhost" port="5432"
+            database="enron" />
+    </data_source>    
+</test_case>

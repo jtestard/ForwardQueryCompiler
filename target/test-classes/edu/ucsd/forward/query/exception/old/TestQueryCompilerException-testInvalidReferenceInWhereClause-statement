@@ -1,0 +1,3 @@
+ SELECT p.title FROM proposals AS p
+ WHERE proposals.reviews.reviewer.id = 1
+ 

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <uas>
+        <data_object name="departments" execution_data_source="session">
+            <data_tree>
+                <root>
+                </root>
+            </data_tree>
+            <schema_tree>
+                <root type="collection">
+                    <element type="tuple">
+                        <did type="integer" />
+                        <dname type="string" />
+                        <code type="integer" />
+                        <employees type="collection">
+                            <element type="tuple">
+                                <eid type="string" />
+                                <ename type="string" />
+                            </element>
+                            <constraints>
+                                <local-key>
+                                    <attribute path="tuple/eid" />
+                                </local-key>
+                            </constraints>
+                        </employees>
+                    </element>
+                    <constraints>
+                        <local-key>
+                            <attribute path="tuple/did" />
+                        </local-key>
+                    </constraints>
+                </root>
+            </schema_tree>
+        </data_object>
+    </uas>
+    <query_plan>
+        <partition_by execution_data_source="session" cardinality_estimate="SMALL" rank_alias="rank" limit="3">
+            <arguments>
+                <partition_terms>
+                    <Variable name="dname" />
+                    <Variable name="did" />
+                </partition_terms>
+                <item spec="DESC" nulls="LAST">
+                    <Variable name="code" />
+                </item>
+            </arguments>
+            <Scan alias="R" execution_data_source="session" cardinality_estimate="SMALL">
+                <arguments>
+                    <Variable mode="ABSOLUTE" data_source="session" schema_object="departments" />
+                    <Attribute>
+                        <QueryPath steps="dname" />
+                        <Variable name="dname" />
+                    </Attribute>
+                    <Attribute>
+                        <QueryPath steps="did" />
+                        <Variable name="did" />
+                    </Attribute>
+                    <Attribute>
+                        <QueryPath steps="code" />
+                        <Variable name="code" />
+                    </Attribute>
+                    <Attribute>
+                        <QueryPath steps="employees" />
+                        <Variable name="employees" />
+                    </Attribute>
+                </arguments>
+                <Ground execution_data_source="session" cardinality_estimate="SMALL" />
+            </Scan>
+        </partition_by>
+    </query_plan>
+    <retouched>
+        <query_plan wrapping="false">
+            <PartitionBy cardinality_estimate="SMALL" execution_data_source="mediator" limit="3" rank_alias="rank">
+                <arguments>
+                    <partition_terms>
+                        <Variable name="dname" />
+                        <Variable name="did" />
+                    </partition_terms>
+                    <Item nulls="LAST" spec="DESC">
+                        <Variable name="code" />
+                    </Item>
+                </arguments>
+                <Scan alias="R" cardinality_estimate="SMALL" execution_data_source="mediator">
+                    <arguments>
+                        <Variable data_source="session" mode="ABSOLUTE" schema_object="departments" />
+                        <Attribute>
+                            <QueryPath steps="dname" />
+                            <Variable name="dname" />
+                        </Attribute>
+                        <Attribute>
+                            <QueryPath steps="did" />
+                            <Variable name="did" />
+                        </Attribute>
+                        <Attribute>
+                            <QueryPath steps="code" />
+                            <Variable name="code" />
+                        </Attribute>
+                        <Attribute>
+                            <QueryPath steps="employees" />
+                            <Variable name="employees" />
+                        </Attribute>
+                    </arguments>
+                    <Ground cardinality_estimate="SMALL" execution_data_source="mediator">
+                        <arguments />
+                    </Ground>
+                </Scan>
+            </PartitionBy>
+        </query_plan>
+    </retouched>
+    <schema_tree>
+        <root type="collection">
+            <element type="tuple">
+                <dname type="string" />
+                <did type="integer" />
+                <code type="integer" />
+                <employees type="collection">
+                    <element type="tuple">
+                        <eid type="string" />
+                        <ename type="string" />
+                    </element>
+                    <constraints>
+                        <local-key>
+                            <attribute path="tuple/eid" />
+                        </local-key>
+                    </constraints>
+                </employees>
+                <rank type="integer" />
+            </element>
+            <constraints>
+                <local-key>
+                    <attribute path="tuple/did" />
+                </local-key>
+            </constraints>
+        </root>
+    </schema_tree>
+</test_case>

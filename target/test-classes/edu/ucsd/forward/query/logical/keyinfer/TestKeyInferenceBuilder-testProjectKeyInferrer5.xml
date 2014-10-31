@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <uas>
+        <data_object name="departments" execution_data_source="session">
+            <data_tree>
+                <root>
+                </root>
+            </data_tree>
+            <schema_tree>
+                <root type="collection">
+                    <element type="tuple">
+                        <did type="integer" />
+                        <dname type="string" />
+                        <employees type="collection">
+                            <element type="tuple">
+                                <eid type="string" />
+                                <ename type="string" />
+                            </element>
+                        </employees>
+                    </element>
+                    <constraints>
+                        <local-key>
+                            <attribute path="tuple/did" />
+                        </local-key>
+                    </constraints>
+                </root>
+            </schema_tree>
+        </data_object>
+    </uas>
+    <query_plan wrapping="false">
+        <Project cardinality_estimate="UNKNOWN">
+            <arguments>
+                <Item alias="did1">
+                    <Variable name="did" />
+                </Item>
+                <Item alias="foo">
+                    <FunctionCall name="CAST" target_type="string">
+                        <Variable name="__v3" />
+                    </FunctionCall>
+                </Item>
+            </arguments>
+            <ApplyPlan attr_name="__v3" cardinality_estimate="UNKNOWN">
+                <arguments>
+                    <Project cardinality_estimate="UNKNOWN">
+                        <arguments>
+                            <Item alias="dname">
+                                <Variable name="__v2" />
+                            </Item>
+                        </arguments>
+                        <Select cardinality_estimate="UNKNOWN">
+                            <arguments>
+                                <FunctionCall name="=">
+                                    <Variable name="__v1" />
+                                    <Constant>
+                                        <integer>5</integer>
+                                    </Constant>
+                                </FunctionCall>
+                            </arguments>
+                            <Scan alias="x" cardinality_estimate="UNKNOWN">
+                                <arguments>
+                                    <Variable data_source="session" mode="ABSOLUTE" schema_object="departments" />
+                                    <Attribute>
+                                        <QueryPath steps="dname" />
+                                        <Variable name="__v2" />
+                                    </Attribute>
+                                    <Attribute>
+                                        <QueryPath steps="did" />
+                                        <Variable name="__v1" />
+                                    </Attribute>
+                                </arguments>
+                                <Ground cardinality_estimate="UNKNOWN">
+                                    <arguments />
+                                </Ground>
+                            </Scan>
+                        </Select>
+                    </Project>
+                </arguments>
+                <Scan alias="d" cardinality_estimate="UNKNOWN">
+                    <arguments>
+                        <Variable data_source="session" mode="ABSOLUTE" schema_object="departments" />
+                        <Attribute>
+                            <QueryPath steps="dname" />
+                            <Variable name="dname" />
+                        </Attribute>
+                        <Attribute>
+                            <QueryPath steps="did" />
+                            <Variable name="did" />
+                        </Attribute>
+                        <Attribute>
+                            <QueryPath steps="employees" />
+                            <Variable name="employees" />
+                        </Attribute>
+                    </arguments>
+                    <Ground cardinality_estimate="UNKNOWN">
+                        <arguments />
+                    </Ground>
+                </Scan>
+            </ApplyPlan>
+        </Project>
+    </query_plan>
+    <retouched>
+        <query_plan wrapping="false">
+            <Project cardinality_estimate="UNKNOWN">
+                <arguments>
+                    <Item alias="did1">
+                        <Variable name="did" />
+                    </Item>
+                    <Item alias="foo">
+                        <FunctionCall name="CAST" target_type="string">
+                            <Variable name="__v3" />
+                        </FunctionCall>
+                    </Item>
+                </arguments>
+                <ApplyPlan attr_name="__v3" cardinality_estimate="UNKNOWN">
+                    <arguments>
+                        <Project cardinality_estimate="UNKNOWN">
+                            <arguments>
+                                <Item alias="dname">
+                                    <Variable name="__v2" />
+                                </Item>
+                                <Item alias="__key0">
+                                    <Variable name="__v1" />
+                                </Item>
+                            </arguments>
+                            <Select cardinality_estimate="UNKNOWN">
+                                <arguments>
+                                    <FunctionCall name="=">
+                                        <Variable name="__v1" />
+                                        <Constant>
+                                            <integer>5</integer>
+                                        </Constant>
+                                    </FunctionCall>
+                                </arguments>
+                                <Scan alias="x" cardinality_estimate="UNKNOWN">
+                                    <arguments>
+                                        <Variable data_source="session" mode="ABSOLUTE" schema_object="departments" />
+                                        <Attribute>
+                                            <QueryPath steps="dname" />
+                                            <Variable name="__v2" />
+                                        </Attribute>
+                                        <Attribute>
+                                            <QueryPath steps="did" />
+                                            <Variable name="__v1" />
+                                        </Attribute>
+                                    </arguments>
+                                    <Ground cardinality_estimate="UNKNOWN">
+                                        <arguments />
+                                    </Ground>
+                                </Scan>
+                            </Select>
+                        </Project>
+                    </arguments>
+                    <Scan alias="d" cardinality_estimate="UNKNOWN">
+                        <arguments>
+                            <Variable data_source="session" mode="ABSOLUTE" schema_object="departments" />
+                            <Attribute>
+                                <QueryPath steps="dname" />
+                                <Variable name="dname" />
+                            </Attribute>
+                            <Attribute>
+                                <QueryPath steps="did" />
+                                <Variable name="did" />
+                            </Attribute>
+                            <Attribute>
+                                <QueryPath steps="employees" />
+                                <Variable name="employees" />
+                            </Attribute>
+                        </arguments>
+                        <Ground cardinality_estimate="UNKNOWN">
+                            <arguments />
+                        </Ground>
+                    </Scan>
+                </ApplyPlan>
+            </Project>
+        </query_plan>
+    </retouched>
+    <schema_tree>
+        <root type="collection">
+            <element type="tuple">
+                <did1 type="integer" />
+                <foo type="string" />
+            </element>
+            <constraints>
+                <local-key>
+                    <attribute path="tuple/did1" />
+                </local-key>
+            </constraints>
+        </root>
+    </schema_tree>
+</test_case>

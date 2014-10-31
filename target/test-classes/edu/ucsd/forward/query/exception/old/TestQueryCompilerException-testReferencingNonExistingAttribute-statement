@@ -1,0 +1,2 @@
+SELECT P.proposal
+FROM proposals AS P

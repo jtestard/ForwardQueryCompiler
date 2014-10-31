@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <action_statement>
+        <![CDATA[
+create function fib_call() as    
+begin
+    actual.actual := fib(3);    
+    return;
+end;
+
+create function fib(i integer) returns integer as
+declare 
+    result integer;
+begin
+    if i < 2 then 
+      result := 1;
+    else
+      result :=  fib(i-1)+fib(i-2);
+    end if;
+    return result;     
+end;
+        ]]>
+    </action_statement>
+    <query_expression>fib_call();</query_expression>
+    <data_object name="actual" execution_data_source="actual" cardinality_estimate="SMALL" storage_system="INMEMORY">
+        <schema_tree>
+            <root type="integer" />
+        </schema_tree>
+        <data_tree>
+            <root>
+                <integer>0</integer>
+            </root>
+        </data_tree>
+    </data_object>
+    <data_object name="expected" execution_data_source="expected" cardinality_estimate="SMALL" storage_system="INMEMORY">
+        <schema_tree>
+            <root type="integer" />
+        </schema_tree>
+        <data_tree>
+            <root>
+                <integer>3</integer>
+            </root>
+        </data_tree>
+    </data_object>
+</test_case>

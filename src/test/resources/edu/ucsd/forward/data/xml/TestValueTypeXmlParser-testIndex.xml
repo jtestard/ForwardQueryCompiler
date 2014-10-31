@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <schema_tree>
+        <root type="collection">
+            <element type="tuple">
+                <application_id type="integer" />
+                <first_name type="string" />
+                <last_name type="string" />
+            </element>
+            <index name="name" unique="false" method="BTREE">
+                <key path="tuple/first_name" />
+                <key path="tuple/last_name" />
+            </index>
+            <index name="appid" unique="true" method="BTREE">
+                <key path="tuple/application_id" />
+            </index>
+            <constraints>
+                <local-key>
+                    <attribute path="tuple/application_id" />
+                </local-key>
+            </constraints>
+        </root>
+    </schema_tree>
+    <data_tree>
+        <root>
+        </root>
+    </data_tree>
+</test_case>

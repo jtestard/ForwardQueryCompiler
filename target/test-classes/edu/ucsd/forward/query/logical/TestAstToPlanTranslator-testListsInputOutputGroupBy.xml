@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_expression>
+        <![CDATA[
+             SELECT a AS a, MAX(i) AS m, COUNT(*) AS c 
+             FROM [ {a: 1}, {a: 2}, {a: 1} ] AT i AS x
+             GROUP BY a
+             ORDER BY m
+        ]]>
+    </query_expression>
+    <query_plan wrapping="false">
+        <Project cardinality_estimate="UNKNOWN">
+            <arguments>
+                <Item alias="a">
+                    <Variable name="__v0" />
+                </Item>
+                <Item alias="m">
+                    <Variable name="max_call__v1" />
+                </Item>
+                <Item alias="c">
+                    <Variable name="count_call__v2" />
+                </Item>
+            </arguments>
+            <Sort cardinality_estimate="UNKNOWN">
+                <arguments>
+                    <Item nulls="LAST" spec="ASC">
+                        <Variable name="max_call__v1" />
+                    </Item>
+                </arguments>
+                <GroupBy cardinality_estimate="UNKNOWN">
+                    <arguments>
+                        <GroupByItem attr_name="__v0">
+                            <Variable name="__v0" />
+                        </GroupByItem>
+                        <Aggregate alias="max_call__v1">
+                            <FunctionCall name="MAX" set_quantifier="ALL">
+                                <Variable mode="POSITION" name="i" />
+                            </FunctionCall>
+                        </Aggregate>
+                        <Aggregate alias="count_call__v2">
+                            <FunctionCall name="COUNT" set_quantifier="ALL" />
+                        </Aggregate>
+                    </arguments>
+                    <Navigate alias="__v0" cardinality_estimate="UNKNOWN">
+                        <arguments>
+                            <QueryPath steps="a">
+                                <Variable mode="ELEMENT" name="x" />
+                            </QueryPath>
+                        </arguments>
+                        <Scan alias="x" cardinality_estimate="UNKNOWN" position_var="i">
+                            <arguments>
+                                <FunctionCall name="COLLECTION">
+                                    <FunctionCall name="TUPLE">
+                                        <Constant>
+                                            <integer>1</integer>
+                                        </Constant>
+                                        <Constant>
+                                            <string>a</string>
+                                        </Constant>
+                                    </FunctionCall>
+                                    <FunctionCall name="TUPLE">
+                                        <Constant>
+                                            <integer>2</integer>
+                                        </Constant>
+                                        <Constant>
+                                            <string>a</string>
+                                        </Constant>
+                                    </FunctionCall>
+                                    <FunctionCall name="TUPLE">
+                                        <Constant>
+                                            <integer>1</integer>
+                                        </Constant>
+                                        <Constant>
+                                            <string>a</string>
+                                        </Constant>
+                                    </FunctionCall>
+                                </FunctionCall>
+                            </arguments>
+                            <Ground cardinality_estimate="UNKNOWN">
+                                <arguments />
+                            </Ground>
+                        </Scan>
+                    </Navigate>
+                </GroupBy>
+            </Sort>
+        </Project>
+    </query_plan>
+
+    <data_object name="output" execution_data_source="output">
+        <schema_tree>
+            <root type="collection" ordered="true">
+                <element type="tuple">
+                    <a type="integer" />
+                    <m type="long" />
+                    <c type="long" />
+                </element>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root ordered="true">
+                <element>
+                    <a>2</a>
+                    <m>1</m>
+                    <c>1</c>
+                </element>
+                <element>
+                    <a>1</a>
+                    <m>2</m>
+                    <c>2</c>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+</test_case>

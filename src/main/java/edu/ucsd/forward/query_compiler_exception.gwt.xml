@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module rename-to='query_compiler_exception'>
+  
+  <!-- Inherit the core Web Toolkit stuff.                        -->
+  <inherits name='com.google.gwt.user.User'/>
+  
+  <source path='query/compiler/exception'>
+    <exclude name='*/**/*'/>
+    <exclude name='Test*.java'/>
+    <exclude name='*TestCase*.java'/>
+  </source>
+  
+</module>

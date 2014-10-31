@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <!-- QUERY_PARSE_ERROR -->
+    <query_expression>
+        <![CDATA[
+            WHERE;
+        ]]>
+    </query_expression>
+
+    <!-- CONSECUTIVE_OFFSET_CLAUSES -->
+    <query_expression>
+        <![CDATA[
+            ( SELECT * FROM mem_db.proposals OFFSET 3 ROWS ) OFFSET 3 ROWS;
+        ]]>
+    </query_expression>
+
+    <!-- CONSECUTIVE_FETCH_CLAUSES -->
+    <query_expression>
+        <![CDATA[
+            ( SELECT * FROM mem_db.proposals FETCH FIRST 3 ROWS ONLY ) OFFSET 3 ROWS FETCH FIRST 3 ROWS ONLY;
+        ]]>
+    </query_expression>
+
+    <!-- CONSECUTIVE_ORDER_BY_CLAUSES -->
+    <query_expression>
+        <![CDATA[
+            ( SELECT * FROM mem_db.proposals ORDER BY id ) ORDER BY id;
+        ]]>
+    </query_expression>
+
+    <!-- INVALID_QUERY_PATH -->
+    <query_expression>
+        <![CDATA[
+            mem_db.no_object;
+        ]]>
+    </query_expression>
+
+    <!-- UNKNOWN_PREFIX -->
+    <query_expression>
+        <![CDATA[
+            no_source.no_object;
+        ]]>
+    </query_expression>
+    <query_expression>
+        <![CDATA[
+            SELECT P.no_step FROM mem_db.proposals P;
+        ]]>
+    </query_expression>
+
+    <!-- UNKNOWN_ATTRIBUTE -->
+    <query_expression>
+        <![CDATA[
+            mem_db.user.name.no_step;
+        ]]>
+    </query_expression>
+    <query_expression>
+        <![CDATA[
+            SELECT no_step FROM mem_db.reviews;
+        ]]>
+    </query_expression>
+
+    <!-- CROSSING_COLLECTION -->
+    <query_expression>
+        <![CDATA[
+            mem_db.proposals.id;
+        ]]>
+    </query_expression>
+    <query_expression>
+        <![CDATA[
+            mem_db.user.phones.number;
+        ]]>
+    </query_expression>
+
+    <!-- INVALID_FUNCTION_CALL -->
+    <query_expression>
+        <![CDATA[
+            no_function();
+        ]]>
+    </query_expression>
+
+    <!-- NO_FUNCTION_SIGNATURE -->
+    <query_expression>
+        <![CDATA[
+            mod('no_signature', 'no_signature');
+        ]]>
+    </query_expression>
+    <query_expression>
+        <![CDATA[
+            SELECT AVG(title) FROM mem_db.proposals;
+        ]]>
+    </query_expression>
+
+    <!-- INVALID_TYPE_CONVERION -->
+    <query_expression>
+        <![CDATA[
+            CAST(mem_db.user AS integer);
+        ]]>
+    </query_expression>
+
+    <!-- NON_BOOL_CASE_BRANCH_CONDITION -->
+    <query_expression>
+        <![CDATA[
+            CASE
+                WHEN 1
+                    THEN 1
+            END;
+        ]]>
+    </query_expression>
+
+    <!-- INCONSISTENT_CASE_BRANCH_TYPE -->
+    <query_expression>
+        <![CDATA[
+            CASE
+                WHEN 1 > 1
+                    THEN 1
+                WHEN 1 > 1
+                    THEN '1'
+            END;
+        ]]>
+    </query_expression>
+
+    <!-- NON_SCALAR_CASE_BRANCH_TYPE -->
+    <query_expression>
+        <![CDATA[
+            CASE
+                WHEN 1 > 1
+                    THEN TUPLE(1 AS id)
+            END;
+        ]]>
+    </query_expression>
+
+    <!-- DUPLICATE_SELECT_ITEM_ALIAS -->
+    <query_expression>
+        <![CDATA[
+            SELECT 1 AS a, 2 AS a;
+        ]]>
+    </query_expression>
+
+    <!-- DUPLICATE_FROM_ITEM_ALIAS -->
+    <query_expression>
+        <![CDATA[
+            SELECT * FROM mem_db.proposals AS a, mem_db.proposals AS a;
+        ]]>
+    </query_expression>
+
+    <!-- INVALID_OFFSET_PROVIDED_TYPE -->
+    <query_expression>
+        <![CDATA[
+            SELECT * FROM mem_db.proposals OFFSET mem_db.user.name ROWS;
+        ]]>
+    </query_expression>
+
+    <!-- INVALID_FETCH_PROVIDED_TYPE -->
+    <query_expression>
+        <![CDATA[
+            SELECT * FROM mem_db.proposals OFFSET mem_db.user.id + 3 ROWS FETCH FIRST mem_db.user.name.fname ROWS ONLY;
+        ]]>
+    </query_expression>
+
+    <!-- DML_INVALID_TARGET_DATA_SOURCE -->
+    <query_expression>
+        <![CDATA[
+            UPDATE mem_db.proposals
+            SET id = 'error';
+        ]]>
+    </query_expression>
+
+    <!-- DML_NON_COLLECTION_TARGET_TYPE -->
+    <query_expression>
+        <![CDATA[
+            INSERT INTO mem_db.user DEFAULT VALUES;
+        ]]>
+    </query_expression>
+
+    <!-- DML_UNEQUAL_PROVIDED_TARGET_ATTRS -->
+    <query_expression>
+        <![CDATA[
+            INSERT INTO mem_db.proposals (SELECT 'scalar...');
+        ]]>
+    </query_expression>
+
+    <!-- DML_INVALID_TARGET_ATTR -->
+    <query_expression>
+        <![CDATA[
+            INSERT INTO mem_db.proposals(no_attr) (SELECT 'scalar...');
+        ]]>
+    </query_expression>
+
+    <data_source name="mem_db" storage_system="INMEMORY" data_model="SQLPLUSPLUS" />
+
+    <data_object name="proposals" execution_data_source="mem_db">
+        <data_tree />
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <id type="integer" />
+                    <title type="string" />
+                    <authors type="collection">
+                        <element type="tuple">
+                            <id type="integer" />
+                            <name type="string" />
+                        </element>
+                    </authors>
+                </element>
+            </root>
+        </schema_tree>
+    </data_object>
+    <data_object name="reviews" execution_data_source="mem_db">
+        <data_tree />
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <proposal type="integer" />
+                    <comment type="string" />
+                    <depth type="integer" />
+                    <impact type="integer" />
+                    <overall type="integer" />
+                    <reviewer type="string" />
+                </element>
+            </root>
+        </schema_tree>
+    </data_object>
+    <data_object name="user" execution_data_source="mem_db">
+        <data_tree />
+        <schema_tree>
+            <root type="tuple">
+                <id type="integer" />
+                <name type="tuple">
+                    <fname type="string" />
+                    <lname type="string" />
+                </name>
+                <phones type="collection">
+                    <element type="tuple">
+                        <number type="string" />
+                    </element>
+                </phones>
+            </root>
+        </schema_tree>
+    </data_object>
+</test_case>

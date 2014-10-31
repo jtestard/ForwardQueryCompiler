@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_expression>
+        <![CDATA[
+            SELECT * FROM jdbc.multiply_inout_tuple(3, 4);
+        ]]>
+    </query_expression>
+    <data_source name="jdbc" storage_system="JDBC">
+        <properties environment="jenkins" user="postgres" password="postgres" maxPoolSize="20"
+            unreturnedConnectionTimeout="0" driver="postgresql" host="localhost" port="5432" database="forward" schema="external" />
+        <properties environment="testing" user="postgres" password="postgres" maxPoolSize="20"
+            unreturnedConnectionTimeout="0" driver="postgresql" host="localhost" port="5432" database="forward" schema="external" />
+    </data_source>
+    <query_plan wrapping="false">
+        <Project alias="__q3" cardinality_estimate="UNKNOWN">
+            <arguments>
+                <Item alias="x">
+                    <Variable name="multiply_inout_tuple.x" />
+                </Item>
+                <Item alias="y">
+                    <Variable name="multiply_inout_tuple.y" />
+                </Item>
+            </arguments>
+            <Scan alias="multiply_inout_tuple" cardinality_estimate="UNKNOWN" mode="RELATIVE" steps="__q2.__q0">
+                <arguments />
+                <ApplyPlan alias="__q2" attr_name="__q0" cardinality_estimate="UNKNOWN">
+                    <arguments>
+                        <Project alias="__q1" cardinality_estimate="UNKNOWN">
+                            <arguments>
+                                <Item alias="x">
+                                    <Variable name="multiply_inout_tuple.x" />
+                                </Item>
+                                <Item alias="y">
+                                    <Variable name="multiply_inout_tuple.y" />
+                                </Item>
+                            </arguments>
+                            <Scan alias="multiply_inout_tuple" cardinality_estimate="UNKNOWN">
+                                <arguments>
+                                    <FunctionCall name="multiply_inout_tuple" target_data_source="jdbc">
+                                        <Constant>
+                                            <integer>3</integer>
+                                        </Constant>
+                                        <Constant>
+                                            <integer>4</integer>
+                                        </Constant>
+                                    </FunctionCall>
+                                </arguments>
+                                <Ground cardinality_estimate="UNKNOWN">
+                                    <arguments />
+                                </Ground>
+                            </Scan>
+                        </Project>
+                    </arguments>
+                    <Ground cardinality_estimate="UNKNOWN">
+                        <arguments />
+                    </Ground>
+                </ApplyPlan>
+            </Scan>
+        </Project>
+    </query_plan>
+</test_case>

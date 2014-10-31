@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <data_object name="departments" execution_data_source="session">
+        <data_tree>
+            <root>
+                <element>
+                    <did>5</did>
+                    <dname>Sales</dname>
+                    <employees />
+                </element>
+                <element>
+                    <did>7</did>
+                    <dname>Marketing</dname>
+                    <employees>
+                        <element>
+                            <eid>abc</eid>
+                            <ename>Ken</ename>
+                        </element>
+                    </employees>
+                </element>
+                <element>
+                    <did>9</did>
+                    <dname>Search</dname>
+                    <employees>
+                        <element>
+                            <eid>xy</eid>
+                            <ename>yahoo</ename>
+                        </element>
+                    </employees>
+                </element>
+                <element>
+                    <did>10</did>
+                    <dname>advertising</dname>
+                    <employees>
+                        <element>
+                            <eid>xm</eid>
+                            <ename>ad</ename>
+                        </element>
+                    </employees>
+                </element>
+            </root>
+        </data_tree>
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <did type="integer" />
+                    <dname type="string" />
+                    <employees type="collection">
+                        <element type="tuple">
+                            <eid type="string" />
+                            <ename type="string" />
+                        </element>
+                        <constraints>
+                            <local-key>
+                                <attribute path="tuple/eid" />
+                            </local-key>
+                        </constraints>
+                    </employees>
+                </element>
+                <constraints>
+                    <local-key>
+                        <attribute path="tuple/did" />
+                    </local-key>
+                </constraints>
+            </root>
+        </schema_tree>
+    </data_object>
+    <data_object name="user" execution_data_source="session">
+        <data_tree>
+            <root>Mike</root>
+        </data_tree>
+        <schema_tree>
+            <root type="string" />
+        </schema_tree>
+    </data_object>
+    <data_object name="profile" execution_data_source="session">
+        <data_tree>
+            <root>
+                <reviewer>ken@ucsd.edu</reviewer>
+                <proposal>1</proposal>
+                <grade>1</grade>
+            </root>
+        </data_tree>
+        <schema_tree>
+            <root type="tuple">
+                <reviewer type="string" />
+                <proposal type="integer" />
+                <grade type="integer" />
+            </root>
+        </schema_tree>
+    </data_object>
+    <data_object name="bag" execution_data_source="session">
+        <data_tree>
+            <root/>
+        </data_tree>
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <item type="string" />
+                    <labels type="collection">
+                        <element type="tuple">
+                            <text type="string" />
+                        </element>
+                        <constraints>
+                            <local-key>
+                                <attribute path="tuple/text" />
+                            </local-key>
+                        </constraints>
+                    </labels>
+                </element>
+            </root>
+        </schema_tree>
+    </data_object>
+</test_case>

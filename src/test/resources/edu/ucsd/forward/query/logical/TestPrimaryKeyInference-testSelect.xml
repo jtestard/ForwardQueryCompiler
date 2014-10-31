@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_plan wrapping="false">
+        <Select cardinality_estimate="UNKNOWN">
+            <arguments>
+                <FunctionCall name="&gt;" type="boolean">
+                    <QueryPath steps="did">
+                        <Variable name="d" />
+                    </QueryPath>
+                    <Constant type="integer">
+                        <integer>5</integer>
+                    </Constant>
+                </FunctionCall>
+            </arguments>
+            <Scan alias="d" cardinality_estimate="UNKNOWN">
+                <arguments>
+                    <Variable data_source="session" mode="ABSOLUTE" schema_object="departments" />
+                </arguments>
+                <Ground cardinality_estimate="UNKNOWN">
+                    <arguments />
+                </Ground>
+            </Scan>
+        </Select>
+    </query_plan>
+    <output_schema>
+        <root type="collection">
+            <element type="tuple">
+                <d type="tuple">
+                    <did type="integer" />
+                    <dname type="string" />
+                    <employees type="collection">
+                        <element type="tuple">
+                            <eid type="string" />
+                            <ename type="string" />
+                        </element>
+                        <constraints>
+                            <local-key collection="/tuple/employees">
+                                <attribute path="tuple/eid" />
+                            </local-key>
+                        </constraints>
+                    </employees>
+                </d>
+            </element>
+            <constraints>
+                <local-key collection="/">
+                    <attribute path="tuple/d/did" />
+                </local-key>
+            </constraints>
+        </root>
+        <constraints />
+    </output_schema>
+</test_case>

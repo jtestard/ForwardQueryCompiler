@@ -1,0 +1,2 @@
+SELECT P.reviews.comment
+FROM proposals AS P

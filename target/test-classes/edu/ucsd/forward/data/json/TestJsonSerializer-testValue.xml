@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <data_object name="simple" execution_data_source="src_1" cardinality_estimate="LARGE" data_model="SQLPLUSPLUS"
+        storage_system="INMEMORY">
+        <schema_tree>
+            <root type="string" />
+        </schema_tree>
+        <data_tree>
+            <root null="true" />
+        </data_tree>
+    </data_object>
+    <data_object name="complex" execution_data_source="src_1" cardinality_estimate="LARGE" data_model="SQLPLUSPLUS"
+        storage_system="INMEMORY">
+        <schema_tree>
+            <root type="tuple">
+                <name type="tuple">
+                    <firstn type="string" />
+                    <lastn type="string" />
+                </name>
+                <phone type="tuple">
+                    <type type="switch">
+                        <home type="tuple">
+                            <number type="integer" />
+                        </home>
+                        <work type="tuple">
+                            <numbers type="collection">
+                                <element type="tuple">
+                                    <number type="integer" />
+                                </element>
+                                <constraints>
+                                    <local-key>
+                                        <attribute path="tuple/number" />
+                                    </local-key>
+                                </constraints>
+                            </numbers>
+                        </work>
+                    </type>
+                </phone>
+                <proposals type="collection">
+                    <element type="tuple">
+                        <proposal_id type="integer" />
+                        <title type="string" />
+                        <nested_tuple type="tuple">
+                            <reviews type="collection">
+                                <element type="tuple">
+                                    <reviewer_id type="integer" />
+                                    <comment type="string" />
+                                    <grade type="integer" />
+                                </element>
+                                <constraints>
+                                    <local-key>
+                                        <attribute path="tuple/reviewer_id" />
+                                    </local-key>
+                                </constraints>
+                            </reviews>
+                        </nested_tuple>
+                    </element>
+                    <constraints>
+                        <local-key>
+                            <attribute path="tuple/proposal_id" />
+                        </local-key>
+                    </constraints>
+                </proposals>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <name>
+                    <firstn>Barbie</firstn>
+                    <lastn>Smith</lastn>
+                </name>
+                <phone>
+                    <type>
+                        <work></work>
+                    </type>
+                </phone>
+                <proposals>
+                    <element>
+                        <proposal_id>2</proposal_id>
+                        <title>Beach House</title>
+                        <nested_tuple>
+                            <reviews>
+                                <element>
+                                    <reviewer_id>20</reviewer_id>
+                                    <comment>Lame...</comment>
+                                    <grade>1</grade>
+                                </element>
+                                <element>
+                                    <reviewer_id>30</reviewer_id>
+                                    <comment>Average...</comment>
+                                    <grade>2</grade>
+                                </element>
+                            </reviews>
+                        </nested_tuple>
+                    </element>
+                    <element>
+                        <proposal_id>4</proposal_id>
+                        <title>City House</title>
+                        <nested_tuple null="true" />
+                    </element>
+                </proposals>
+            </root>
+        </data_tree>
+    </data_object>
+</test_case>

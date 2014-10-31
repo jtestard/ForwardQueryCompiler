@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<diffs>
+    <ReplaceDiff context="/title">
+        <payload>My new title</payload>
+    </ReplaceDiff>
+</diffs>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_expression>
+        <![CDATA[
+            SELECT COUNT(J.int_v) AS c,SUM(J.int_v) AS s, AVG(J.int_v) AS a, MIN(J.int_v) AS m
+            FROM  mem.json_obj AS J
+        ]]>
+    </query_expression>
+    <data_object name="json_obj" execution_data_source="mem">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <int_v type="json" />
+                </element>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <int_v>1
+                </int_v>
+                </element>
+                <element>
+                    <int_v>1
+                </int_v>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+    <data_object name="output" execution_data_source="output">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <c type="integer" />
+                    <s type="integer" />
+                    <a type="decimal" />
+                    <m type="integer" />
+                </element>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <c>2</c>
+                    <s>2</s>
+                    <a>1</a>
+                    <m>1</m>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+</test_case>

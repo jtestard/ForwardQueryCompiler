@@ -1,0 +1,8 @@
+All the type of the CASE branches 
+       CASE WHEN P.proposal_id > 1 THEN 1
+            ELSE 
+              TUPLE('a' AS foo
+              )
+       END must be the same, the type of branch ELSE 
+              TUPLE('a' AS foo
+              ) is {foo : string}, but previous branch is integer

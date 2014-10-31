@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_plan wrapping="false">
+        <Scan alias="departments2" cardinality_estimate="UNKNOWN">
+            <arguments>
+                <Variable data_source="session" mode="ABSOLUTE" schema_object="profile" />
+            </arguments>
+            <Scan alias="departments1" cardinality_estimate="UNKNOWN">
+                <arguments>
+                    <Variable data_source="session" mode="ABSOLUTE" schema_object="departments" />
+                </arguments>
+                <Ground cardinality_estimate="UNKNOWN">
+                    <arguments />
+                </Ground>
+            </Scan>
+        </Scan>
+    </query_plan>
+    <output_schema>
+        <root type="collection">
+            <element type="tuple">
+                <departments1 type="tuple">
+                    <did type="integer" />
+                    <dname type="string" />
+                    <employees type="collection">
+                        <element type="tuple">
+                            <eid type="string" />
+                            <ename type="string" />
+                        </element>
+                        <constraints>
+                            <local-key collection="/tuple/employees">
+                                <attribute path="tuple/eid" />
+                            </local-key>
+                        </constraints>
+                    </employees>
+                </departments1>
+                <departments2 type="tuple">
+                    <reviewer type="string" />
+                    <proposal type="integer" />
+                    <grade type="integer" />
+                </departments2>
+            </element>
+            <constraints>
+                <local-key collection="/">
+                    <attribute path="tuple/departments1/did" />
+                </local-key>
+            </constraints>
+        </root>
+        <constraints />
+    </output_schema>
+</test_case>

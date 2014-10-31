@@ -1,0 +1,4 @@
+The case name of the expression title is missing in the switch constructor 
+       SWITCH WHEN proposal_id < 2 THEN title
+              ELSE '' AS empty
+       END

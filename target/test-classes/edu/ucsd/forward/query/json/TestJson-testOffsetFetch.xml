@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_expression>
+        <![CDATA[
+            SELECT v AS int
+            FROM mem.li AS L
+            OFFSET mem.json_obj.b ROW
+            FETCH NEXT mem.json_obj.a ROW ONLY  
+        ]]>
+    </query_expression>
+    <data_object name="json_obj" execution_data_source="mem">
+        <schema_tree>
+            <root type="tuple">
+                <a type="json" />
+                <b type="json" />
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <a>1</a>
+                <b>0</b>
+            </root>
+        </data_tree>
+    </data_object>
+    <data_object name="li" execution_data_source="mem">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <v type="integer" />
+                </element>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <v>1</v>
+                </element>
+                <element>
+                    <v>3</v>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+    <data_object name="output" execution_data_source="output">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <int type="integer" />
+                </element>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <int>1</int>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+</test_case>

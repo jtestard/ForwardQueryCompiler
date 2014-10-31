@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_expression>
+        <![CDATA[
+            SET context.title=4
+        ]]>
+    </query_expression>
+    <mapping_group>
+        <mapping source_path="/name" target_path="/name">
+            <predicates></predicates>
+        </mapping>
+        <mapping source_path="/proposals" target_path="/proposals">
+            <predicates/>
+        </mapping>
+        <mapping source_path="/proposal_id" target_path="/proposals/tuple[proposal_id=?]/proposal_id">
+            <predicates>
+                <predicate parameter="/proposal_id" />
+            </predicates>
+        </mapping>
+        <mapping source_path="/title" target_path="/proposals/tuple[proposal_id=?]/title">
+            <predicates>
+                <predicate parameter="/proposal_id" />
+            </predicates>
+        </mapping>
+    </mapping_group>
+    <data_object name="context" execution_data_source="context">
+        <schema_tree>
+            <root type="tuple">
+                <name type="string" />
+                <proposals type="collection">
+                    <element type="tuple">
+                        <proposal_id type="integer" />
+                        <title type="integer" />
+                    </element>
+                    <constraints>
+                        <local-key collection="/proposals">
+                            <attribute path="tuple/proposal_id" />
+                        </local-key>
+                    </constraints>
+                </proposals>
+                <proposal_id type="integer" />
+                <title type="integer" />
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <name>Adam</name>
+                <proposals>
+                    <element>
+                        <proposal_id>1</proposal_id>
+                        <title>7</title>
+                    </element>
+                    <element>
+                        <proposal_id>2</proposal_id>
+                        <title>8</title>
+                    </element>
+                </proposals>
+                <proposal_id>1</proposal_id>
+                <title>7</title>
+            </root>
+        </data_tree>
+    </data_object>
+    <data_object name="page" execution_data_source="__page">
+        <schema_tree>
+            <root type="tuple">
+                <name type="string" />
+                <proposals type="collection">
+                    <element type="tuple">
+                        <proposal_id type="integer" />
+                        <title type="integer" />
+                    </element>
+                    <constraints>
+                        <local-key collection="/proposals">
+                            <attribute path="tuple/proposal_id" />
+                        </local-key>
+                    </constraints>
+                </proposals>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <name>Adam</name>
+                <proposals>
+                    <element>
+                        <proposal_id>1</proposal_id>
+                        <title>7</title>
+                    </element>
+                    <element>
+                        <proposal_id>2</proposal_id>
+                        <title>8</title>
+                    </element>
+                </proposals>
+            </root>
+        </data_tree>
+    </data_object>
+    <data_object name="event" execution_data_source="__page">
+        <schema_tree>
+            <root type="tuple">
+                <proposal_id type="integer" />
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <proposal_id>1</proposal_id>
+            </root>
+        </data_tree>
+    </data_object>
+    <data_object name="page" execution_data_source="output">
+        <schema_tree>
+            <root type="tuple">
+                <name type="string" />
+                <proposals type="collection">
+                    <element type="tuple">
+                        <proposal_id type="integer" />
+                        <title type="integer" />
+                    </element>
+                    <constraints>
+                        <local-key collection="/proposals">
+                            <attribute path="tuple/proposal_id" />
+                        </local-key>
+                    </constraints>
+                </proposals>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <name>Adam</name>
+                <proposals>
+                    <element>
+                        <proposal_id>1</proposal_id>
+                        <title>4</title>
+                    </element>
+                    <element>
+                        <proposal_id>2</proposal_id>
+                        <title>8</title>
+                    </element>
+                </proposals>
+            </root>
+        </data_tree>
+    </data_object>
+</test_case>

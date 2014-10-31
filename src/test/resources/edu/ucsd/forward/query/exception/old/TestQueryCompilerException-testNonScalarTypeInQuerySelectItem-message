@@ -1,0 +1,5 @@
+There must be at least one scalar type SELECT item in query 
+SELECT 
+       (
+         SELECT 1 AS a
+       ) AS t

@@ -1,0 +1,2 @@
+SELECT proposal_id
+FROM proposals AS P, proposals AS T

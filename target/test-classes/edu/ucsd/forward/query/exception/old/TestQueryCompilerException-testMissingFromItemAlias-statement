@@ -1,0 +1,8 @@
+SELECT P.proposal_id
+FROM proposals AS P,
+     (
+      SELECT T.proposal_id
+      FROM proposals AS T
+      WHERE T.title = ''
+     )
+     

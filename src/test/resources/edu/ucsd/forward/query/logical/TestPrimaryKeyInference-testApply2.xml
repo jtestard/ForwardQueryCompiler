@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_plan wrapping="false">
+        <ApplyPlan attr_name="__v0" cardinality_estimate="UNKNOWN">
+            <arguments>
+                <Scan alias="p" cardinality_estimate="UNKNOWN">
+                    <arguments>
+                        <Variable data_source="session" mode="ABSOLUTE" schema_object="departments" />
+                    </arguments>
+                    <Ground cardinality_estimate="UNKNOWN">
+                        <arguments />
+                    </Ground>
+                </Scan>
+            </arguments>
+            <Scan alias="b" cardinality_estimate="UNKNOWN">
+                <arguments>
+                    <Variable data_source="session" mode="ABSOLUTE" schema_object="bag" />
+                </arguments>
+                <Ground cardinality_estimate="UNKNOWN">
+                    <arguments />
+                </Ground>
+            </Scan>
+        </ApplyPlan>
+    </query_plan>
+    <output_schema>
+        <root type="collection">
+            <element type="tuple">
+                <b type="tuple">
+                    <item type="string" />
+                    <labels type="collection">
+                        <element type="tuple">
+                            <text type="string" />
+                        </element>
+                        <constraints>
+                            <local-key collection="/tuple/labels">
+                                <attribute path="tuple/text" />
+                            </local-key>
+                        </constraints>
+                    </labels>
+                </b>
+                <__v0 type="collection">
+                    <element type="tuple">
+                        <p type="tuple">
+                            <did type="integer" />
+                            <dname type="string" />
+                            <employees type="collection">
+                                <element type="tuple">
+                                    <eid type="string" />
+                                    <ename type="string" />
+                                </element>
+                                <constraints>
+                                    <local-key collection="/tuple/__v0/tuple/employees">
+                                        <attribute path="tuple/eid" />
+                                    </local-key>
+                                </constraints>
+                            </employees>
+                        </p>
+                    </element>
+                    <constraints>
+                        <local-key collection="/tuple/__v0">
+                            <attribute path="tuple/p/did" />
+                        </local-key>
+                    </constraints>
+                </__v0>
+            </element>
+        </root>
+        <constraints />
+    </output_schema>
+</test_case>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_expression>
+        <![CDATA[
+             SELECT in1 AS a1, in2 AS a2 FROM src_1.input AS in1, src_1.input AS in2 WHERE in1 = in2
+        ]]>
+    </query_expression>
+    <data_source name="src_1" storage_system="INMEMORY" data_model="RELATIONAL" />
+    <data_object name="input" execution_data_source="src_1" cardinality_estimate="LARGE">
+        <schema_tree>
+            <root type="collection">
+                <element type="integer" />
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>1</element>
+                <element>2</element>
+                <element>3</element>
+                <element>4</element>
+            </root>
+        </data_tree>
+    </data_object>
+    <query_plan wrapping="false">
+        <Project cardinality_estimate="UNKNOWN">
+            <arguments>
+                <Item alias="a1">
+                    <Variable mode="ELEMENT" name="in1" />
+                </Item>
+                <Item alias="a2">
+                    <Variable mode="ELEMENT" name="in2" />
+                </Item>
+            </arguments>
+            <Select cardinality_estimate="UNKNOWN">
+                <arguments>
+                    <FunctionCall name="=">
+                        <Variable mode="ELEMENT" name="in1" />
+                        <Variable mode="ELEMENT" name="in2" />
+                    </FunctionCall>
+                </arguments>
+                <Product cardinality_estimate="UNKNOWN">
+                    <arguments />
+                    <Scan alias="in1" cardinality_estimate="UNKNOWN">
+                        <arguments>
+                            <Variable data_source="src_1" mode="ABSOLUTE" schema_object="input" />
+                        </arguments>
+                        <Ground cardinality_estimate="UNKNOWN">
+                            <arguments />
+                        </Ground>
+                    </Scan>
+                    <Scan alias="in2" cardinality_estimate="UNKNOWN">
+                        <arguments>
+                            <Variable data_source="src_1" mode="ABSOLUTE" schema_object="input" />
+                        </arguments>
+                        <Ground cardinality_estimate="UNKNOWN">
+                            <arguments />
+                        </Ground>
+                    </Scan>
+                </Product>
+            </Select>
+        </Project>
+    </query_plan>
+
+    <data_object name="output" execution_data_source="output">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <a1 type="integer" />
+                    <a2 type="integer" />
+                </element>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <a1>1</a1>
+                    <a2>1</a2>
+                </element>
+                <element>
+                    <a1>2</a1>
+                    <a2>2</a2>
+                </element>
+                <element>
+                    <a1>3</a1>
+                    <a2>3</a2>
+                </element>
+                <element>
+                    <a1>4</a1>
+                    <a2>4</a2>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+</test_case>

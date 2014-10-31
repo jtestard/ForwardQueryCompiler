@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_expression>
+        <![CDATA[
+            SELECT a 
+            FROM BAG (
+              TUPLE(1 as a, b: '1'),
+              TUPLE(2 as a, b: '2'),
+              TUPLE(3 as a, b: '3')
+            ) AS b
+        ]]>
+    </query_expression>
+    <query_expression>
+        <![CDATA[
+            SELECT a 
+            FROM {{
+              {a: 1, b: '1'},
+              {a: 2, b: '2'},
+              {a: 3, b: '3'}
+            }} AS b
+        ]]>
+    </query_expression>
+</test_case>

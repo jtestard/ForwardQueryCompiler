@@ -1,0 +1,3 @@
+SELECT P.proposal_id AS ID, TUPLE(title AS title, title AS title) AS tt
+FROM proposals AS P
+     

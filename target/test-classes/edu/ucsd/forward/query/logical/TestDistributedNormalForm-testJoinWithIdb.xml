@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_plan>
+        <Project>
+            <arguments>
+                <Item alias="title">
+                    <Variable name="p_title" />
+                </Item>
+                <Item alias="pid">
+                    <Variable name="p_proposal_id" />
+                </Item>
+            </arguments>
+            <Product>
+                <arguments />
+                <Scan alias="p" execution_data_source="src1">
+                    <arguments>
+                        <Variable mode="ABSOLUTE" data_source="src1" schema_object="proposals" />
+                        <Attribute>
+                            <QueryPath steps="title" />
+                            <Variable name="p_title" />
+                        </Attribute>
+                        <Attribute>
+                            <QueryPath steps="proposal_id" />
+                            <Variable name="p_proposal_id" />
+                        </Attribute>
+                    </arguments>
+                    <Ground execution_data_source="src1" />
+                </Scan>
+
+                <Scan alias="p2" execution_data_source="src2">
+                    <arguments>
+                        <Variable mode="ABSOLUTE" data_source="src2" schema_object="proposals" />
+                        <Attribute>
+                            <QueryPath steps="title" />
+                            <Variable name="p2_title" />
+                        </Attribute>
+                        <Attribute>
+                            <QueryPath steps="proposal_id" />
+                            <Variable name="p2_proposal_id" />
+                        </Attribute>
+                    </arguments>
+                    <Ground execution_data_source="src2" />
+                </Scan>
+            </Product>
+        </Project>
+    </query_plan>
+
+
+    <query_plan>
+        <SendPlan alias="__q2" cardinality_estimate="LARGE" execution_data_source="mediator">
+            <arguments>
+                <Project cardinality_estimate="LARGE" execution_data_source="mediator">
+                    <arguments>
+                        <Item alias="title">
+                            <Variable name="p_title" />
+                        </Item>
+                        <Item alias="pid">
+                            <Variable name="p_proposal_id" />
+                        </Item>
+                    </arguments>
+                    <Product cardinality_estimate="LARGE" execution_data_source="mediator">
+                        <arguments />
+                        <SendPlan alias="__q1" cardinality_estimate="LARGE" execution_data_source="src1">
+                            <arguments>
+                                <Scan alias="p" cardinality_estimate="LARGE" execution_data_source="src1">
+                                    <arguments>
+                                        <Variable mode="ABSOLUTE" data_source="src1" schema_object="proposals" />
+                                        <Attribute>
+                                            <QueryPath steps="title" />
+                                            <Variable name="p_title" />
+                                        </Attribute>
+                                        <Attribute>
+                                            <QueryPath steps="proposal_id" />
+                                            <Variable name="p_proposal_id" />
+                                        </Attribute>
+                                    </arguments>
+                                    <Ground cardinality_estimate="ONE" execution_data_source="src1">
+                                        <arguments />
+                                    </Ground>
+                                </Scan>
+                            </arguments>
+                        </SendPlan>
+                        <Scan alias="p2" cardinality_estimate="LARGE" execution_data_source="mediator">
+                            <arguments>
+                                <Variable mode="ABSOLUTE" data_source="src2" schema_object="proposals" />
+                                <Attribute>
+                                    <QueryPath steps="title" />
+                                    <Variable name="p2_title" />
+                                </Attribute>
+                                <Attribute>
+                                    <QueryPath steps="proposal_id" />
+                                    <Variable name="p2_proposal_id" />
+                                </Attribute>
+                            </arguments>
+                            <Ground cardinality_estimate="ONE" execution_data_source="mediator">
+                                <arguments />
+                            </Ground>
+                        </Scan>
+                    </Product>
+                </Project>
+            </arguments>
+        </SendPlan>
+    </query_plan>
+
+    <data_source name="src1" storage_system="INDEXEDDB" data_model="RELATIONAL" />
+    <data_object name="proposals" execution_data_source="src1" cardinality_estimate="LARGE">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <proposal_id type="integer" />
+                    <title type="string" />
+                    <summary type="string" />
+                    <description type="string" />
+                </element>
+                <constraints>
+                    <local-key collection="/">
+                        <attribute path="tuple/proposal_id" />
+                    </local-key>
+                </constraints>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+            </root>
+        </data_tree>
+    </data_object>
+    <data_object name="proposals" execution_data_source="src2" cardinality_estimate="LARGE">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <proposal_id type="integer" />
+                    <title type="string" />
+                    <summary type="string" />
+                    <description type="string" />
+                </element>
+                <constraints>
+                    <local-key collection="/">
+                        <attribute path="tuple/proposal_id" />
+                    </local-key>
+                </constraints>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+            </root>
+        </data_tree>
+    </data_object>
+</test_case>

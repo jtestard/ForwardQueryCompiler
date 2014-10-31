@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_expression>
+        <![CDATA[
+            SELECT eid, firstname, lastname, (
+                                           SELECT M.mid, M.subject 
+                                           FROM mem_src.messages AS M
+                                           WHERE M.sender = E.email_id
+                                        ) AS messages
+            FROM mem_src.employees as E
+            FETCH FIRST 50 ROWS ONLY                                  
+                ]]>
+    </query_expression>
+    <query_plan>
+        <SendPlan alias="__qoutput" cardinality_estimate="SMALL" execution_data_source="mem_src" impl="SendPlanImplInMemory">
+            <group_by alias="__q1" execution_data_source="mem_src" cardinality_estimate="SMALL">
+                <arguments>
+                    <group_by_term alias="eid">
+                        <Variable name="E.eid" />
+                    </group_by_term>
+                    <group_by_term alias="firstname">
+                        <Variable name="E.firstname" />
+                    </group_by_term>
+                    <group_by_term alias="lastname">
+                        <Variable name="E.lastname" />
+                    </group_by_term>
+                    <aggregate alias="messages">
+                        <function_call name="NEST" set_quantifier="ALL">
+                            <Variable name="M.mid" />
+                            <Variable name="M.subject" />
+                        </function_call>
+                    </aggregate>
+                </arguments>
+                <outer_join impl="OuterJoinImplNestedLoop" variation="LEFT" execution_data_source="mem_src"
+                    cardinality_estimate="SMALL">
+                    <arguments>
+                        <function_call name="=">
+                            <Variable name="E.email_id" />
+                            <Variable name="M.sender" />
+                        </function_call>
+                    </arguments>
+                    <Scan alias="E" mode="ABSOLUTE" steps="mem_src.employees" execution_data_source="mem_src"
+                        cardinality_estimate="SMALL">
+                        <Ground execution_data_source="mem_src" cardinality_estimate="SMALL" />
+                    </Scan>
+                    <Scan alias="M" mode="ABSOLUTE" steps="mem_src.messages" execution_data_source="mem_src"
+                        cardinality_estimate="SMALL">
+                        <Ground execution_data_source="mem_src" cardinality_estimate="SMALL" />
+                    </Scan>
+                </outer_join>
+            </group_by>
+        </SendPlan>
+    </query_plan>
+    <data_source name="public" storage_system="JDBC" data_model="RELATIONAL">
+        <properties environment="testing" user="postgres" password="postgres" maxPoolSize="20" unreturnedConnectionTimeout="0"
+            debugUnreturnedConnectionStackTraces="true" driver="postgresql" host="localhost" port="5432" database="enron" />
+        <properties environment="jenkins" user="postgres" password="postgres" maxPoolSize="20" unreturnedConnectionTimeout="0"
+            debugUnreturnedConnectionStackTraces="true" driver="postgresql" host="localhost" port="5432" database="enron" />
+    </data_source>
+    <data_object name="employees" execution_data_source="mem_src">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <eid type="integer" />
+                    <firstname type="string" />
+                    <lastname type="string" />
+                    <email_id type="string" />
+                </element>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <query_expression execution_data_source="public">
+        <![CDATA[
+        SELECT * FROM employeelist
+                ]]>
+            </query_expression>
+        </data_tree>
+    </data_object>
+    <data_object name="messages" execution_data_source="mem_src">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <mid type="integer" />
+                    <sender type="string" />
+                    <subject type="string" />
+                </element>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <query_expression execution_data_source="public">
+        <![CDATA[
+        select mid, sender, subject 
+        FROM message
+                ]]>
+            </query_expression>
+        </data_tree>
+    </data_object>
+</test_case>

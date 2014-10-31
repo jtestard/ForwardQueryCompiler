@@ -1,0 +1,3 @@
+SELECT COUNT(P.proposal_id)
+FROM proposals AS P
+     

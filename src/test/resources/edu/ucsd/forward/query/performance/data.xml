@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data_model>
+    <type>
+        <dataset>
+            <element>
+                <attribute name="employeelist">
+                    <relation>
+                        <element>
+                            <attribute name="eid">
+                                <integer />
+                            </attribute>
+                            <attribute name="firstname">
+                                <string />
+                            </attribute>
+                            <attribute name="lastname">
+                                <string />
+                            </attribute>
+                            <attribute name="email_id">
+                                <string />
+                            </attribute>                            
+                        </tuple>
+                    </relation>
+                </attribute>
+                <attribute name="message">
+                    <relation>
+                        <tuple>
+                            <attribute name="mid">
+                                <integer />
+                            </attribute>
+                            <attribute name="sender">
+                                <string />
+                            </attribute>
+                            <attribute name="date">
+                                <timestamp />
+                            </attribute>
+                            <attribute name="message_id">
+                                <string />
+                            </attribute>
+                            <attribute name="subject">
+                                <string />
+                            </attribute>
+                            <attribute name="body">
+                                <string />
+                            </attribute>
+                            <attribute name="folder">
+                                <string />
+                            </attribute>                                                          
+                        </tuple>
+                    </relation>
+                </attribute>
+                <attribute name="receipintinfo">
+                    <relation>
+                        <tuple>
+                            <attribute name="rid">
+                                <integer />
+                            </attribute>
+                            <attribute name="mid">
+                                <integer />
+                            </attribute>
+                            <attribute name="rtype">
+                                <string />
+                            </attribute>
+                            <attribute name="rvalue">
+                                <string />
+                            </attribute>
+                            <attribute name="dater">
+                                <timestamp />
+                            </attribute>
+                        </element>
+                    </relation>
+                </attribute>
+                <attribute name="referenceinfo">
+                    <relation>
+                        <element>
+                            <attribute name="rfid">
+                                <integer />
+                            </attribute>
+                            <attribute name="mid">
+                                <timestamp />
+                            </attribute>
+                            <attribute name="reference">
+                                <string />
+                            </attribute>
+                        </element>
+                    </relation>
+                </attribute>
+            </element>
+        </dataset>
+    </type>
+    <constraints>
+        <local-key>
+            <attribute path="employeelist/tuple/eid" />
+        </local-key>
+        <local-key>
+            <attribute path="message/tuple/mid" />
+        </local-key>
+        <local-key>
+            <attribute path="receipintinfo/tuple/rid" />
+        </local-key>
+        <local-key>
+            <attribute path="referenceinfo/tuple/rfid" />
+        </local-key>
+    </constraints>
+</data_model>

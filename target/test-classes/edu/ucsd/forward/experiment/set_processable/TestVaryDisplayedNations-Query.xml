@@ -1,0 +1,42 @@
+<test_case>
+    <query_expression>
+        <![CDATA[
+SELECT n.n_nationkey, n.n_name, (
+           SELECT o_orderdate, SUM(o_totalprice) AS sum_price
+           FROM public.orders AS o, public.customers AS c
+           WHERE o.o_custkey = c.c_custkey AND c.c_nationkey = n.n_nationkey
+           GROUP BY o.o_orderdate
+           ORDER BY sum_price DESC
+           LIMIT 3
+       ) AS aggregates
+FROM src.selected_nations AS s, public.nation AS n
+WHERE s.nationkey = n.n_nationkey
+        ]]>
+    </query_expression>
+
+    <data_source name="public" storage_system="JDBC" data_model="RELATIONAL">
+        <properties environment="testing" user="ubuntu" password="ubuntu" maxPoolSize="1"
+            unreturnedConnectionTimeout="0" debugUnreturnedConnectionStackTraces="true" overwrite="false" driver="postgresql" host="localhost"
+            port="9000" database="tpch3_1200" />
+    </data_source>
+
+    <data_object name="selected_nations" execution_data_source="src" cardinality_estimate="SMALL">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <nationkey type="integer" />
+                    <!-- <name type="string" /> -->
+                </element>
+                <constraints>
+                    <local-key>
+                        <attribute path="tuple/nationkey" />
+                    </local-key>
+                </constraints>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root />
+        </data_tree>
+    </data_object>
+
+</test_case>

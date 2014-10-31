@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_plan wrapping="false">
+        <Select cardinality_estimate="UNKNOWN">
+            <arguments>
+                <FunctionCall name="=" type="boolean">
+                    <QueryPath steps="item">
+                        <Variable name="b" />
+                    </QueryPath>
+                    <Constant type="string">
+                        <string>hi</string>
+                    </Constant>
+                </FunctionCall>
+            </arguments>
+            <Scan alias="b" cardinality_estimate="UNKNOWN">
+                <arguments>
+                    <Variable data_source="session" mode="ABSOLUTE" schema_object="bag" />
+                </arguments>
+                <Ground cardinality_estimate="UNKNOWN">
+                    <arguments />
+                </Ground>
+            </Scan>
+        </Select>
+    </query_plan>
+    <output_schema>
+        <root type="collection">
+            <element type="tuple">
+                <b type="tuple">
+                    <item type="string" />
+                    <labels type="collection">
+                        <element type="tuple">
+                            <text type="string" />
+                        </element>
+                        <constraints>
+                            <local-key collection="/tuple/labels">
+                                <attribute path="tuple/text" />
+                            </local-key>
+                        </constraints>
+                    </labels>
+                </b>
+            </element>
+        </root>
+        <constraints />
+    </output_schema>
+</test_case>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <action_statement>
+        <![CDATA[
+create function adder(vals collection(val integer)) returns collection (val integer) as
+begin
+    return (
+        select  val + 1 as val
+        from    vals
+    );
+end;
+        
+create function setIntersection() as
+declare 
+    intersection    collection (val integer);
+begin
+    set actual.actual = (
+            select  a.val as val
+            from    actual.actual as a
+                    join adder(actual.actual) as a2 on a.val = a2.val  
+        );
+end;
+        ]]>
+    </action_statement>
+    <query_expression>setIntersection();</query_expression>
+    <data_object name="actual" execution_data_source="actual" cardinality_estimate="SMALL" storage_system="INMEMORY">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <val type="integer" />
+                </element>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <val>1</val>
+                </element>
+                <element>
+                    <val>2</val>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+    <data_object name="expected" execution_data_source="expected" cardinality_estimate="SMALL" storage_system="INMEMORY">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <val type="integer" />
+                </element>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <val>2</val>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+</test_case>

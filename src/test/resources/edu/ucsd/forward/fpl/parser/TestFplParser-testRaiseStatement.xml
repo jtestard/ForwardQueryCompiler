@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <action_statement>
+        <![CDATA[
+            CREATE ACTION public/admin/a1() AS
+            DECLARE
+                body string;
+                recipients collection (
+                    email string,
+                    name string,
+                    bcc boolean,
+                    PRIMARY KEY(email)
+                );
+                options tuple (
+                    urgent boolean,
+                    importance integer
+                );
+                send_status switch (
+	                sent tuple (
+                        sent_timestamp  timestamp
+                    ),
+                    not_sent tuple (
+                        error string
+                    )
+                );
+                body EXCEPTION;
+                email_error EXCEPTION;
+                some_error EXCEPTION;
+            BEGIN
+                IF 1=1 THEN RAISE body;
+                END IF;
+
+                IF 2=2 THEN RAISE email_error;
+                ELSE RAISE some_error;
+                END IF;
+
+                EXCEPTION
+                WHEN body OR email_error THEN
+                    body := 'default value here';
+                WHEN some_error THEN
+                    recipients := src1.recipients;
+                    options :=
+                        SELECT
+                            bcc AS urgent, 
+                            1 AS importance
+                        FROM
+                            src1.recipients
+                        WHERE
+                            email = 'who@where.com';
+                WHEN OTHERS THEN
+                    send_status := TUPLE(TUPLE(123 AS sent_timestamp) AS sent);
+            END;
+        ]]>
+    </action_statement>
+    <action_statement>
+        <![CDATA[
+            CREATE ACTION public/admin/a1() AS
+            DECLARE
+                body string;
+                recipients collection (
+                    email string,
+                    name string,
+                    bcc boolean,
+                    PRIMARY KEY(email)
+                );
+                options tuple (
+                    urgent boolean,
+                    importance integer
+                );
+                send_status switch (
+	                sent tuple (
+                        sent_timestamp  timestamp
+                    ),
+                    not_sent tuple (
+                        error string
+                    )
+                );
+                body EXCEPTION;
+                email_error EXCEPTION;
+                some_error EXCEPTION;
+            BEGIN
+                IF 1=1 THEN RAISE body;
+                END IF;
+
+                IF 2=2 THEN RAISE email_error;
+                ELSE RAISE some_error;
+                END IF;
+
+                EXCEPTION
+                WHEN body OR email_error THEN
+                    body := 'default value here';
+                WHEN some_error THEN
+                    recipients := src1.recipients;
+                    options :=
+                        SELECT
+                            bcc AS urgent, 
+                            1 AS importance
+                        FROM
+                            src1.recipients
+                        WHERE
+                            email = 'who@where.com';
+                WHEN OTHERS THEN
+                    send_status := TUPLE(TUPLE(123 AS sent_timestamp) AS sent);
+            END;
+        ]]>
+    </action_statement>
+    <data_object name="recipients" execution_data_source="src1" cardinality_estimate="LARGE" data_model="RELATIONAL"
+        storage_system="INMEMORY">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <email type="string" />
+                    <name type="string" />
+                    <bcc type="boolean" />
+                </element>
+                <constraints>
+                    <local-key>
+                        <attribute path="tuple/email" />
+                    </local-key>
+                </constraints>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+            </root>
+        </data_tree>
+    </data_object>
+</test_case>

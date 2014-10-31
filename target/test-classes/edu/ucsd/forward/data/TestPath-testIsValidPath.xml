@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <data_tree>
+        <root>
+            <date>2009-12-25</date>
+            <time>9:00pm</time>
+            <apply>
+                <applying_for>
+                    <phd>
+                        <specialization>Databases</specialization>
+                        <advisor_choice>Prof. White Beard</advisor_choice>
+                    </phd>
+                </applying_for>
+            </apply>
+        </root>
+    </data_tree>
+    <schema_tree>
+        <root type="tuple">
+            <date type="string" />
+            <time type="string" />
+            <apply type="tuple">
+                <applying_for type="switch">
+                    <phd type="tuple">
+                        <specialization type="string" />
+                        <advisor_choice type="string" />
+                    </phd>
+                    <masters type="tuple">
+                        <area_of_interest type="string" />
+                    </masters>
+                </applying_for>
+            </apply>
+        </root>
+        <constraints />
+    </schema_tree>
+</test_case>

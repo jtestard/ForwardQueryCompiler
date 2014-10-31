@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_expression>
+        <![CDATA[
+            SELECT P.proposal_id AS pid, src1.complex.name AS my_name, R.grade AS my_grade, (
+                                                                                                SELECT R.grade AS my_grade
+                                                                                                FROM P.nested_tuple.reviews R
+                                                                                                WHERE R.comment = src1.complex.name.firstn
+                                                                                                AND src1.complex.name.firstn = P.title
+                                                                                            ) AS nested
+            FROM src1.complex.proposals P, P.nested_tuple.reviews R, src1.simple S
+            WHERE src1.complex.name.firstn = P.title
+            AND P.proposal_id = R.reviewer_id
+            AND P.proposal_id = S.join_id
+            AND R.reviewer_id = S.join_id
+            AND src1.complex.name.firstn = 'Mike';
+        ]]>
+    </query_expression>
+    <data_object name="complex" execution_data_source="src1" cardinality_estimate="LARGE" data_model="SQLPLUSPLUS"
+        storage_system="INMEMORY">
+        <schema_tree>
+            <root type="tuple">
+                <name type="tuple">
+                    <firstn type="string" />
+                    <lastn type="string" />
+                </name>
+                <proposals type="collection">
+                    <element type="tuple">
+                        <proposal_id type="integer" />
+                        <title type="string" />
+                        <nested_tuple type="tuple">
+                            <reviews type="collection">
+                                <element type="tuple">
+                                    <reviewer_id type="integer" />
+                                    <comment type="string" />
+                                    <grade type="integer" />
+                                </element>
+                            </reviews>
+                        </nested_tuple>
+                    </element>
+                </proposals>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+            </root>
+        </data_tree>
+    </data_object>
+    <data_object name="simple" execution_data_source="src1" cardinality_estimate="LARGE" data_model="SQLPLUSPLUS"
+        storage_system="INMEMORY">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <join_id type="integer" />
+                </element>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+            </root>
+        </data_tree>
+    </data_object>
+    <query_plan wrapping="false">
+        <Project alias="__q0" cardinality_estimate="UNKNOWN">
+            <arguments>
+                <Item alias="pid">
+                    <Variable name="P_proposal_id" />
+                </Item>
+                <Item alias="my_name">
+                    <QueryPath steps="name">
+                        <Parameter>
+                            <Variable mode="ABSOLUTE" data_source="src1" schema_object="complex" />
+                        </Parameter>
+                    </QueryPath>
+                </Item>
+                <Item alias="my_grade">
+                    <Variable name="R_grade" />
+                </Item>
+                <Item alias="nested">
+                    <Variable name="__v0" />
+                </Item>
+            </arguments>
+            <ApplyPlan alias="__q3" attr_name="__v0" cardinality_estimate="UNKNOWN">
+                <arguments>
+                    <Project alias="__q2" cardinality_estimate="UNKNOWN">
+                        <arguments>
+                            <Item alias="my_grade">
+                                <Variable name="R_grade" />
+                            </Item>
+                        </arguments>
+                        <Select cardinality_estimate="UNKNOWN">
+                            <arguments>
+                                <FunctionCall name="=">
+                                    <Variable name="R_comment" />
+                                    <QueryPath steps="name.firstn">
+                                        <Parameter>
+                                            <Variable mode="ABSOLUTE" data_source="src1" schema_object="complex" />
+                                        </Parameter>
+                                    </QueryPath>
+                                </FunctionCall>
+                                <FunctionCall name="=">
+                                    <QueryPath steps="name.firstn">
+                                        <Parameter>
+                                            <Variable mode="ABSOLUTE" data_source="src1" schema_object="complex" />
+                                        </Parameter>
+                                    </QueryPath>
+                                    <Parameter>
+                                        <Variable name="P_title" type="string" />
+                                    </Parameter>
+                                </FunctionCall>
+                            </arguments>
+                            <Scan alias="R" cardinality_estimate="UNKNOWN">
+                                <arguments>
+                                    <QueryPath steps="reviews">
+                                        <Parameter>
+                                            <Variable name="P_nested_tuple">
+                                                <type type="tuple">
+                                                    <reviews type="collection">
+                                                        <element type="tuple">
+                                                            <reviewer_id type="integer" />
+                                                            <comment type="string" />
+                                                            <grade type="integer" />
+                                                        </element>
+                                                    </reviews>
+                                                </type>
+                                            </Variable>
+                                        </Parameter>
+                                    </QueryPath>
+                                </arguments>
+                                <Ground cardinality_estimate="UNKNOWN">
+                                    <arguments />
+                                </Ground>
+                            </Scan>
+                        </Select>
+                    </Project>
+                </arguments>
+                <Select cardinality_estimate="UNKNOWN">
+                    <arguments>
+                        <FunctionCall name="=">
+                            <QueryPath steps="name.firstn">
+                                <Variable mode="ABSOLUTE" data_source="src1" schema_object="complex" />
+                            </QueryPath>
+                            <Constant>
+                                <string>Mike</string>
+                            </Constant>
+                        </FunctionCall>
+                    </arguments>
+                    <InnerJoin cardinality_estimate="UNKNOWN">
+                        <arguments>
+                            <FunctionCall name="=">
+                                <Variable name="P_proposal_id" />
+                                <Variable name="S_join_id" />
+                            </FunctionCall>
+                            <FunctionCall name="=">
+                                <Variable name="R_reviewer_id" />
+                                <Variable name="S_join_id" />
+                            </FunctionCall>
+                        </arguments>
+                        <Scan alias="S" cardinality_estimate="UNKNOWN">
+                            <arguments>
+                                <Variable mode="ABSOLUTE" data_source="src1" schema_object="simple" />
+                            </arguments>
+                            <Ground cardinality_estimate="UNKNOWN">
+                                <arguments />
+                            </Ground>
+                        </Scan>
+                        <Select cardinality_estimate="UNKNOWN">
+                            <arguments>
+                                <FunctionCall name="=">
+                                    <Variable name="P_proposal_id" />
+                                    <Variable name="R_reviewer_id" />
+                                </FunctionCall>
+                            </arguments>
+                            <Scan alias="R" cardinality_estimate="UNKNOWN">
+                                <arguments>
+                                    <QueryPath steps="reviews">
+                                        <Variable name="P_nested_tuple" />
+                                    </QueryPath>
+                                </arguments>
+                                <Select cardinality_estimate="UNKNOWN">
+                                    <arguments>
+                                        <FunctionCall name="=">
+                                            <QueryPath steps="name.firstn">
+                                                <Parameter>
+                                                    <Variable mode="ABSOLUTE" data_source="src1" schema_object="complex" />
+                                                </Parameter>
+                                            </QueryPath>
+                                            <Variable name="P_title" />
+                                        </FunctionCall>
+                                    </arguments>
+                                    <Scan alias="P" cardinality_estimate="UNKNOWN">
+                                        <arguments>
+                                            <QueryPath steps="proposals">
+                                                <Variable mode="ABSOLUTE" data_source="src1" schema_object="complex" />
+                                            </QueryPath>
+                                        </arguments>
+                                        <Ground cardinality_estimate="UNKNOWN">
+                                            <arguments />
+                                        </Ground>
+                                    </Scan>
+                                </Select>
+                            </Scan>
+                        </Select>
+                    </InnerJoin>
+                </Select>
+            </ApplyPlan>
+        </Project>
+    </query_plan>
+</test_case>

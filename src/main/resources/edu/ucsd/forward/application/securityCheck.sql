@@ -1,0 +1,3 @@
+CREATE ACTION securityCheck() AS
+BEGIN
+END;

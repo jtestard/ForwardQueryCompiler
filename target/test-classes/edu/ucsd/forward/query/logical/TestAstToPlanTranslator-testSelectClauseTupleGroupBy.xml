@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_expression>
+        <![CDATA[
+            SELECT  G.name AS name,
+                    TUPLE(
+                        G.name AS outer_name,
+                        7 AS outer_constant,
+                        TUPLE(
+                            AVG(G.grade) AS inner_avg_grade,
+                            G.name AS inner_name
+                        ) AS inner_tuple
+                    ) AS outer_tuple
+            FROM src_1.grades AS G
+            GROUP BY G.name;
+        ]]>
+    </query_expression>
+    <data_object name="grades" execution_data_source="src_1" data_model="RELATIONAL">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <name type="string" />
+                    <proposal_ref type="integer" />
+                    <grade type="integer" />
+                </element>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <name>Alice</name>
+                    <proposal_ref>1</proposal_ref>
+                    <grade>1</grade>
+                </element>
+                <element>
+                    <name>Alice</name>
+                    <proposal_ref>2</proposal_ref>
+                    <grade>2</grade>
+                </element>
+                <element>
+                    <name>Bob</name>
+                    <proposal_ref>1</proposal_ref>
+                    <grade>3</grade>
+                </element>
+                <element>
+                    <name>Bob</name>
+                    <proposal_ref>2</proposal_ref>
+                    <grade>4</grade>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+    <query_plan wrapping="false">
+        <Project cardinality_estimate="UNKNOWN">
+            <arguments>
+                <Item alias="name">
+                    <Variable name="__v0" />
+                </Item>
+                <Item alias="outer_tuple">
+                    <FunctionCall name="TUPLE">
+                        <Variable name="__v0" />
+                        <Constant>
+                            <string>outer_name</string>
+                        </Constant>
+                        <Constant>
+                            <integer>7</integer>
+                        </Constant>
+                        <Constant>
+                            <string>outer_constant</string>
+                        </Constant>
+                        <FunctionCall name="TUPLE">
+                            <Variable name="avg_call__v2" />
+                            <Constant>
+                                <string>inner_avg_grade</string>
+                            </Constant>
+                            <Variable name="__v0" />
+                            <Constant>
+                                <string>inner_name</string>
+                            </Constant>
+                        </FunctionCall>
+                        <Constant>
+                            <string>inner_tuple</string>
+                        </Constant>
+                    </FunctionCall>
+                </Item>
+            </arguments>
+            <GroupBy cardinality_estimate="UNKNOWN">
+                <arguments>
+                    <GroupByItem attr_name="__v0">
+                        <Variable name="__v0" />
+                    </GroupByItem>
+                    <Aggregate alias="avg_call__v2">
+                        <FunctionCall name="AVG" set_quantifier="ALL">
+                            <Variable name="__v1" />
+                        </FunctionCall>
+                    </Aggregate>
+                </arguments>
+                <Navigate alias="__v1" cardinality_estimate="UNKNOWN">
+                    <arguments>
+                        <QueryPath steps="grade">
+                            <Variable mode="ELEMENT" name="G" />
+                        </QueryPath>
+                    </arguments>
+                    <Navigate alias="__v0" cardinality_estimate="UNKNOWN">
+                        <arguments>
+                            <QueryPath steps="name">
+                                <Variable mode="ELEMENT" name="G" />
+                            </QueryPath>
+                        </arguments>
+                        <Scan alias="G" cardinality_estimate="UNKNOWN">
+                            <arguments>
+                                <Variable data_source="src_1" mode="ABSOLUTE" schema_object="grades" />
+                            </arguments>
+                            <Ground cardinality_estimate="UNKNOWN">
+                                <arguments />
+                            </Ground>
+                        </Scan>
+                    </Navigate>
+                </Navigate>
+            </GroupBy>
+        </Project>
+    </query_plan>
+
+    <data_object name="output" execution_data_source="output">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <name type="string" />
+                    <outer_tuple type="tuple">
+                        <outer_name type="string" />
+                        <outer_constant type="integer" />
+                        <inner_tuple type="tuple">
+                            <inner_avg_grade type="float" />
+                            <inner_name type="string" />
+                        </inner_tuple>
+                    </outer_tuple>
+                </element>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <name>Alice</name>
+                    <outer_tuple>
+                        <outer_name>Alice</outer_name>
+                        <outer_constant>7</outer_constant>
+                        <inner_tuple>
+                            <inner_avg_grade>1.5</inner_avg_grade>
+                            <inner_name>Alice</inner_name>
+                        </inner_tuple>
+                    </outer_tuple>
+                </element>
+                <element>
+                    <name>Bob</name>
+                    <outer_tuple>
+                        <outer_name>Bob</outer_name>
+                        <outer_constant>7</outer_constant>
+                        <inner_tuple>
+                            <inner_avg_grade>3.5</inner_avg_grade>
+                            <inner_name>Bob</inner_name>
+                        </inner_tuple>
+                    </outer_tuple>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+</test_case>

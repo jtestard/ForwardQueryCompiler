@@ -1,0 +1,4 @@
+The SELECT ITEM of the query 
+                      SELECT proposals.reviews AS reviews
+                      FROM proposals AS proposals
+ in SCALAR_ELEMENT function should be type scalar, not type collection

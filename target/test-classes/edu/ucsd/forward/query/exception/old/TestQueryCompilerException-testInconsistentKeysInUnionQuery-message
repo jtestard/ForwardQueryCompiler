@@ -1,0 +1,4 @@
+The primary key(s) [review_id, proposal_id] of the UNION query 
+SELECT P.proposal_id AS proposal_id,R.review_id AS review_id
+FROM proposals AS P,P.reviews AS R
+ is different from the primary keys [proposal_id] of another branch.

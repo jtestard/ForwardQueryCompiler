@@ -1,0 +1,467 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_expression>
+        <![CDATA[
+            SELECT  R.proposal + 1 AS pid, 
+                    COUNT(*) + 1 AS count_star,
+                    COUNT(ALL R.grade) + 1 AS count_all, COUNT(DISTINCT R.grade) + 1 AS count_distinct,
+                    SUM(ALL R.grade) AS sum_all, SUM(DISTINCT R.grade) AS sum_distinct,
+                    AVG(ALL R.grade) AS avg_all, AVG(DISTINCT R.grade) AS avg_distinct,
+                    MIN(ALL R.grade) AS min_all, MIN(DISTINCT R.grade) AS min_distinct,
+                    MAX(ALL R.grade) AS max_all, MAX(DISTINCT R.grade) AS max_distinct,
+                    NEST(ALL R.grade) AS nest_all, NEST(DISTINCT R.grade) AS nest_distinct,
+                    STRING_AGG(ALL CAST(R.grade AS string), ':') AS string_agg_all, STRING_AGG(DISTINCT CAST(R.grade AS string), ':') AS string_agg_distinct
+            FROM src1.reviews AS R
+            GROUP BY R.proposal, R.reviewer;
+        ]]>
+    </query_expression>
+    <data_object name="reviews" execution_data_source="src1" cardinality_estimate="SMALL">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <proposal type="integer" />
+                    <comment type="string" />
+                    <grade type="integer" />
+                    <reviewer type="integer" />
+                </element>
+                <constraints>
+                    <local-key>
+                        <attribute path="tuple/proposal" />
+                        <attribute path="tuple/reviewer" />
+                    </local-key>
+                </constraints>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <proposal>1</proposal>
+                    <comment>Cool proposal!</comment>
+                    <grade>3</grade>
+                    <reviewer>1</reviewer>
+                </element>
+                <element>
+                    <proposal>2</proposal>
+                    <comment>Not so cool...</comment>
+                    <grade>1</grade>
+                    <reviewer>1</reviewer>
+                </element>
+                <element>
+                    <proposal>2</proposal>
+                    <comment>Not bad</comment>
+                    <grade>2</grade>
+                    <reviewer>2</reviewer>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+    <query_plan wrapping="false">
+        <Project cardinality_estimate="UNKNOWN">
+            <arguments>
+                <Item alias="pid">
+                    <FunctionCall name="+">
+                        <Variable name="__v0" />
+                        <Constant>
+                            <integer>1</integer>
+                        </Constant>
+                    </FunctionCall>
+                </Item>
+                <Item alias="count_star">
+                    <FunctionCall name="+">
+                        <Variable name="count_call__v2" />
+                        <FunctionCall name="CAST" target_type="long">
+                            <Constant>
+                                <integer>1</integer>
+                            </Constant>
+                        </FunctionCall>
+                    </FunctionCall>
+                </Item>
+                <Item alias="count_all">
+                    <FunctionCall name="+">
+                        <Variable name="count_call__v4" />
+                        <FunctionCall name="CAST" target_type="long">
+                            <Constant>
+                                <integer>1</integer>
+                            </Constant>
+                        </FunctionCall>
+                    </FunctionCall>
+                </Item>
+                <Item alias="count_distinct">
+                    <FunctionCall name="+">
+                        <Variable name="count_call__v6" />
+                        <FunctionCall name="CAST" target_type="long">
+                            <Constant>
+                                <integer>1</integer>
+                            </Constant>
+                        </FunctionCall>
+                    </FunctionCall>
+                </Item>
+                <Item alias="sum_all">
+                    <Variable name="sum_call__v8" />
+                </Item>
+                <Item alias="sum_distinct">
+                    <Variable name="sum_call__v10" />
+                </Item>
+                <Item alias="avg_all">
+                    <Variable name="avg_call__v12" />
+                </Item>
+                <Item alias="avg_distinct">
+                    <Variable name="avg_call__v14" />
+                </Item>
+                <Item alias="min_all">
+                    <Variable name="min_call__v16" />
+                </Item>
+                <Item alias="min_distinct">
+                    <Variable name="min_call__v18" />
+                </Item>
+                <Item alias="max_all">
+                    <Variable name="max_call__v20" />
+                </Item>
+                <Item alias="max_distinct">
+                    <Variable name="max_call__v22" />
+                </Item>
+                <Item alias="nest_all">
+                    <Variable name="nest_call__v24" />
+                </Item>
+                <Item alias="nest_distinct">
+                    <Variable name="nest_call__v26" />
+                </Item>
+                <Item alias="string_agg_all">
+                    <Variable name="string_agg_call__v28" />
+                </Item>
+                <Item alias="string_agg_distinct">
+                    <Variable name="string_agg_call__v30" />
+                </Item>
+            </arguments>
+            <GroupBy cardinality_estimate="UNKNOWN">
+                <arguments>
+                    <GroupByItem attr_name="__v0">
+                        <Variable name="__v0" />
+                    </GroupByItem>
+                    <GroupByItem attr_name="__v1">
+                        <Variable name="__v1" />
+                    </GroupByItem>
+                    <Aggregate alias="count_call__v2">
+                        <FunctionCall name="COUNT" set_quantifier="ALL" />
+                    </Aggregate>
+                    <Aggregate alias="count_call__v4">
+                        <FunctionCall name="COUNT" set_quantifier="ALL">
+                            <Variable name="__v3" />
+                        </FunctionCall>
+                    </Aggregate>
+                    <Aggregate alias="count_call__v6">
+                        <FunctionCall name="COUNT" set_quantifier="DISTINCT">
+                            <Variable name="__v5" />
+                        </FunctionCall>
+                    </Aggregate>
+                    <Aggregate alias="sum_call__v8">
+                        <FunctionCall name="SUM" set_quantifier="ALL">
+                            <Variable name="__v7" />
+                        </FunctionCall>
+                    </Aggregate>
+                    <Aggregate alias="sum_call__v10">
+                        <FunctionCall name="SUM" set_quantifier="DISTINCT">
+                            <Variable name="__v9" />
+                        </FunctionCall>
+                    </Aggregate>
+                    <Aggregate alias="avg_call__v12">
+                        <FunctionCall name="AVG" set_quantifier="ALL">
+                            <Variable name="__v11" />
+                        </FunctionCall>
+                    </Aggregate>
+                    <Aggregate alias="avg_call__v14">
+                        <FunctionCall name="AVG" set_quantifier="DISTINCT">
+                            <Variable name="__v13" />
+                        </FunctionCall>
+                    </Aggregate>
+                    <Aggregate alias="min_call__v16">
+                        <FunctionCall name="MIN" set_quantifier="ALL">
+                            <Variable name="__v15" />
+                        </FunctionCall>
+                    </Aggregate>
+                    <Aggregate alias="min_call__v18">
+                        <FunctionCall name="MIN" set_quantifier="DISTINCT">
+                            <Variable name="__v17" />
+                        </FunctionCall>
+                    </Aggregate>
+                    <Aggregate alias="max_call__v20">
+                        <FunctionCall name="MAX" set_quantifier="ALL">
+                            <Variable name="__v19" />
+                        </FunctionCall>
+                    </Aggregate>
+                    <Aggregate alias="max_call__v22">
+                        <FunctionCall name="MAX" set_quantifier="DISTINCT">
+                            <Variable name="__v21" />
+                        </FunctionCall>
+                    </Aggregate>
+                    <Aggregate alias="nest_call__v24">
+                        <FunctionCall name="NEST" set_quantifier="ALL">
+                            <Variable name="__v23" />
+                        </FunctionCall>
+                    </Aggregate>
+                    <Aggregate alias="nest_call__v26">
+                        <FunctionCall name="NEST" set_quantifier="DISTINCT">
+                            <Variable name="__v25" />
+                        </FunctionCall>
+                    </Aggregate>
+                    <Aggregate alias="string_agg_call__v28">
+                        <FunctionCall name="STRING_AGG" set_quantifier="ALL">
+                            <FunctionCall name="CAST" target_type="string">
+                                <Variable name="__v27" />
+                            </FunctionCall>
+                            <Constant>
+                                <string>:</string>
+                            </Constant>
+                        </FunctionCall>
+                    </Aggregate>
+                    <Aggregate alias="string_agg_call__v30">
+                        <FunctionCall name="STRING_AGG" set_quantifier="DISTINCT">
+                            <FunctionCall name="CAST" target_type="string">
+                                <Variable name="__v29" />
+                            </FunctionCall>
+                            <Constant>
+                                <string>:</string>
+                            </Constant>
+                        </FunctionCall>
+                    </Aggregate>
+                </arguments>
+                <Navigate alias="__v29" cardinality_estimate="UNKNOWN">
+                    <arguments>
+                        <QueryPath steps="grade">
+                            <Variable mode="ELEMENT" name="R" />
+                        </QueryPath>
+                    </arguments>
+                    <Navigate alias="__v27" cardinality_estimate="UNKNOWN">
+                        <arguments>
+                            <QueryPath steps="grade">
+                                <Variable mode="ELEMENT" name="R" />
+                            </QueryPath>
+                        </arguments>
+                        <Navigate alias="__v25" cardinality_estimate="UNKNOWN">
+                            <arguments>
+                                <QueryPath steps="grade">
+                                    <Variable mode="ELEMENT" name="R" />
+                                </QueryPath>
+                            </arguments>
+                            <Navigate alias="__v23" cardinality_estimate="UNKNOWN">
+                                <arguments>
+                                    <QueryPath steps="grade">
+                                        <Variable mode="ELEMENT" name="R" />
+                                    </QueryPath>
+                                </arguments>
+                                <Navigate alias="__v21" cardinality_estimate="UNKNOWN">
+                                    <arguments>
+                                        <QueryPath steps="grade">
+                                            <Variable mode="ELEMENT" name="R" />
+                                        </QueryPath>
+                                    </arguments>
+                                    <Navigate alias="__v19" cardinality_estimate="UNKNOWN">
+                                        <arguments>
+                                            <QueryPath steps="grade">
+                                                <Variable mode="ELEMENT" name="R" />
+                                            </QueryPath>
+                                        </arguments>
+                                        <Navigate alias="__v17" cardinality_estimate="UNKNOWN">
+                                            <arguments>
+                                                <QueryPath steps="grade">
+                                                    <Variable mode="ELEMENT" name="R" />
+                                                </QueryPath>
+                                            </arguments>
+                                            <Navigate alias="__v15" cardinality_estimate="UNKNOWN">
+                                                <arguments>
+                                                    <QueryPath steps="grade">
+                                                        <Variable mode="ELEMENT" name="R" />
+                                                    </QueryPath>
+                                                </arguments>
+                                                <Navigate alias="__v13" cardinality_estimate="UNKNOWN">
+                                                    <arguments>
+                                                        <QueryPath steps="grade">
+                                                            <Variable mode="ELEMENT" name="R" />
+                                                        </QueryPath>
+                                                    </arguments>
+                                                    <Navigate alias="__v11" cardinality_estimate="UNKNOWN">
+                                                        <arguments>
+                                                            <QueryPath steps="grade">
+                                                                <Variable mode="ELEMENT" name="R" />
+                                                            </QueryPath>
+                                                        </arguments>
+                                                        <Navigate alias="__v9" cardinality_estimate="UNKNOWN">
+                                                            <arguments>
+                                                                <QueryPath steps="grade">
+                                                                    <Variable mode="ELEMENT" name="R" />
+                                                                </QueryPath>
+                                                            </arguments>
+                                                            <Navigate alias="__v7" cardinality_estimate="UNKNOWN">
+                                                                <arguments>
+                                                                    <QueryPath steps="grade">
+                                                                        <Variable mode="ELEMENT" name="R" />
+                                                                    </QueryPath>
+                                                                </arguments>
+                                                                <Navigate alias="__v5" cardinality_estimate="UNKNOWN">
+                                                                    <arguments>
+                                                                        <QueryPath steps="grade">
+                                                                            <Variable mode="ELEMENT" name="R" />
+                                                                        </QueryPath>
+                                                                    </arguments>
+                                                                    <Navigate alias="__v3" cardinality_estimate="UNKNOWN">
+                                                                        <arguments>
+                                                                            <QueryPath steps="grade">
+                                                                                <Variable mode="ELEMENT" name="R" />
+                                                                            </QueryPath>
+                                                                        </arguments>
+                                                                        <Navigate alias="__v1" cardinality_estimate="UNKNOWN">
+                                                                            <arguments>
+                                                                                <QueryPath steps="reviewer">
+                                                                                    <Variable mode="ELEMENT" name="R" />
+                                                                                </QueryPath>
+                                                                            </arguments>
+                                                                            <Navigate alias="__v0" cardinality_estimate="UNKNOWN">
+                                                                                <arguments>
+                                                                                    <QueryPath steps="proposal">
+                                                                                        <Variable mode="ELEMENT" name="R" />
+                                                                                    </QueryPath>
+                                                                                </arguments>
+                                                                                <Scan alias="R" cardinality_estimate="UNKNOWN">
+                                                                                    <arguments>
+                                                                                        <Variable data_source="src1" mode="ABSOLUTE"
+                                                                                            schema_object="reviews" />
+                                                                                    </arguments>
+                                                                                    <Ground cardinality_estimate="UNKNOWN">
+                                                                                        <arguments />
+                                                                                    </Ground>
+                                                                                </Scan>
+                                                                            </Navigate>
+                                                                        </Navigate>
+                                                                    </Navigate>
+                                                                </Navigate>
+                                                            </Navigate>
+                                                        </Navigate>
+                                                    </Navigate>
+                                                </Navigate>
+                                            </Navigate>
+                                        </Navigate>
+                                    </Navigate>
+                                </Navigate>
+                            </Navigate>
+                        </Navigate>
+                    </Navigate>
+                </Navigate>
+            </GroupBy>
+        </Project>
+    </query_plan>
+
+    <data_object name="output" execution_data_source="output">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <pid type="integer" />
+                    <count_star type="long" />
+                    <count_all type="long" />
+                    <count_distinct type="long" />
+                    <sum_all type="long" />
+                    <sum_distinct type="long" />
+                    <avg_all type="decimal" />
+                    <avg_distinct type="decimal" />
+                    <min_all type="integer" />
+                    <min_distinct type="integer" />
+                    <max_all type="integer" />
+                    <max_distinct type="integer" />
+                    <nest_all type="collection">
+                        <element type="tuple">
+                            <grade type="integer" />
+                        </element>
+                    </nest_all>
+                    <nest_distinct type="collection">
+                        <element type="tuple">
+                            <grade type="integer" />
+                        </element>
+                    </nest_distinct>
+                    <string_agg_all type="string" />
+                    <string_agg_distinct type="string" />
+                </element>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <pid>2</pid>
+                    <count_star>2</count_star>
+                    <count_all>2</count_all>
+                    <count_distinct>2</count_distinct>
+                    <sum_all>3</sum_all>
+                    <sum_distinct>3</sum_distinct>
+                    <avg_all>3</avg_all>
+                    <avg_distinct>3</avg_distinct>
+                    <min_all>3</min_all>
+                    <min_distinct>3</min_distinct>
+                    <max_all>3</max_all>
+                    <max_distinct>3</max_distinct>
+                    <nest_all>
+                        <element>
+                            <grade>3</grade>
+                        </element>
+                    </nest_all>
+                    <nest_distinct>
+                        <element>
+                            <grade>3</grade>
+                        </element>
+                    </nest_distinct>
+                    <string_agg_all>3</string_agg_all>
+                    <string_agg_distinct>3</string_agg_distinct>
+                </element>
+                <element>
+                    <pid>3</pid>
+                    <count_star>2</count_star>
+                    <count_all>2</count_all>
+                    <count_distinct>2</count_distinct>
+                    <sum_all>1</sum_all>
+                    <sum_distinct>1</sum_distinct>
+                    <avg_all>1</avg_all>
+                    <avg_distinct>1</avg_distinct>
+                    <min_all>1</min_all>
+                    <min_distinct>1</min_distinct>
+                    <max_all>1</max_all>
+                    <max_distinct>1</max_distinct>
+                    <nest_all>
+                        <element>
+                            <grade>1</grade>
+                        </element>
+                    </nest_all>
+                    <nest_distinct>
+                        <element>
+                            <grade>1</grade>
+                        </element>
+                    </nest_distinct>
+                    <string_agg_all>1</string_agg_all>
+                    <string_agg_distinct>1</string_agg_distinct>
+                </element>
+                <element>
+                    <pid>3</pid>
+                    <count_star>2</count_star>
+                    <count_all>2</count_all>
+                    <count_distinct>2</count_distinct>
+                    <sum_all>2</sum_all>
+                    <sum_distinct>2</sum_distinct>
+                    <avg_all>2</avg_all>
+                    <avg_distinct>2</avg_distinct>
+                    <min_all>2</min_all>
+                    <min_distinct>2</min_distinct>
+                    <max_all>2</max_all>
+                    <max_distinct>2</max_distinct>
+                    <nest_all>
+                        <element>
+                            <grade>2</grade>
+                        </element>
+                    </nest_all>
+                    <nest_distinct>
+                        <element>
+                            <grade>2</grade>
+                        </element>
+                    </nest_distinct>
+                    <string_agg_all>2</string_agg_all>
+                    <string_agg_distinct>2</string_agg_distinct>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+</test_case>

@@ -1,0 +1,5 @@
+SELECT 1 AS number, (
+                       SELECT 1 AS nn
+                       FROM p.title AS T
+                     ) AS title
+FROM proposals AS p

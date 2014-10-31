@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_expression>
+        <![CDATA[
+SET actual.actual = 'good'
+        ]]>
+    </query_expression>
+    <query_plan wrapping="false">
+        <SendPlan cardinality_estimate="UNKNOWN" execution_data_source="mediator">
+            <arguments>
+                <Update cardinality_estimate="UNKNOWN" execution_data_source="mediator" target_data_source="actual">
+                    <arguments>
+                        <target>
+                            <Variable data_source="actual" mode="ABSOLUTE" schema_object="actual" />
+                        </target>
+                        <assignment>
+                            <target>
+                                <Variable data_source="actual" mode="ABSOLUTE" schema_object="actual" />
+                            </target>
+                            <query_plan wrapping="true">
+                                <SendPlan cardinality_estimate="UNKNOWN" execution_data_source="mediator">
+                                    <arguments>
+                                        <Project cardinality_estimate="UNKNOWN" execution_data_source="mediator">
+                                            <arguments>
+                                                <Item alias="constant">
+                                                    <Constant>
+                                                        <string>good</string>
+                                                    </Constant>
+                                                </Item>
+                                            </arguments>
+                                            <Ground cardinality_estimate="UNKNOWN" execution_data_source="mediator">
+                                                <arguments />
+                                            </Ground>
+                                        </Project>
+                                    </arguments>
+                                </SendPlan>
+                            </query_plan>
+                        </assignment>
+                    </arguments>
+                    <Ground cardinality_estimate="UNKNOWN" execution_data_source="mediator">
+                        <arguments />
+                    </Ground>
+                </Update>
+            </arguments>
+        </SendPlan>
+    </query_plan>
+    <query_plan wrapping="false">
+        <SendPlan cardinality_estimate="UNKNOWN" execution_data_source="mediator" impl="SendPlanImplInMemory">
+            <arguments>
+                <Update cardinality_estimate="UNKNOWN" execution_data_source="mediator" impl="UpdateImplInMemory"
+                    target_data_source="actual">
+                    <arguments>
+                        <target>
+                            <Variable data_source="actual" mode="ABSOLUTE" schema_object="actual" />
+                        </target>
+                        <assignment>
+                            <target>
+                                <Variable data_source="actual" mode="ABSOLUTE" schema_object="actual" />
+                            </target>
+                            <query_plan wrapping="true">
+                                <SendPlan cardinality_estimate="UNKNOWN" execution_data_source="mediator" impl="SendPlanImplInMemory">
+                                    <arguments>
+                                        <Project cardinality_estimate="UNKNOWN" execution_data_source="mediator" impl="ProjectImpl">
+                                            <arguments>
+                                                <Item alias="constant">
+                                                    <Constant>
+                                                        <string>good</string>
+                                                    </Constant>
+                                                </Item>
+                                            </arguments>
+                                            <Ground cardinality_estimate="UNKNOWN" execution_data_source="mediator" impl="GroundImpl">
+                                                <arguments />
+                                            </Ground>
+                                        </Project>
+                                    </arguments>
+                                </SendPlan>
+                            </query_plan>
+                        </assignment>
+                    </arguments>
+                    <Ground cardinality_estimate="UNKNOWN" execution_data_source="mediator" impl="GroundImpl">
+                        <arguments />
+                    </Ground>
+                </Update>
+            </arguments>
+        </SendPlan>
+    </query_plan>
+    <data_object name="actual" execution_data_source="actual" cardinality_estimate="SMALL">
+        <schema_tree>
+            <root type="string" />
+        </schema_tree>
+        <data_tree>
+            <root>bad</root>
+        </data_tree>
+    </data_object>
+    <data_object name="expected" execution_data_source="expected" cardinality_estimate="SMALL">
+        <schema_tree>
+            <root type="string" />
+        </schema_tree>
+        <data_tree>
+            <root>good</root>
+        </data_tree>
+    </data_object>
+    <data_object name="output" execution_data_source="output">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <count type="integer" />
+                </element>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <count>1</count>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+</test_case>

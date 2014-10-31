@@ -1,0 +1,7 @@
+<doc>
+    <entry path="/ProgressBar">Control for progress bar.</entry>
+    <entry path="/ProgressBar/orientation">Changes the orientation.</entry>
+    <entry path="/ProgressBar/style">This is a CSS styling attribute as defined by the CSS Styling Attribute Syntax specification.</entry>
+    <entry path="/ProgressBar/progress">Sets the progress.</entry>
+</doc>
+

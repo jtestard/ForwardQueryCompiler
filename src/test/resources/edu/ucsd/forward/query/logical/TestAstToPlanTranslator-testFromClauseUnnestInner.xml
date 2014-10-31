@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_expression>
+        <![CDATA[
+            SELECT A.proposal_id AS pid, B.grade AS nested_grade, comment AS nested_comment
+            FROM FLATTEN(src1.proposals AS A, A.reviews AS B);
+        ]]>
+    </query_expression>
+    <data_object name="proposals" execution_data_source="src1" cardinality_estimate="LARGE" data_model="RELATIONAL"
+        storage_system="INMEMORY">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <proposal_id type="integer" />
+                    <reviews type="collection">
+                        <element type="tuple">
+                            <grade type="integer" />
+                            <comment type="string" />
+                        </element>
+                    </reviews>
+                </element>
+                <constraints>
+                    <local-key>
+                        <attribute path="tuple/proposal_id" />
+                    </local-key>
+                </constraints>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <proposal_id>1</proposal_id>
+                    <reviews>
+                        <element>
+                            <grade>1</grade>
+                            <comment>Poor</comment>
+                        </element>
+                        <element>
+                            <grade>3</grade>
+                            <comment>Good</comment>
+                        </element>
+                    </reviews>
+                </element>
+                <element>
+                    <proposal_id>2</proposal_id>
+                    <reviews />
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+
+    <query_plan wrapping="false">
+        <Project cardinality_estimate="UNKNOWN">
+            <arguments>
+                <Item alias="pid">
+                    <Variable name="__v0" />
+                </Item>
+                <Item alias="nested_grade">
+                    <Variable name="__v1" />
+                </Item>
+                <Item alias="nested_comment">
+                    <Variable name="__v2" />
+                </Item>
+            </arguments>
+            <Navigate alias="__v2" cardinality_estimate="UNKNOWN">
+                <arguments>
+                    <QueryPath steps="comment">
+                        <Variable mode="ELEMENT" name="B" />
+                    </QueryPath>
+                </arguments>
+                <Navigate alias="__v1" cardinality_estimate="UNKNOWN">
+                    <arguments>
+                        <QueryPath steps="grade">
+                            <Variable mode="ELEMENT" name="B" />
+                        </QueryPath>
+                    </arguments>
+                    <Navigate alias="__v0" cardinality_estimate="UNKNOWN">
+                        <arguments>
+                            <QueryPath steps="proposal_id">
+                                <Variable mode="ELEMENT" name="A" />
+                            </QueryPath>
+                        </arguments>
+                        <Scan alias="B" cardinality_estimate="UNKNOWN">
+                            <arguments>
+                                <QueryPath steps="reviews">
+                                    <Variable mode="ELEMENT" name="A" />
+                                </QueryPath>
+                            </arguments>
+                            <Scan alias="A" cardinality_estimate="UNKNOWN">
+                                <arguments>
+                                    <Variable data_source="src1" mode="ABSOLUTE" schema_object="proposals" />
+                                </arguments>
+                                <Ground cardinality_estimate="UNKNOWN">
+                                    <arguments />
+                                </Ground>
+                            </Scan>
+                        </Scan>
+                    </Navigate>
+                </Navigate>
+            </Navigate>
+        </Project>
+    </query_plan>
+
+    <data_object name="output" execution_data_source="output">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <pid type="integer" />
+                    <nested_grade type="integer" />
+                    <nested_comment type="string" />
+                </element>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <pid>1</pid>
+                    <nested_grade>1</nested_grade>
+                    <nested_comment>Poor</nested_comment>
+                </element>
+                <element>
+                    <pid>1</pid>
+                    <nested_grade>3</nested_grade>
+                    <nested_comment>Good</nested_comment>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+</test_case>

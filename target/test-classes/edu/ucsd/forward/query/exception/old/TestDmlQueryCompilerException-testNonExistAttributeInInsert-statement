@@ -1,0 +1,2 @@
+INSERT INTO applications(application_id, firstname, last_name)
+VALUES(2,'Tom','Hank')

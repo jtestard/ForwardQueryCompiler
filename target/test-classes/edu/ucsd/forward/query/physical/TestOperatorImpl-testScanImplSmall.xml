@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_plan>
+        <SendPlan cardinality_estimate="SMALL" execution_data_source="src_1" impl="SendPlanImplInMemory">
+            <arguments>
+                <Select cardinality_estimate="SMALL" execution_data_source="src_1" impl="SelectImplSeq">
+                    <arguments>
+                        <FunctionCall name="&lt;&gt;">
+                            <Variable name="firstn" />
+                            <Variable name="comment" />
+                        </FunctionCall>
+                    </arguments>
+                    <Product impl="ProductImplNestedLoop" execution_data_source="src_1" cardinality_estimate="SMALL">
+                        <Scan alias="X" cardinality_estimate="SMALL" execution_data_source="src_1" impl="ScanImpl">
+                            <arguments>
+                                <Variable mode="ABSOLUTE" data_source="src_1" schema_object="complex" />
+                                <Attribute>
+                                    <QueryPath steps="name.firstn" />
+                                    <Variable name="firstn" />
+                                </Attribute>
+                            </arguments>
+                            <Ground cardinality_estimate="ONE" execution_data_source="src_1" impl="GroundImpl">
+                                <arguments />
+                            </Ground>
+                        </Scan>
+                        <Scan alias="R" cardinality_estimate="SMALL" execution_data_source="src_1" impl="ScanImpl">
+                            <arguments>
+                                <QueryPath steps="reviews">
+                                    <Variable name="nested_tuple" />
+                                </QueryPath>
+                                <Attribute>
+                                    <QueryPath steps="reviewer_id" />
+                                    <Variable name="reviewer_id" />
+                                </Attribute>
+                                <Attribute>
+                                    <QueryPath steps="comment" />
+                                    <Variable name="comment" />
+                                </Attribute>
+                                <Attribute>
+                                    <QueryPath steps="grade" />
+                                    <Variable name="grade" />
+                                </Attribute>
+
+                            </arguments>
+                            <Scan alias="P" cardinality_estimate="SMALL" execution_data_source="src_1" impl="ScanImpl">
+                                <arguments>
+                                    <QueryPath steps="proposals">
+                                        <Variable mode="ABSOLUTE" data_source="src_1" schema_object="complex" />
+                                    </QueryPath>
+                                    <Attribute>
+                                        <QueryPath steps="proposal_id" />
+                                        <Variable name="proposal_id" />
+                                    </Attribute>
+                                    <Attribute>
+                                        <QueryPath steps="title" />
+                                        <Variable name="title" />
+                                    </Attribute>
+                                    <Attribute>
+                                        <QueryPath steps="nested_tuple" />
+                                        <Variable name="nested_tuple" />
+                                    </Attribute>
+                                </arguments>
+                                <Ground cardinality_estimate="ONE" execution_data_source="src_1" impl="GroundImpl" />
+                            </Scan>
+                        </Scan>
+                    </Product>
+                </Select>
+
+            </arguments>
+        </SendPlan>
+    </query_plan>
+    <data_object name="complex" execution_data_source="src_1" cardinality_estimate="LARGE" data_model="SQLPLUSPLUS" storage_system="INMEMORY">
+        <schema_tree>
+            <root type="tuple">
+                <name type="tuple">
+                    <firstn type="string" />
+                    <lastn type="string" />
+                </name>
+                <proposals type="collection">
+                    <element type="tuple">
+                        <proposal_id type="integer" />
+                        <title type="string" />
+                        <nested_tuple type="tuple">
+                            <reviews type="collection">
+                                <element type="tuple">
+                                    <reviewer_id type="integer" />
+                                    <comment type="string" />
+                                    <grade type="integer" />
+                                </element>
+                            </reviews>
+                        </nested_tuple>
+                    </element>
+                </proposals>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <name>
+                    <firstn>Barbie</firstn>
+                    <lastn>Smith</lastn>
+                </name>
+                <proposals>
+                    <element>
+                        <proposal_id>2</proposal_id>
+                        <title>Beach House</title>
+                        <nested_tuple>
+                            <reviews>
+                                <element>
+                                    <reviewer_id>20</reviewer_id>
+                                    <comment>Lame...</comment>
+                                    <grade>1</grade>
+                                </element>
+                                <element>
+                                    <reviewer_id>30</reviewer_id>
+                                    <comment>Average...</comment>
+                                    <grade>2</grade>
+                                </element>
+                            </reviews>
+                        </nested_tuple>
+                    </element>
+                    <element>
+                        <proposal_id>4</proposal_id>
+                        <title>City House</title>
+                        <nested_tuple>
+                            <reviews>
+                                <element>
+                                    <reviewer_id>30</reviewer_id>
+                                    <comment>Not bad...</comment>
+                                    <grade>3</grade>
+                                </element>
+                                <element>
+                                    <reviewer_id>40</reviewer_id>
+                                    <comment>Average...</comment>
+                                    <grade>2</grade>
+                                </element>
+                            </reviews>
+                        </nested_tuple>
+                    </element>
+                </proposals>
+            </root>
+        </data_tree>
+    </data_object>
+</test_case>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_expression>
+        <![CDATA[
+            SELECT mem.json_obj.b1 AND mem.json_obj.b2 AS b1,mem.json_obj.b1 OR mem.json_obj.b2 AS b2, NOT mem.json_obj.b1 as b3,mem.json_obj.b1 AND NULL AS b4, mem.json_obj.b2 OR null AS b5  
+        ]]>
+    </query_expression>
+    <data_object name="json_obj" execution_data_source="mem">
+        <schema_tree>
+            <root type="json">
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                {
+                b1: false,
+                b2: true
+                }
+            </root>
+        </data_tree>
+    </data_object>
+    <data_object name="output" execution_data_source="output">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <b1 type="boolean" />
+                    <b2 type="boolean" />
+                    <b3 type="boolean" />
+                    <b4 type="boolean" />
+                    <b5 type="boolean" />
+                </element>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <b1>false</b1>
+                    <b2>true</b2>
+                    <b3>true</b3>
+                    <b4>false</b4>
+                    <b5>true</b5>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+</test_case>

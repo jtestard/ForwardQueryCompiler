@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <data_object name="applications" execution_data_source="mediator">
+        <schema_tree>
+            <root type="tuple">
+                <user_id type="string" />
+                <application type="collection">
+                    <element type="tuple">
+                        <application_id type="integer" />
+                        <name type="string" />
+                        <applying_for type="switch">
+                            <phd type="tuple">
+                                <specialization type="string" />
+                            </phd>
+                            <master type="tuple">
+                                <area_of_interest type="string" />
+                            </master>
+                        </applying_for>
+                        <degrees type="collection">
+                            <element type="tuple">
+                                <degree_id type="integer" />
+                                <school type="string">
+                                    <constraints>
+                                        <non-null />
+                                    </constraints>
+                                </school>
+                            </element>
+                            <constraints>
+                                <local-key>
+                                    <attribute path="tuple/degree_id" />
+                                </local-key>
+                                <non-null />
+                                <foreign-key>
+                                    <foreign data_object="applications" data_source="mediator" path="/application/tuple/degrees">
+                                        <attribute path="tuple/degree_id" />
+                                    </foreign>
+                                    <primary data_object="applications" data_source="mediator" path="/application">
+                                        <attribute path="tuple/application_id" />
+                                    </primary>
+                                </foreign-key>
+                            </constraints>
+                        </degrees>
+                    </element>
+                    <constraints>
+                        <local-key>
+                            <attribute path="tuple/application_id" />
+                        </local-key>
+                    </constraints>
+                </application>
+            </root>
+        </schema_tree>
+        <data_tree />
+    </data_object>
+    <data_object name="faculty" execution_data_source="mediator">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <faculty_id type="integer" />
+                    <application_id type="integer" />
+                </element>
+                <constraints>
+                    <local-key>
+                        <attribute path="tuple/faculty_id" />
+                    </local-key>
+                    <non-null />
+                    <foreign-key>
+                        <foreign data_object="faculty" data_source="mediator" path="/">
+                            <attribute path="tuple/application_id" />
+                        </foreign>
+                        <primary data_object="applications" data_source="mediator" path="/application">
+                            <attribute path="tuple/application_id" />
+                        </primary>
+                    </foreign-key>
+                </constraints>
+            </root>
+        </schema_tree>
+        <data_tree />
+    </data_object>
+</test_case>

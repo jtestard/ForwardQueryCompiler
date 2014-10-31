@@ -1,0 +1,36 @@
+<test_case>
+    <data_object name="selected_nations" execution_data_source="src" cardinality_estimate="SMALL">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <nationkey type="integer" />
+                </element>
+                <constraints>
+                    <local-key>
+                        <attribute path="tuple/nationkey" />
+                    </local-key>
+                </constraints>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <nationkey>1</nationkey>
+                </element>
+                <element>
+                    <nationkey>2</nationkey>
+                </element>
+                <element>
+                    <nationkey>3</nationkey>
+                </element>
+                <element>
+                    <nationkey>4</nationkey>
+                </element>
+                <element>
+                    <nationkey>5</nationkey>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+
+</test_case>

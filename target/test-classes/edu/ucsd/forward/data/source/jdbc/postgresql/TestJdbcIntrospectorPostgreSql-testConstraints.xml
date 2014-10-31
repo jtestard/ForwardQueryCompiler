@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <data_source name="jdbc" storage_system="JDBC">
+        <properties environment="jenkins" user="postgres" password="postgres" maxPoolSize="20"
+            unreturnedConnectionTimeout="0" debugUnreturnedConnectionStackTraces="true" driver="postgresql" host="localhost" port="5432"
+            database="forward" schema="introspect" />
+        <properties environment="testing" user="postgres" password="postgres" maxPoolSize="20"
+            unreturnedConnectionTimeout="0" debugUnreturnedConnectionStackTraces="true" driver="postgresql" host="localhost" port="5432"
+            database="forward" schema="introspect" />
+        <properties environment="development" user="postgres" password="postgres" maxPoolSize="20"
+            unreturnedConnectionTimeout="0" debugUnreturnedConnectionStackTraces="true" driver="postgresql" host="localhost" port="5432"
+            database="forward" schema="introspect" />
+    </data_source>
+    <output>
+        <!-- Supported primary keys table -->
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <id type="integer">
+                        <constraints>
+                            <non-null />
+                        </constraints>
+                    </id>
+                </element>
+                <constraints>
+                    <local-key>
+                        <attribute path="tuple/id" />
+                    </local-key>
+                </constraints>
+            </root>
+        </schema_tree>
+        <!-- Unsupported primary keys table (should just have the stump attribute) -->
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <type_2 type="integer" />
+                </element>
+            </root>
+        </schema_tree>
+        <!-- Supported foreign keys table -->
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <id_ref type="integer" />
+                </element>
+                <constraints>
+                    <foreign-key>
+                        <foreign data_object="supported_fkey" data_source="jdbc" path="/">
+                            <attribute path="tuple/id_ref" />
+                        </foreign>
+                        <primary data_object="supported_pkey" data_source="jdbc" path="/">
+                            <attribute path="tuple/id" />
+                        </primary>
+                    </foreign-key>
+                </constraints>
+            </root>
+        </schema_tree>
+        <!-- Unsupported foreign keys table (should just have the stump attribute) -->
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <type_2 type="integer" />
+                </element>
+            </root>
+        </schema_tree>
+        <!-- Not null constraint -->
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <id type="integer">
+                        <constraints>
+                            <non-null />
+                        </constraints>
+                    </id>
+                </element>
+            </root>
+        </schema_tree>
+    </output>
+</test_case>

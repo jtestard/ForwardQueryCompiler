@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_expression>
+        <![CDATA[
+            SELECT 1 AS a, '2' AS b
+        ]]>
+    </query_expression>
+    <query_expression>
+        <![CDATA[
+            SELECT a: 1, b: '2'
+        ]]>
+    </query_expression>
+</test_case>

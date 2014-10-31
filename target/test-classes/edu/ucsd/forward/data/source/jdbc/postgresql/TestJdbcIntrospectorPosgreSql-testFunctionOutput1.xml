@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_expression>
+        <![CDATA[
+            select  jdbc.add(1,2) as v1,
+                    jdbc.dble(1) as v2,
+                    jdbc.getValue1() as v3,
+                    jdbc.getValue2() as v4,
+                    jdbc.getValue3(5) as v5,
+                    jdbc.getValue4(6) as v6
+        ]]>
+    </query_expression>
+    <data_source name="jdbc" storage_system="JDBC">
+        <properties environment="jenkins" user="postgres" password="postgres" maxPoolSize="20"
+            unreturnedConnectionTimeout="0" debugUnreturnedConnectionStackTraces="true" driver="postgresql" host="localhost" port="5432"
+            database="forward" schema="introspect" />
+        <properties environment="testing" user="postgres" password="postgres" maxPoolSize="20"
+            unreturnedConnectionTimeout="0" debugUnreturnedConnectionStackTraces="true" driver="postgresql" host="localhost" port="5432"
+            database="forward" schema="introspect" />
+    </data_source>
+    <data_object name="output" execution_data_source="output">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <v1 type="integer"/>
+                    <v2 type="integer"/>
+                    <v3 type="integer"/>
+                    <v4 type="integer"/>
+                    <v5 type="integer"/>
+                    <v6 type="integer"/>
+                </element>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <v1>3</v1>
+                    <v2>2</v2>
+                    <v3>1</v3>
+                    <v4>2</v4>
+                    <v5>5</v5>
+                    <v6>12</v6>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+</test_case>

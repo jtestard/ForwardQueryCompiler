@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <action_statement>
+        <![CDATA[
+create action test_default_variable() as    
+declare
+    tmp integer DEFAULT 3;
+begin
+    actual.actual := tmp;    
+    return;
+end;
+        ]]>
+    </action_statement>
+    <query_expression>test_default_variable();</query_expression>
+    <data_object name="actual" execution_data_source="actual" cardinality_estimate="SMALL" storage_system="INMEMORY">
+        <schema_tree>
+            <root type="integer" />
+        </schema_tree>
+        <data_tree>
+            <root>
+                <integer>2</integer>
+            </root>
+        </data_tree>
+    </data_object>
+    <data_object name="expected" execution_data_source="expected" cardinality_estimate="SMALL" storage_system="INMEMORY">
+        <schema_tree>
+            <root type="integer" />
+        </schema_tree>
+        <data_tree>
+            <root>
+                <integer>3</integer>
+            </root>
+        </data_tree>
+    </data_object>
+</test_case>

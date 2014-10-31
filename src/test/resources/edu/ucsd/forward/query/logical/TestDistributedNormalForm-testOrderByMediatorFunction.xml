@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_expression>
+        <![CDATA[
+             SELECT format(machine_id, '00') AS id
+             FROM db.machines
+             ORDER BY id
+        ]]>
+    </query_expression>
+
+    <data_source name="db" storage_system="JDBC" data_model="RELATIONAL">
+        <properties environment="testing" overwrite="true" user="postgres" password="postgres" maxPoolSize="20"
+            unreturnedConnectionTimeout="0" debugUnreturnedConnectionStackTraces="true" driver="postgresql" host="localhost" port="5432"
+            database="forward" schema="public" />
+        <properties environment="jenkins" overwrite="true" user="postgres" password="postgres" maxPoolSize="20"
+            unreturnedConnectionTimeout="0" debugUnreturnedConnectionStackTraces="true" driver="postgresql" host="localhost" port="5432"
+            database="forward" schema="public" />
+    </data_source>
+    <data_object name="machines" execution_data_source="db" cardinality_estimate="LARGE">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <machine_id type="integer" />
+                    <status type="string" />
+                </element>
+                <constraints>
+                    <local-key collection="/">
+                        <attribute path="tuple/machine_id" />
+                    </local-key>
+                </constraints>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <machine_id>1</machine_id>
+                    <status>good</status>
+                </element>
+                <element>
+                    <machine_id>2</machine_id>
+                    <status>bad</status>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+
+    <query_plan wrapping="false">
+        <Project cardinality_estimate="UNKNOWN">
+            <arguments>
+                <Item alias="id">
+                    <FunctionCall name="format">
+                        <Variable name="__v0" />
+                        <Constant>
+                            <string>00</string>
+                        </Constant>
+                    </FunctionCall>
+                </Item>
+            </arguments>
+            <Sort cardinality_estimate="UNKNOWN">
+                <arguments>
+                    <Item nulls="LAST" spec="ASC">
+                        <FunctionCall name="format">
+                            <Variable name="__v0" />
+                            <Constant>
+                                <string>00</string>
+                            </Constant>
+                        </FunctionCall>
+                    </Item>
+                </arguments>
+                <Navigate alias="__v0" cardinality_estimate="UNKNOWN">
+                    <arguments>
+                        <QueryPath steps="machine_id">
+                            <Variable mode="ELEMENT" name="machines" />
+                        </QueryPath>
+                    </arguments>
+                    <Scan alias="machines" cardinality_estimate="UNKNOWN">
+                        <arguments>
+                            <Variable data_source="db" mode="ABSOLUTE" schema_object="machines" />
+                        </arguments>
+                        <Ground cardinality_estimate="UNKNOWN">
+                            <arguments />
+                        </Ground>
+                    </Scan>
+                </Navigate>
+            </Sort>
+        </Project>
+    </query_plan>
+
+    <query_plan wrapping="false">
+        <SendPlan cardinality_estimate="UNKNOWN" execution_data_source="mediator">
+            <arguments>
+                <Project cardinality_estimate="UNKNOWN" execution_data_source="mediator">
+                    <arguments>
+                        <Item alias="id">
+                            <FunctionCall name="format">
+                                <Variable name="__dn_5" />
+                                <Constant>
+                                    <string>00</string>
+                                </Constant>
+                            </FunctionCall>
+                        </Item>
+                    </arguments>
+                    <Navigate alias="__dn_5" cardinality_estimate="UNKNOWN" execution_data_source="mediator">
+                        <arguments>
+                            <QueryPath steps="__dn_3">
+                                <Variable mode="ELEMENT" name="__dn_0" />
+                            </QueryPath>
+                        </arguments>
+                        <Sort cardinality_estimate="UNKNOWN" execution_data_source="mediator">
+                            <arguments>
+                                <Item nulls="LAST" spec="ASC">
+                                    <FunctionCall name="format">
+                                        <Variable name="__dn_4" />
+                                        <Constant>
+                                            <string>00</string>
+                                        </Constant>
+                                    </FunctionCall>
+                                </Item>
+                            </arguments>
+                            <Navigate alias="__dn_4" cardinality_estimate="UNKNOWN" execution_data_source="mediator">
+                                <arguments>
+                                    <QueryPath steps="__dn_3">
+                                        <Variable mode="ELEMENT" name="__dn_0" />
+                                    </QueryPath>
+                                </arguments>
+                                <Subquery alias="__dn_0" cardinality_estimate="UNKNOWN" execution_data_source="mediator">
+                                    <arguments />
+                                    <SendPlan cardinality_estimate="UNKNOWN" execution_data_source="db">
+                                        <arguments>
+                                            <Project cardinality_estimate="UNKNOWN" execution_data_source="db">
+                                                <arguments>
+                                                    <Item alias="__dn_1">
+                                                        <QueryPath steps="machine_id">
+                                                            <Variable mode="ELEMENT" name="machines" />
+                                                        </QueryPath>
+                                                    </Item>
+                                                    <Item alias="__dn_2">
+                                                        <QueryPath steps="status">
+                                                            <Variable mode="ELEMENT" name="machines" />
+                                                        </QueryPath>
+                                                    </Item>
+                                                    <Item alias="__dn_3">
+                                                        <Variable name="__v0" />
+                                                    </Item>
+                                                </arguments>
+                                                <Navigate alias="__v0" cardinality_estimate="UNKNOWN"
+                                                    execution_data_source="db">
+                                                    <arguments>
+                                                        <QueryPath steps="machine_id">
+                                                            <Variable mode="ELEMENT" name="machines" />
+                                                        </QueryPath>
+                                                    </arguments>
+                                                    <Scan alias="machines" cardinality_estimate="UNKNOWN"
+                                                        execution_data_source="db">
+                                                        <arguments>
+                                                            <Variable data_source="db" mode="ABSOLUTE" schema_object="machines" />
+                                                        </arguments>
+                                                        <Ground cardinality_estimate="UNKNOWN" execution_data_source="db">
+                                                            <arguments />
+                                                        </Ground>
+                                                    </Scan>
+                                                </Navigate>
+                                            </Project>
+                                        </arguments>
+                                    </SendPlan>
+                                </Subquery>
+                            </Navigate>
+                        </Sort>
+                    </Navigate>
+                </Project>
+            </arguments>
+        </SendPlan>
+    </query_plan>
+</test_case>

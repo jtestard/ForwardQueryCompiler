@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_expression>
+        <![CDATA[
+             case when true then 1.1 else 1.0 end
+        ]]>
+    </query_expression>
+    <data_object name="output" execution_data_source="output">
+        <schema_tree>
+            <root type="decimal" />
+        </schema_tree>
+        <data_tree>
+            <root>1.1</root>
+        </data_tree>
+    </data_object>
+</test_case>

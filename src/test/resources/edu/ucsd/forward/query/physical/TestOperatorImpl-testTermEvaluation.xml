@@ -1,0 +1,832 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_plan>
+        <SendPlan cardinality_estimate="SMALL" execution_data_source="src1" impl="SendPlanImplInMemory">
+            <arguments>
+                <Project execution_data_source="src1" cardinality_estimate="SMALL">
+                    <arguments>
+                        <Item alias="string_value">
+                            <constant>
+                                <string>blah</string>
+                            </constant>
+                        </Item>
+                        <Item alias="xhtml_value">
+                            <constant>
+                                <xhtml>&lt;html/&gt;</xhtml>
+                            </constant>
+                        </Item>
+                        <Item alias="boolean_value">
+                            <constant>
+                                <boolean>true</boolean>
+                            </constant>
+                        </Item>
+                        <Item alias="integer_value">
+                            <constant>
+                                <integer>1</integer>
+                            </constant>
+                        </Item>
+                        <Item alias="long_value">
+                            <constant>
+                                <long>1</long>
+                            </constant>
+                        </Item>
+                        <Item alias="float_value">
+                            <constant>
+                                <float>1</float>
+                            </constant>
+                        </Item>
+                        <Item alias="double_value">
+                            <constant>
+                                <double>1</double>
+                            </constant>
+                        </Item>
+                        <Item alias="decimal_value">
+                            <constant>
+                                <decimal>.1</decimal>
+                            </constant>
+                        </Item>
+                        <Item alias="date_value">
+                            <constant>
+                                <date>Nov 4, 2003</date>
+                            </constant>
+                        </Item>
+                        <Item alias="timestamp_value">
+                            <constant>
+                                <timestamp>Nov 4, 2003 11:02:03 PM PST</timestamp>
+                            </constant>
+                        </Item>
+                        <Item alias="query_path">
+                            <Variable name="proposal_ref" />
+                        </Item>
+                        <Item alias="query_path_nonexistent">
+                            <QueryPath steps="name.first_name">
+                                <Variable mode="ABSOLUTE" data_source="src1" schema_object="nonexistent" />
+                            </QueryPath>
+                        </Item>
+                        <Item alias="func_custom">
+                            <FunctionCall name="CUSTOM" />
+                        </Item>
+                        <Item alias="func_cast_integer_string">
+                            <FunctionCall name="CAST" target_type="string">
+                                <Constant>
+                                    <integer>3</integer>
+                                </Constant>
+                            </FunctionCall>
+                        </Item>
+                        <Item alias="func_cast_string_integer">
+                            <FunctionCall name="CAST" target_type="integer">
+                                <Constant>
+                                    <string>3</string>
+                                </Constant>
+                            </FunctionCall>
+                        </Item>
+                        <Item alias="func_cast_null_boolean">
+                            <FunctionCall name="CAST" target_type="integer">
+                                <constant>
+                                    <unknown null="true" />
+                                </constant>
+                            </FunctionCall>
+                        </Item>
+                        <Item alias="func_cast_collection_tuple">
+                            <FunctionCall name="CAST" target_type="tuple">
+                                <Variable mode="ABSOLUTE" data_source="src1" schema_object="single_collection" />
+                            </FunctionCall>
+                        </Item>
+                        <Item alias="func_cast_collection_integer">
+                            <FunctionCall name="CAST" target_type="integer">
+                                <Variable mode="ABSOLUTE" data_source="src1" schema_object="single_collection" />
+                            </FunctionCall>
+                        </Item>
+                        <Item alias="func_cast_tuple_string">
+                            <FunctionCall name="CAST" target_type="string">
+                                <Variable mode="ABSOLUTE" data_source="src1" schema_object="single_tuple" />
+                            </FunctionCall>
+                        </Item>
+                        <Item alias="func_string_concat">
+                            <function_call name="||">
+                                <constant>
+                                    <string>Testing' </string>
+                                </constant>
+                                <Variable name="name" />
+                            </function_call>
+                        </Item>
+                        <Item alias="func_string_lower">
+                            <function_call name="lower">
+                                <constant>
+                                    <string>TESTING' </string>
+                                </constant>
+                            </function_call>
+                        </Item>
+                        <Item alias="func_string_upper">
+                            <function_call name="upper">
+                                <Variable name="name" />
+                            </function_call>
+                        </Item>
+                        <Item alias="func_string_char_length">
+                            <FunctionCall name="character_length">
+                                <Constant>
+                                    <string> abc</string>
+                                </Constant>
+                            </FunctionCall>
+                        </Item>
+                        <Item alias="func_string_character_length">
+                            <FunctionCall name="character_length">
+                                <QueryPath steps="name.first_name">
+                                    <Variable mode="ABSOLUTE" data_source="src1" schema_object="nonexistent" />
+                                </QueryPath>
+                            </FunctionCall>
+                        </Item>
+                        <Item alias="func_string_substring_from">
+                            <FunctionCall name="substring">
+                                <Variable name="name" />
+                                <Constant>
+                                    <integer>2</integer>
+                                </Constant>
+                            </FunctionCall>
+                        </Item>
+                        <Item alias="func_string_substring_from_for">
+                            <FunctionCall name="substring">
+                                <Variable name="name" />
+                                <Constant>
+                                    <integer>-1</integer>
+                                </Constant>
+                                <Constant>
+                                    <integer>4</integer>
+                                </Constant>
+                            </FunctionCall>
+                        </Item>
+                        <Item alias="func_string_escape_xml">
+                            <function_call name="escape_xml">
+                                <constant>
+                                    <string><![CDATA[" "Testing' <]]></string>
+                                </constant>
+                            </function_call>
+                        </Item>
+                        <Item alias="func_string_escape_xhtml">
+                            <function_call name="escape_xhtml">
+                                <constant>
+                                    <string>^ "Testing&#175;</string>
+                                </constant>
+                            </function_call>
+                        </Item>
+                        <Item alias="func_string_escape_javascript">
+                            <function_call name="escape_javascript">
+                                <constant>
+                                    <string><![CDATA[" "Testing']]></string>
+                                </constant>
+                            </function_call>
+                        </Item>
+                        <Item alias="func_logical_and">
+                            <function_call name="AND">
+                                <Variable name="submitted" />
+                                <constant>
+                                    <boolean>TRUE</boolean>
+                                </constant>
+                            </function_call>
+                        </Item>
+                        <Item alias="func_logical_and_short">
+                            <function_call name="AND">
+                                <constant>
+                                    <boolean>FALSE</boolean>
+                                </constant>
+                                <function_call name="=">
+                                    <constant>
+                                        <integer>3</integer>
+                                    </constant>
+                                    <FunctionCall name="CAST" target_type="integer">
+                                        <Constant>
+                                            <string>abc</string>
+                                        </Constant>
+                                    </FunctionCall>
+                                </function_call>
+                            </function_call>
+                        </Item>
+                        <Item alias="func_logical_or">
+                            <function_call name="OR">
+                                <Variable name="submitted" />
+                                <constant>
+                                    <boolean>TRUE</boolean>
+                                </constant>
+                            </function_call>
+                        </Item>
+                        <Item alias="func_logical_or_short">
+                            <function_call name="OR">
+                                <constant>
+                                    <boolean>TRUE</boolean>
+                                </constant>
+                                <function_call name="=">
+                                    <constant>
+                                        <integer>3</integer>
+                                    </constant>
+                                    <FunctionCall name="CAST" target_type="integer">
+                                        <Constant>
+                                            <string>abc</string>
+                                        </Constant>
+                                    </FunctionCall>
+                                </function_call>
+                            </function_call>
+                        </Item>
+                        <Item alias="func_logical_not">
+                            <function_call name="NOT">
+                                <Variable name="submitted" />
+                            </function_call>
+                        </Item>
+                        <Item alias="func_comparison_eq">
+                            <function_call name="=">
+                                <Variable name="proposal_ref" />
+                                <Variable name="proposal_ref" />
+                            </function_call>
+                        </Item>
+                        <Item alias="func_comparison_neq">
+                            <function_call name="&lt;&gt;">
+                                <Variable name="proposal_ref" />
+                                <Variable name="proposal_ref" />
+                            </function_call>
+                        </Item>
+                        <Item alias="func_comparison_lt">
+                            <function_call name="&lt;">
+                                <Variable name="proposal_ref" />
+                                <Variable name="proposal_ref" />
+                            </function_call>
+                        </Item>
+                        <Item alias="func_comparison_leq">
+                            <function_call name="&lt;=">
+                                <Variable name="proposal_ref" />
+                                <Variable name="proposal_ref" />
+                            </function_call>
+                        </Item>
+                        <Item alias="func_comparison_gt">
+                            <function_call name="&gt;">
+                                <Variable name="proposal_ref" />
+                                <Variable name="proposal_ref" />
+                            </function_call>
+                        </Item>
+                        <Item alias="func_comparison_geq">
+                            <function_call name="&gt;=">
+                                <Variable name="proposal_ref" />
+                                <Variable name="proposal_ref" />
+                            </function_call>
+                        </Item>
+                        <Item alias="func_like">
+                            <function_call name="LIKE">
+                                <Variable name="name" />
+                                <constant>
+                                    <string>_o%_%</string>
+                                </constant>
+                            </function_call>
+                        </Item>
+                        <Item alias="func_null">
+                            <function_call name="IS NULL">
+                                <Variable name="name" />
+                            </function_call>
+                        </Item>
+                        <Item alias="func_math_add">
+                            <function_call name="+">
+                                <Variable name="proposal_ref" />
+                                <constant>
+                                    <integer>2</integer>
+                                </constant>
+                            </function_call>
+                        </Item>
+                        <Item alias="func_math_sub">
+                            <function_call name="-">
+                                <Variable name="proposal_ref" />
+                                <constant>
+                                    <long>444000000</long>
+                                </constant>
+                            </function_call>
+                        </Item>
+                        <Item alias="func_math_mult">
+                            <function_call name="*">
+                                <Variable name="proposal_ref" />
+                                <constant>
+                                    <float>3.250</float>
+                                </constant>
+                            </function_call>
+                        </Item>
+                        <Item alias="func_math_div">
+                            <function_call name="/">
+                                <constant>
+                                    <decimal>1</decimal>
+                                </constant>
+                                <Variable name="proposal_ref" />
+                            </function_call>
+                        </Item>
+                        <Item alias="func_math_div_round">
+                            <function_call name="/">
+                                <constant>
+                                    <integer>2</integer>
+                                </constant>
+                                <Variable name="proposal_ref" />
+                            </function_call>
+                        </Item>
+                        <Item alias="func_math_neg">
+                            <function_call name="NEG">
+                                <Variable name="proposal_ref" />
+                            </function_call>
+                        </Item>
+                        <Item alias="func_math_mod">
+                            <FunctionCall name="MOD">
+                                <Variable name="proposal_ref" />
+                                <Constant>
+                                    <integer>3</integer>
+                                </Constant>
+                            </FunctionCall>
+                        </Item>
+                        <Item alias="func_null_value">
+                            <Constant>
+                                <integer null="true" />
+                            </Constant>
+                        </Item>
+                        <Item alias="func_tuple">
+                            <FunctionCall name="TUPLE">
+                                <Variable name="proposal_ref" />
+                                <Constant>
+                                    <string>outer_proposal_ref</string>
+                                </Constant>
+                                <Constant>
+                                    <integer>7</integer>
+                                </Constant>
+                                <Constant>
+                                    <string>outer_constant</string>
+                                </Constant>
+                                <FunctionCall name="TUPLE">
+                                    <Variable name="name" />
+                                    <Constant>
+                                        <string>inner_name</string>
+                                    </Constant>
+                                    <Variable name="submitted" />
+                                    <Constant>
+                                        <string>inner_submitted</string>
+                                    </Constant>
+                                </FunctionCall>
+                                <Constant>
+                                    <string>func_tuple_inner</string>
+                                </Constant>
+                            </FunctionCall>
+                        </Item>
+                        <Item alias="func_case">
+                            <FunctionCall name="CASE">
+                                <FunctionCall name="=">
+                                    <Variable name="submitted" />
+                                    <Constant>
+                                        <boolean>TRUE</boolean>
+                                    </Constant>
+                                </FunctionCall>
+                                <Constant>
+                                    <string>Submitted</string>
+                                </Constant>
+                                <FunctionCall name="=">
+                                    <Variable name="submitted" />
+                                    <Constant>
+                                        <boolean>FALSE</boolean>
+                                    </Constant>
+                                </FunctionCall>
+                                <Constant>
+                                    <string>Not Submitted</string>
+                                </Constant>
+                                <Constant>
+                                    <boolean>TRUE</boolean>
+                                </Constant>
+                                <Constant>
+                                    <string>N/A</string>
+                                </Constant>
+                            </FunctionCall>
+                        </Item>
+                        <Item alias="func_coalesce">
+                            <FunctionCall name="CASE">
+                                <FunctionCall name="NOT">
+                                    <FunctionCall name="IS NULL">
+                                        <Variable name="proposal_ref" />
+                                    </FunctionCall>
+                                </FunctionCall>
+                                <Variable name="proposal_ref" />
+                                <Constant>
+                                    <boolean>true</boolean>
+                                </Constant>
+                                <FunctionCall name="+">
+                                    <Constant>
+                                        <integer>1</integer>
+                                    </Constant>
+                                    <Constant>
+                                        <integer>3</integer>
+                                    </Constant>
+                                </FunctionCall>
+                            </FunctionCall>
+                        </Item>
+                        <Item alias="func_format_time">
+                            <function_call name="format">
+                                <constant>
+                                    <timestamp>Nov 4, 2003 11:02:03 PM PST</timestamp>
+                                </constant>
+                                <constant>
+                                    <string>HH:mm:ss</string>
+                                </constant>
+                            </function_call>
+                        </Item>
+                        <Item alias="func_format_int">
+                            <function_call name="format">
+                                <constant>
+                                    <integer>25</integer>
+                                </constant>
+                                <constant>
+                                    <string>000</string>
+                                </constant>
+                            </function_call>
+                        </Item>
+                    </arguments>
+                    <Navigate alias="submitted" execution_data_source="src1" cardinality_estimate="SMALL">
+                        <arguments>
+                            <QueryPath steps="submitted">
+                                <Variable mode="ELEMENT" name="R" />
+                            </QueryPath>
+                        </arguments>
+                        <Navigate alias="name" execution_data_source="src1" cardinality_estimate="SMALL">
+                            <arguments>
+                                <QueryPath steps="name">
+                                    <Variable mode="ELEMENT" name="R" />
+                                </QueryPath>
+                            </arguments>
+                            <Navigate alias="proposal_ref" execution_data_source="src1" cardinality_estimate="SMALL">
+                                <arguments>
+                                    <QueryPath steps="proposal_ref">
+                                        <Variable mode="ELEMENT" name="R" />
+                                    </QueryPath>
+                                </arguments>
+                                <Scan alias="R" execution_data_source="src1" cardinality_estimate="SMALL">
+                                    <arguments>
+                                        <Variable mode="ABSOLUTE" data_source="src1" schema_object="reviewers" />
+                                        <Attribute>
+                                            <QueryPath steps="name" />
+                                            <Variable name="name" />
+                                        </Attribute>
+                                        <Attribute>
+                                            <QueryPath steps="proposal_ref" />
+                                            <Variable name="proposal_ref" />
+                                        </Attribute>
+                                        <Attribute>
+                                            <QueryPath steps="submitted" />
+                                            <Variable name="submitted" />
+                                        </Attribute>
+                                    </arguments>
+                                    <Ground execution_data_source="src1" cardinality_estimate="SMALL" />
+                                </Scan>
+                            </Navigate>
+                        </Navigate>
+                    </Navigate>
+                </Project>
+            </arguments>
+        </SendPlan>
+    </query_plan>
+    <data_object name="reviewers" execution_data_source="src1">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <name type="string" />
+                    <proposal_ref type="integer" />
+                    <submitted type="boolean" />
+                </element>
+            </root>
+            <constraints />
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <name>john</name>
+                    <proposal_ref>1</proposal_ref>
+                    <submitted>true</submitted>
+                </element>
+                <element>
+                    <name>tom</name>
+                    <proposal_ref>3</proposal_ref>
+                    <submitted>false</submitted>
+                </element>
+                <element>
+                    <name null="true" />
+                    <proposal_ref null="true" />
+                    <submitted null="true" />
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+    <data_object name="nonexistent" execution_data_source="src1">
+        <schema_tree>
+            <root type="tuple">
+                <name type="tuple">
+                    <first_name type="string" />
+                </name>
+            </root>
+        </schema_tree>
+        <data_tree />
+    </data_object>
+    <data_object name="single_collection" execution_data_source="src1">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <grade type="integer" />
+                </element>
+            </root>
+            <constraints />
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <grade>77</grade>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+    <data_object name="single_tuple" execution_data_source="src1">
+        <schema_tree>
+            <root type="tuple">
+                <grade type="integer" />
+            </root>
+            <constraints />
+        </schema_tree>
+        <data_tree>
+            <root>
+                <grade>77</grade>
+            </root>
+        </data_tree>
+    </data_object>
+    <data_object name="output" execution_data_source="output">
+        <schema_tree>
+            <root type="collection">
+                <element type="tuple">
+                    <string_value type="string" />
+                    <xhtml_value type="xhtml" />
+                    <boolean_value type="boolean" />
+                    <integer_value type="integer" />
+                    <long_value type="long" />
+                    <float_value type="float" />
+                    <double_value type="double" />
+                    <decimal_value type="decimal" />
+                    <date_value type="date" />
+                    <timestamp_value type="timestamp" />
+                    <query_path type="integer" />
+                    <query_path_nonexistent type="string" />
+                    <func_custom type="string" />
+                    <func_cast_integer_string type="string" />
+                    <func_cast_string_integer type="integer" />
+                    <func_cast_null_boolean type="boolean" />
+                    <func_cast_collection_tuple type="tuple">
+                        <grade type="integer" />
+                    </func_cast_collection_tuple>
+                    <func_cast_collection_integer type="integer" />
+                    <func_cast_tuple_string type="string" />
+                    <func_string_concat type="string" />
+                    <func_string_lower type="string" />
+                    <func_string_upper type="string" />
+                    <func_string_char_length type="integer" />
+                    <func_string_character_length type="integer" />
+                    <func_string_substring_from type="string" />
+                    <func_string_substring_from_for type="string" />
+                    <func_string_escape_xml type="string" />
+                    <func_string_escape_xhtml type="string" />
+                    <func_string_escape_javascript type="string" />
+                    <func_logical_and type="boolean" />
+                    <func_logical_and_short type="boolean" />
+                    <func_logical_or type="boolean" />
+                    <func_logical_or_short type="boolean" />
+                    <func_logical_not type="boolean" />
+                    <func_comparison_eq type="boolean" />
+                    <func_comparison_neq type="boolean" />
+                    <func_comparison_lt type="boolean" />
+                    <func_comparison_leq type="boolean" />
+                    <func_comparison_gt type="boolean" />
+                    <func_comparison_geq type="boolean" />
+                    <func_like type="boolean" />
+                    <func_null type="boolean" />
+                    <func_math_add type="decimal" />
+                    <func_math_sub type="decimal" />
+                    <func_math_mult type="decimal" />
+                    <func_math_div type="decimal" />
+                    <func_math_div_round type="integer" />
+                    <func_math_neg type="decimal" />
+                    <func_math_mod type="integer" />
+                    <func_null_value type="integer" />
+                    <func_tuple type="tuple">
+                        <outer_proposal_ref type="integer" />
+                        <outer_constant type="integer" />
+                        <func_tuple_inner type="tuple">
+                            <inner_name type="string" />
+                            <inner_submitted type="boolean" />
+                        </func_tuple_inner>
+                    </func_tuple>
+                    <func_case type="string" />
+                    <func_coalesce type="integer" />
+                    <func_format_time type="string" />
+                    <func_format_int type="string" />
+                </element>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <element>
+                    <string_value>blah</string_value>
+                    <xhtml_value xmlns="http://www.w3.org/1999/xhtml">
+                        <html />
+                    </xhtml_value>
+                    <boolean_value>true</boolean_value>
+                    <integer_value>1</integer_value>
+                    <long_value>1</long_value>
+                    <float_value>1.0</float_value>
+                    <double_value>1.0</double_value>
+                    <decimal_value>0.1</decimal_value>
+                    <date_value>Nov 4, 2003</date_value>
+                    <timestamp_value>Nov 4, 2003 11:02:03 PM PST</timestamp_value>
+                    <query_path>1</query_path>
+                    <query_path_nonexistent null="true" />
+                    <func_custom>custom</func_custom>
+                    <func_cast_integer_string>3</func_cast_integer_string>
+                    <func_cast_string_integer>3</func_cast_string_integer>
+                    <func_cast_null_boolean null="true" />
+                    <func_cast_collection_tuple>
+                        <grade>77</grade>
+                    </func_cast_collection_tuple>
+                    <func_cast_collection_integer>77</func_cast_collection_integer>
+                    <func_cast_tuple_string>77</func_cast_tuple_string>
+                    <func_string_concat>Testing' john</func_string_concat>
+                    <func_string_lower>testing' </func_string_lower>
+                    <func_string_upper>JOHN</func_string_upper>
+                    <func_string_char_length>4</func_string_char_length>
+                    <func_string_character_length null="true" />
+                    <func_string_substring_from>ohn</func_string_substring_from>
+                    <func_string_substring_from_for>jo</func_string_substring_from_for>
+                    <func_string_escape_xml>&amp;quot; &amp;quot;Testing&amp;apos; &amp;lt;</func_string_escape_xml>
+                    <func_string_escape_xhtml>^ &amp;quot;Testing&amp;#175;</func_string_escape_xhtml>
+                    <func_string_escape_javascript>\" \"Testing\'</func_string_escape_javascript>
+                    <func_logical_and>true</func_logical_and>
+                    <func_logical_and_short>false</func_logical_and_short>
+                    <func_logical_or>true</func_logical_or>
+                    <func_logical_or_short>true</func_logical_or_short>
+                    <func_logical_not>false</func_logical_not>
+                    <func_comparison_eq>true</func_comparison_eq>
+                    <func_comparison_neq>false</func_comparison_neq>
+                    <func_comparison_lt>false</func_comparison_lt>
+                    <func_comparison_leq>true</func_comparison_leq>
+                    <func_comparison_gt>false</func_comparison_gt>
+                    <func_comparison_geq>true</func_comparison_geq>
+                    <func_like>true</func_like>
+                    <func_null>false</func_null>
+                    <func_math_add>3</func_math_add>
+                    <func_math_sub>-443999999</func_math_sub>
+                    <func_math_mult>3.25</func_math_mult>
+                    <func_math_div>1</func_math_div>
+                    <func_math_div_round>2</func_math_div_round>
+                    <func_math_neg>-1</func_math_neg>
+                    <func_math_mod>1</func_math_mod>
+                    <func_null_value null="true" />
+                    <func_tuple>
+                        <outer_proposal_ref>1</outer_proposal_ref>
+                        <outer_constant>7</outer_constant>
+                        <func_tuple_inner>
+                            <inner_name>john</inner_name>
+                            <inner_submitted>true</inner_submitted>
+                        </func_tuple_inner>
+                    </func_tuple>
+                    <func_case>Submitted</func_case>
+                    <func_coalesce>1</func_coalesce>
+                    <func_format_time>23:02:03</func_format_time>
+                    <func_format_int>025</func_format_int>
+                </element>
+                <element>
+                    <string_value>blah</string_value>
+                    <xhtml_value xmlns="http://www.w3.org/1999/xhtml">
+                        <html />
+                    </xhtml_value>
+                    <boolean_value>true</boolean_value>
+                    <integer_value>1</integer_value>
+                    <long_value>1</long_value>
+                    <float_value>1.0</float_value>
+                    <double_value>1.0</double_value>
+                    <decimal_value>0.1</decimal_value>
+                    <date_value>Nov 4, 2003</date_value>
+                    <timestamp_value>Nov 4, 2003 11:02:03 PM PST</timestamp_value>
+                    <query_path>3</query_path>
+                    <query_path_nonexistent null="true" />
+                    <func_custom>custom</func_custom>
+                    <func_cast_integer_string>3</func_cast_integer_string>
+                    <func_cast_string_integer>3</func_cast_string_integer>
+                    <func_cast_null_boolean null="true" />
+                    <func_cast_collection_tuple>
+                        <grade>77</grade>
+                    </func_cast_collection_tuple>
+                    <func_cast_collection_integer>77</func_cast_collection_integer>
+                    <func_cast_tuple_string>77</func_cast_tuple_string>
+                    <func_string_concat>Testing' tom</func_string_concat>
+                    <func_string_lower>testing' </func_string_lower>
+                    <func_string_upper>TOM</func_string_upper>
+                    <func_string_char_length>4</func_string_char_length>
+                    <func_string_character_length null="true" />
+                    <func_string_substring_from>om</func_string_substring_from>
+                    <func_string_substring_from_for>to</func_string_substring_from_for>
+                    <func_string_escape_xml>&amp;quot; &amp;quot;Testing&amp;apos; &amp;lt;</func_string_escape_xml>
+                    <func_string_escape_xhtml>^ &amp;quot;Testing&amp;#175;</func_string_escape_xhtml>
+                    <func_string_escape_javascript>\" \"Testing\'</func_string_escape_javascript>
+                    <func_logical_and>false</func_logical_and>
+                    <func_logical_and_short>false</func_logical_and_short>
+                    <func_logical_or>true</func_logical_or>
+                    <func_logical_or_short>true</func_logical_or_short>
+                    <func_logical_not>true</func_logical_not>
+                    <func_comparison_eq>true</func_comparison_eq>
+                    <func_comparison_neq>false</func_comparison_neq>
+                    <func_comparison_lt>false</func_comparison_lt>
+                    <func_comparison_leq>true</func_comparison_leq>
+                    <func_comparison_gt>false</func_comparison_gt>
+                    <func_comparison_geq>true</func_comparison_geq>
+                    <func_like>true</func_like>
+                    <func_null>false</func_null>
+                    <func_math_add>5</func_math_add>
+                    <func_math_sub>-443999997</func_math_sub>
+                    <func_math_mult>9.75</func_math_mult>
+                    <func_math_div>0.3333333333333333333333333333333333</func_math_div>
+                    <func_math_div_round>0</func_math_div_round>
+                    <func_math_neg>-3</func_math_neg>
+                    <func_math_mod>0</func_math_mod>
+                    <func_null_value null="true" />
+                    <func_tuple>
+                        <outer_proposal_ref>3</outer_proposal_ref>
+                        <outer_constant>7</outer_constant>
+                        <func_tuple_inner>
+                            <inner_name>tom</inner_name>
+                            <inner_submitted>false</inner_submitted>
+                        </func_tuple_inner>
+                    </func_tuple>
+                    <func_case>Not Submitted</func_case>
+                    <func_coalesce>3</func_coalesce>
+                    <func_format_time>23:02:03</func_format_time>
+                    <func_format_int>025</func_format_int>
+                </element>
+                <element>
+                    <string_value>blah</string_value>
+                    <xhtml_value xmlns="http://www.w3.org/1999/xhtml">
+                        <html />
+                    </xhtml_value>
+                    <boolean_value>true</boolean_value>
+                    <integer_value>1</integer_value>
+                    <long_value>1</long_value>
+                    <float_value>1.0</float_value>
+                    <double_value>1.0</double_value>
+                    <decimal_value>0.1</decimal_value>
+                    <date_value>Nov 4, 2003</date_value>
+                    <timestamp_value>Nov 4, 2003 11:02:03 PM PST</timestamp_value>
+                    <query_path null="true" />
+                    <query_path_nonexistent null="true" />
+                    <func_custom>custom</func_custom>
+                    <func_cast_integer_string>3</func_cast_integer_string>
+                    <func_cast_string_integer>3</func_cast_string_integer>
+                    <func_cast_null_boolean null="true" />
+                    <func_cast_collection_tuple>
+                        <grade>77</grade>
+                    </func_cast_collection_tuple>
+                    <func_cast_collection_integer>77</func_cast_collection_integer>
+                    <func_cast_tuple_string>77</func_cast_tuple_string>
+                    <func_string_concat null="true" />
+                    <func_string_lower>testing' </func_string_lower>
+                    <func_string_upper null="true" />
+                    <func_string_char_length>4</func_string_char_length>
+                    <func_string_character_length null="true" />
+                    <func_string_substring_from null="true" />
+                    <func_string_substring_from_for null="true" />
+                    <func_string_escape_xml>&amp;quot; &amp;quot;Testing&amp;apos; &amp;lt;</func_string_escape_xml>
+                    <func_string_escape_xhtml>^ &amp;quot;Testing&amp;#175;</func_string_escape_xhtml>
+                    <func_string_escape_javascript>\" \"Testing\'</func_string_escape_javascript>
+                    <func_logical_and null="true" />
+                    <func_logical_and_short>false</func_logical_and_short>
+                    <func_logical_or>true</func_logical_or>
+                    <func_logical_or_short>true</func_logical_or_short>
+                    <func_logical_not null="true" />
+                    <func_comparison_eq null="true" />
+                    <func_comparison_neq null="true" />
+                    <func_comparison_lt null="true" />
+                    <func_comparison_leq null="true" />
+                    <func_comparison_gt null="true" />
+                    <func_comparison_geq null="true" />
+                    <func_like null="true" />
+                    <func_null>true</func_null>
+                    <func_math_add null="true" />
+                    <func_math_sub null="true" />
+                    <func_math_mult null="true" />
+                    <func_math_div null="true" />
+                    <func_math_div_round null="true" />
+                    <func_math_neg null="true" />
+                    <func_math_mod null="true" />
+                    <func_null_value null="true" />
+                    <func_tuple>
+                        <outer_proposal_ref null="true" />
+                        <outer_constant>7</outer_constant>
+                        <func_tuple_inner>
+                            <inner_name null="true" />
+                            <inner_submitted null="true" />
+                        </func_tuple_inner>
+                    </func_tuple>
+                    <func_case>N/A</func_case>
+                    <func_coalesce>4</func_coalesce>
+                    <func_format_time>23:02:03</func_format_time>
+                    <func_format_int>025</func_format_int>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+</test_case>

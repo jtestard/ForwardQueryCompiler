@@ -1,0 +1,2 @@
+SELECT AVG(title,proposal_id) AS a
+FROM proposals 

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module rename-to='data_source'>
+  
+  <!-- Inherit the core Web Toolkit stuff.                        -->
+  <inherits name='com.google.gwt.user.User'/>
+  
+  <source path='data/source'>
+    <exclude name='*/**/*'/>
+    <exclude name='Test*.java'/>
+    <exclude name='*TestCase*.java'/>
+    <exclude name='ConnectionPool.java'/>
+    <exclude name='JdbcDataSource.java'/>
+    <exclude name='JdbcIntrospector.java'/>
+    <exclude name='SendPlanImplJdbc.java'/>
+    <exclude name='TableBuilder.java'/>
+    <exclude name='DataSourceXmlParser.java'/>    
+  </source>
+
+  <source path='data/source/inmemory'>
+    <include name='InMemoryDataSource.java'/>
+    <include name='InMemoryTransaction.java'/>
+  </source>
+
+  <source path='data/source/implicit'>
+    <exclude name='*/**/*'/>
+    <exclude name='Test*.java'/>
+    <exclude name='*TestCase*.java'/>
+  </source>  
+
+  <source path='data/source/remote'>
+    <exclude name='*/**/*'/>
+    <exclude name='Test*.java'/>
+    <exclude name='*TestCase*.java'/>
+  </source>  
+  
+   <source path='data/source/idb'>
+    <exclude name='*/**/*'/>
+    <exclude name='Test*.java'/>
+    <exclude name='*TestCase*.java'/>
+  </source>   
+</module>

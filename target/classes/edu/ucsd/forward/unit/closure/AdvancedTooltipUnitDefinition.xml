@@ -1,0 +1,21 @@
+<doc>
+    <entry path="/AdvancedTooltip">Represents a control to display a hover box with cursor tracking abilities.</entry>
+    <entry path="/AdvancedTooltip/style">This is a CSS styling attribute as defined by the CSS Styling Attribute Syntax specification.</entry>
+    <entry path="/AdvancedTooltip/cursor_tracking">Sets whether to track the cursor and thereby close the tooltip if it moves away from the tooltip and keep it open if it moves towards it.</entry>
+    <entry path="/AdvancedTooltip/cursor_tracking_hide_delay">Sets delay in milliseconds before tooltips are hidden if cursor tracking is enabled and the cursor is moving away from the tooltip.</entry>
+    <entry path="/AdvancedTooltip/auto_hide">Sets whether the Popup dismisses itself when the user clicks outside of it.</entry>
+    <entry path="/AdvancedTooltip/auto_hide_region">Sets the region inside which the Popup dismisses itself when the user clicks.</entry>
+    <entry path="/AdvancedTooltip/should_hide_async">Sets whether the popup should hide itself asynchronously using a timeout instead of synchronously.</entry>
+    <entry path="/AdvancedTooltip/hide_delay_ms">Sets delay in milliseconds before tooltip is hidden once the cursor leavs the element.</entry>
+    <entry path="/AdvancedTooltip/show_delay_ms">Sets delay in milliseconds before tooltip is displayed for an element.</entry>
+    <entry path="/AdvancedTooltip/require_interaction">Sets whether tooltip requires the mouse to have moved or the anchor receive focus before the tooltip will be shown.</entry>
+    <entry path="/AdvancedTooltip/hot_spot_padding_top">Sets margin around the tooltip where the cursor is allowed without dismissing the tooltip.</entry>
+    <entry path="/AdvancedTooltip/hot_spot_padding_right">Sets margin around the tooltip where the cursor is allowed without dismissing the tooltip.</entry>
+    <entry path="/AdvancedTooltip/hot_spot_padding_bottom">Sets margin around the tooltip where the cursor is allowed without dismissing the tooltip.</entry>
+    <entry path="/AdvancedTooltip/hot_spot_padding_left">Sets margin around the tooltip where the cursor is allowed without dismissing the tooltip.</entry>
+    <entry path="/AdvancedTooltip/margin_top">Sets the margin to place around the popup.</entry>
+    <entry path="/AdvancedTooltip/margin_right">Sets the margin to place around the popup.</entry>
+    <entry path="/AdvancedTooltip/margin_bottom">Sets the margin to place around the popup.</entry>
+    <entry path="/AdvancedTooltip/margin_left">Sets the margin to place around the popup.</entry>
+</doc>
+

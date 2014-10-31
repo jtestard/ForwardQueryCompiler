@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <ivm_prov>{=SINGLETON,tuple/emps=[[tuple/eid]]}</ivm_prov>
+    <uas>
+        <data_object name="departments" execution_data_source="session">
+            <data_tree>
+                <root>
+                </root>
+            </data_tree>
+            <schema_tree>
+                <root type="tuple">
+                    <did type="integer" />
+                    <dname type="string" />
+                    <employees type="collection">
+                        <element type="tuple">
+                            <eid type="string" />
+                            <ename type="string" />
+                        </element>
+                        <constraints>
+                            <local-key>
+                                <attribute path="tuple/eid" />
+                            </local-key>
+                        </constraints>
+                    </employees>
+                </root>
+            </schema_tree>
+        </data_object>
+    </uas>
+    <query_plan wrapping="false">
+        <Scan alias="departments" cardinality_estimate="UNKNOWN">
+            <arguments>
+                <Variable data_source="session" mode="ABSOLUTE" schema_object="departments" />
+                <Attribute>
+                    <QueryPath steps="dname" />
+                    <Variable name="dname" />
+                </Attribute>
+                <Attribute>
+                    <QueryPath steps="did" />
+                    <Variable name="did" />
+                </Attribute>
+                <Attribute>
+                    <QueryPath steps="employees" />
+                    <Variable name="emps" />
+                </Attribute>
+            </arguments>
+            <Ground cardinality_estimate="UNKNOWN">
+                <arguments />
+            </Ground>
+        </Scan>
+    </query_plan>
+    <retouched>
+        <query_plan wrapping="false">
+            <Scan alias="departments" cardinality_estimate="UNKNOWN">
+                <arguments>
+                    <Variable data_source="session" mode="ABSOLUTE" schema_object="departments" />
+                    <Attribute>
+                        <QueryPath steps="dname" />
+                        <Variable name="dname" />
+                    </Attribute>
+                    <Attribute>
+                        <QueryPath steps="did" />
+                        <Variable name="did" />
+                    </Attribute>
+                    <Attribute>
+                        <QueryPath steps="employees" />
+                        <Variable name="emps" />
+                    </Attribute>
+                </arguments>
+                <Ground cardinality_estimate="UNKNOWN">
+                    <arguments />
+                </Ground>
+            </Scan>
+        </query_plan>
+    </retouched>
+    <schema_tree>
+        <root type="collection">
+            <element type="tuple">
+                <dname type="string" />
+                <did type="integer" />
+                <employees type="collection">
+                    <element type="tuple">
+                        <eid type="string" />
+                        <ename type="string" />
+                    </element>
+                    <constraints>
+                        <local-key>
+                            <attribute path="tuple/eid" />
+                        </local-key>
+                    </constraints>
+                </employees>
+            </element>            
+        </root>
+    </schema_tree>
+</test_case>

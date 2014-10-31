@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_expression>
+        <![CDATA[
+            SELECT in1.a, in2.b FROM src_1.input1 AT j1 AS in1, src_1.input2 AS in2 WHERE in1.id = in2.id ORDER BY j1, in2.b DESC
+        ]]>
+    </query_expression>
+    <data_source name="src_1" storage_system="INMEMORY" data_model="RELATIONAL" />
+    <data_object name="input1" execution_data_source="src_1" cardinality_estimate="LARGE">
+        <schema_tree>
+            <root type="collection" ordered="true">
+                <element type="tuple">
+                    <a type="integer" />
+                    <id type="integer" />
+                </element>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root ordered="true">
+                <element>
+                    <a>1</a>
+                    <id>1</id>
+                </element>
+                <element>
+                    <a>2</a>
+                    <id>1</id>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+    <data_object name="input2" execution_data_source="src_1" cardinality_estimate="LARGE">
+        <schema_tree>
+            <root type="collection" ordered="true">
+                <element type="tuple">
+                    <b type="string" />
+                    <id type="integer" />
+                </element>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root ordered="true">
+                <element>
+                    <b>x</b>
+                    <id>1</id>
+                </element>
+                <element>
+                    <b>y</b>
+                    <id>1</id>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+    <query_plan wrapping="false">
+        <Project cardinality_estimate="UNKNOWN">
+            <arguments>
+                <Item alias="a">
+                    <Variable name="__v2" />
+                </Item>
+                <Item alias="b">
+                    <Variable name="__v3" />
+                </Item>
+            </arguments>
+            <Sort cardinality_estimate="UNKNOWN">
+                <arguments>
+                    <Item nulls="LAST" spec="ASC">
+                        <Variable mode="POSITION" name="j1" />
+                    </Item>
+                    <Item nulls="LAST" spec="DESC">
+                        <Variable name="__v4" />
+                    </Item>
+                </arguments>
+                <Navigate alias="__v4" cardinality_estimate="UNKNOWN">
+                    <arguments>
+                        <QueryPath steps="b">
+                            <Variable mode="ELEMENT" name="in2" />
+                        </QueryPath>
+                    </arguments>
+                    <Navigate alias="__v3" cardinality_estimate="UNKNOWN">
+                        <arguments>
+                            <QueryPath steps="b">
+                                <Variable mode="ELEMENT" name="in2" />
+                            </QueryPath>
+                        </arguments>
+                        <Navigate alias="__v2" cardinality_estimate="UNKNOWN">
+                            <arguments>
+                                <QueryPath steps="a">
+                                    <Variable mode="ELEMENT" name="in1" />
+                                </QueryPath>
+                            </arguments>
+                            <Select cardinality_estimate="UNKNOWN">
+                                <arguments>
+                                    <FunctionCall name="=">
+                                        <Variable name="__v0" />
+                                        <Variable name="__v1" />
+                                    </FunctionCall>
+                                </arguments>
+                                <Navigate alias="__v1" cardinality_estimate="UNKNOWN">
+                                    <arguments>
+                                        <QueryPath steps="id">
+                                            <Variable mode="ELEMENT" name="in2" />
+                                        </QueryPath>
+                                    </arguments>
+                                    <Navigate alias="__v0" cardinality_estimate="UNKNOWN">
+                                        <arguments>
+                                            <QueryPath steps="id">
+                                                <Variable mode="ELEMENT" name="in1" />
+                                            </QueryPath>
+                                        </arguments>
+                                        <Product cardinality_estimate="UNKNOWN">
+                                            <arguments />
+                                            <Scan alias="in1" cardinality_estimate="UNKNOWN" position_var="j1">
+                                                <arguments>
+                                                    <Variable data_source="src_1" mode="ABSOLUTE" schema_object="input1" />
+                                                </arguments>
+                                                <Ground cardinality_estimate="UNKNOWN">
+                                                    <arguments />
+                                                </Ground>
+                                            </Scan>
+                                            <Scan alias="in2" cardinality_estimate="UNKNOWN">
+                                                <arguments>
+                                                    <Variable data_source="src_1" mode="ABSOLUTE" schema_object="input2" />
+                                                </arguments>
+                                                <Ground cardinality_estimate="UNKNOWN">
+                                                    <arguments />
+                                                </Ground>
+                                            </Scan>
+                                        </Product>
+                                    </Navigate>
+                                </Navigate>
+                            </Select>
+                        </Navigate>
+                    </Navigate>
+                </Navigate>
+            </Sort>
+        </Project>
+    </query_plan>
+
+    <data_object name="output" execution_data_source="output">
+        <schema_tree>
+            <root type="collection" ordered="true">
+                <element type="tuple">
+                    <a type="integer" />
+                    <b type="string" />
+                </element>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root ordered="true">
+                <element>
+                    <a>1</a>
+                    <b>y</b>
+                </element>
+                <element>
+                    <a>1</a>
+                    <b>x</b>
+                </element>
+                <element>
+                    <a>2</a>
+                    <b>y</b>
+                </element>
+                <element>
+                    <a>2</a>
+                    <b>x</b>
+                </element>
+            </root>
+        </data_tree>
+    </data_object>
+</test_case>
