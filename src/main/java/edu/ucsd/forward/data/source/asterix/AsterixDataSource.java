@@ -12,7 +12,6 @@ import edu.ucsd.forward.data.index.KeyRange;
 import edu.ucsd.forward.data.source.AbstractDataSource;
 import edu.ucsd.forward.data.source.DataSourceMetaData;
 import edu.ucsd.forward.data.source.DataSourceTransaction;
-import edu.ucsd.forward.data.source.DataSourceMetaData.StorageSystem;
 import edu.ucsd.forward.data.source.jdbc.JdbcDataSourceMetaData;
 import edu.ucsd.forward.data.value.DataTree;
 import edu.ucsd.forward.data.value.TupleValue;
@@ -30,6 +29,14 @@ import edu.ucsd.app2you.util.logger.Logger;
 public class AsterixDataSource extends AbstractDataSource
 {
     /**
+     * The properties to use when trying to connect to the JDBC data source, which must include at least a 'user' and a 'password'.
+     */
+    private Properties              m_connection_properties;
+    
+    @SuppressWarnings("unused")
+    private static final Logger log = Logger.getLogger(AsterixDataSource.class);
+    
+    /**
      * Constructor for the AsterixDB data source.
      * @param name
      * @param connection_properties
@@ -37,34 +44,14 @@ public class AsterixDataSource extends AbstractDataSource
      */
     public AsterixDataSource(String name, Properties connection_properties, boolean overwrite)
     {
-        super(null);
+        super(new AsterixDataSourceMetaData(name, connection_properties));
+        m_connection_properties = connection_properties;
     }
     
-    /**
-     * @param meta_data
-     */
-    protected AsterixDataSource(DataSourceMetaData meta_data)
-    {
-        super(meta_data);
-        // TODO Auto-generated constructor stub
-    }
-    
-    @SuppressWarnings("unused")
-    private static final Logger log = Logger.getLogger(AsterixDataSource.class);
-    
-    /**
-     * <b>Inherited JavaDoc:</b><br>
-     * {@inheritDoc} <br>
-     * <br>
-     * <b>See original method below.</b> <br>
-     * 
-     * @see edu.ucsd.forward.data.source.DataSource#beginTransaction()
-     */
     @Override
-    public DataSourceTransaction beginTransaction() throws QueryExecutionException
+    public AsterixDataSourceMetaData getMetaData()
     {
-        // TODO Auto-generated method stub
-        return null;
+        return (AsterixDataSourceMetaData) super.getMetaData();
     }
     
     /**
@@ -83,40 +70,6 @@ public class AsterixDataSource extends AbstractDataSource
         return null;
     }
     
-    /**
-     * <b>Inherited JavaDoc:</b><br>
-     * {@inheritDoc} <br>
-     * <br>
-     * <b>See original method below.</b> <br>
-     * 
-     * @see edu.ucsd.forward.data.source.DataSource#createIndex(java.lang.String, java.lang.String,
-     *      edu.ucsd.forward.data.SchemaPath, java.util.List, boolean, edu.ucsd.forward.data.index.IndexMethod,
-     *      edu.ucsd.forward.data.source.DataSourceTransaction)
-     */
-    @Override
-    public void createIndex(String data_obj_name, String name, SchemaPath collection_path, List<SchemaPath> key_paths,
-            boolean unique, IndexMethod method, DataSourceTransaction transaction) throws QueryExecutionException
-    {
-        // TODO Auto-generated method stub
-        
-    }
-    
-    /**
-     * <b>Inherited JavaDoc:</b><br>
-     * {@inheritDoc} <br>
-     * <br>
-     * <b>See original method below.</b> <br>
-     * 
-     * @see edu.ucsd.forward.data.source.DataSource#deleteIndex(java.lang.String, java.lang.String,
-     *      edu.ucsd.forward.data.SchemaPath, edu.ucsd.forward.data.source.DataSourceTransaction)
-     */
-    @Override
-    public void deleteIndex(String data_obj_name, String name, SchemaPath collection_path, DataSourceTransaction transaction)
-            throws QueryExecutionException
-    {
-        // TODO Auto-generated method stub
-        
-    }
     
     /**
      * <b>Inherited JavaDoc:</b><br>
@@ -181,5 +134,52 @@ public class AsterixDataSource extends AbstractDataSource
     {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    /**
+     * <b>Inherited JavaDoc:</b><br>
+     * {@inheritDoc}
+     * <br><br>
+     * <b>See original method below.</b>
+     * <br>
+     * @see edu.ucsd.forward.data.source.DataSource#beginTransaction()
+     */
+    @Override
+    public DataSourceTransaction beginTransaction() throws QueryExecutionException
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /**
+     * <b>Inherited JavaDoc:</b><br>
+     * {@inheritDoc}
+     * <br><br>
+     * <b>See original method below.</b>
+     * <br>
+     * @see edu.ucsd.forward.data.source.DataSource#createIndex(java.lang.String, java.lang.String, edu.ucsd.forward.data.SchemaPath, java.util.List, boolean, edu.ucsd.forward.data.index.IndexMethod, edu.ucsd.forward.data.source.DataSourceTransaction)
+     */
+    @Override
+    public void createIndex(String data_obj_name, String name, SchemaPath collection_path, List<SchemaPath> key_paths,
+            boolean unique, IndexMethod method, DataSourceTransaction transaction) throws QueryExecutionException
+    {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /**
+     * <b>Inherited JavaDoc:</b><br>
+     * {@inheritDoc}
+     * <br><br>
+     * <b>See original method below.</b>
+     * <br>
+     * @see edu.ucsd.forward.data.source.DataSource#deleteIndex(java.lang.String, java.lang.String, edu.ucsd.forward.data.SchemaPath, edu.ucsd.forward.data.source.DataSourceTransaction)
+     */
+    @Override
+    public void deleteIndex(String data_obj_name, String name, SchemaPath collection_path, DataSourceTransaction transaction)
+            throws QueryExecutionException
+    {
+        // TODO Auto-generated method stub
+        
     }
 }

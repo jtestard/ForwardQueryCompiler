@@ -20,7 +20,7 @@ public class DataSourceMetaData
      */
     public enum DataModel
     {
-        RELATIONAL, SQLPLUSPLUS;
+        RELATIONAL, SQLPLUSPLUS, ADM;
         
         /**
          * Returns the data model constant with the specified name.

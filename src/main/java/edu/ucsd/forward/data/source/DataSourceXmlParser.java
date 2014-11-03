@@ -104,6 +104,8 @@ public final class DataSourceXmlParser
     
     public static final String  HOST_ATTR        = "host";
     
+    public static final String  PORT_ATTR        = "port";
+    
     public static final String  LOCALHOST_VAL    = "localhost";
     
     public static final String  EXCLUDE_ELM      = "exclude";
@@ -243,10 +245,38 @@ public final class DataSourceXmlParser
                 data_source = new RemoteDataSource(source_name, data_model);
                 return data_source;
             case ASTERIX:
-                String overwrite_attr = properties_elm.getAttribute(OVERWRITE_ATTR);
-                boolean overwrite = (!overwrite_attr.isEmpty()) ? Boolean.parseBoolean(overwrite_attr) : false;
-                data_source = new AsterixDataSource(source_name, null, overwrite);
-                return data_source;
+                // The default data model for Asterix data source is ADM
+                data_model = (!data_model_attr.isEmpty()) ? DataModel.constantOf(data_model_attr) : DataModel.ADM;
+                if (data_model != DataModel.ADM)
+                {
+                    throw new DataSourceException(ExceptionMessages.DataSource.INVALID_ASTERIX_MODEL, source_name);
+                }
+
+                // Get connection properties. We expect source_elm to have only one child here.
+                for (Element properties_elm : getChildElements(source_elm, PROPERTIES_ELM)) {
+                    Properties connection_properties = new Properties();
+                    
+                    // Check host
+                    String host = properties_elm.getAttribute(HOST_ATTR);
+                    boolean flag = Config.getAllowRemoteDatabaseConnections();
+                    if (!host.toLowerCase().equals(LOCALHOST_VAL) && !flag)
+                    {
+                        throw new DataSourceException(ExceptionMessages.DataSource.REMOTE_CONNECTIONS_NOT_ALLOWED);
+                    }
+                    // Check if importing the existing database
+                    String overwrite_attr = properties_elm.getAttribute(OVERWRITE_ATTR);
+                    boolean overwrite = (!overwrite_attr.isEmpty()) ? Boolean.parseBoolean(overwrite_attr) : false;
+                    
+                    for (String attr_name : getAttributeNames(properties_elm))
+                    {
+                        connection_properties.put(attr_name, properties_elm.getAttribute(attr_name));
+                    }
+                    
+                    data_source = new AsterixDataSource(source_name, connection_properties, overwrite);
+                    return data_source;
+                }
+                throw new DataSourceException(ExceptionMessages.DataSource.MISSING_ASTERIX_ENVIRONMENT, source_name,
+                                              Config.getEnvironment().toLowerCase());
             case JDBC:
                 // The default data model for JDBC data source is relational
                 data_model = (!data_model_attr.isEmpty()) ? DataModel.constantOf(data_model_attr) : DataModel.RELATIONAL;

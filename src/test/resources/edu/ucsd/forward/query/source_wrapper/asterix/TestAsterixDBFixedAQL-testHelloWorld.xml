@@ -6,10 +6,8 @@
             return $message
         ]]>
     </query_expression>
-    <data_source name="src_1" storage_system="AsterixDB" data_model="ADM">
-        <properties environment="testing" overwrite="true"
-            driver="asterixDB" host="localhost" port="19002"
-            database="my_asterix"/>
+    <data_source name="src_1" storage_system="ASTERIX" data_model="ADM">
+        <properties overwrite="true" host="localhost" port="19002"/>
     </data_source>
     <data_object name="empty" execution_data_source="src_1">
         <schema_tree>
@@ -28,7 +26,7 @@
     <data_object name="output" execution_data_source="output">
         <schema_tree>
             <root type="tuple">
-                <result type="string"/>
+                <result type="string" />
                 <array type="collection">
                     <string type="string" />
                 </array>

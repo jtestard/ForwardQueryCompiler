@@ -237,6 +237,12 @@ public final class ExceptionMessages
         
         REMOTE_CONNECTIONS_NOT_ALLOWED("Only database connections to \"localhost\" are allowed."),
         
+        // AsterixDB related exceptions
+        
+        INVALID_ASTERIX_MODEL("The data model of ASTERIX data source \"{0}\" must be " + DataModel.ADM.name()),
+        
+        MISSING_ASTERIX_ENVIRONMENT("ASTERIX data source \"{0}\" has no properties for environment \"{1}\""),
+        
         // IndexedDB related exceptions
         INVALID_IDB_MODEL("The data model of IndexedDB data source \"{0}\" must be " + DataModel.RELATIONAL.name()),
         
