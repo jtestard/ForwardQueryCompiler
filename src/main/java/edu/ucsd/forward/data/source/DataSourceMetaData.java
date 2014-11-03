@@ -54,7 +54,7 @@ public class DataSourceMetaData
      */
     public enum StorageSystem
     {
-        INMEMORY, JDBC, INDEXEDDB, REMOTE;
+        INMEMORY, JDBC, INDEXEDDB, REMOTE, ASTERIX;
         
         /**
          * Returns the storage system constant with the specified name.

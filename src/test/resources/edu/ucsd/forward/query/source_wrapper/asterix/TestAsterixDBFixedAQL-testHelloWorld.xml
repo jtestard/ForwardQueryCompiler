@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_case>
+    <query_expression>
+        <![CDATA[
+            let $message := 'Hello World!'
+            return $message
+        ]]>
+    </query_expression>
+    <data_source name="src_1" storage_system="AsterixDB" data_model="ADM">
+        <properties environment="testing" overwrite="true"
+            driver="asterixDB" host="localhost" port="19002"
+            database="my_asterix"/>
+    </data_source>
+    <data_object name="empty" execution_data_source="src_1">
+        <schema_tree>
+        </schema_tree>
+        <data_tree>
+        </data_tree>
+    </data_object>
+    <query_plan wrapping="false">
+    </query_plan>
+    <query_expression>
+        <![CDATA[
+            let $message := 'Hello World!'
+            return $message
+        ]]>
+    </query_expression>
+    <data_object name="output" execution_data_source="output">
+        <schema_tree>
+            <root type="tuple">
+                <result type="string"/>
+                <array type="collection">
+                    <string type="string" />
+                </array>
+            </root>
+        </schema_tree>
+        <data_tree>
+            <root>
+                <result> result </result>
+                <array>
+                    <string>Hello World!</string>
+                </array>
+            </root>
+        </data_tree>
+    </data_object>
+</test_case>

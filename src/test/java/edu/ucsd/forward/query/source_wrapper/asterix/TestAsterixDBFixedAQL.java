@@ -3,16 +3,11 @@
  */
 package edu.ucsd.forward.query.source_wrapper.asterix;
 
+import org.testng.annotations.Test;
+
 import edu.ucsd.forward.query.AbstractQueryTestCase;
 import edu.ucsd.app2you.util.logger.Logger;
-import java.io.IOException;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.util.EntityUtils;
-import org.apache.http.impl.client.DefaultHttpClient;
-import com.google.gson.Gson;
+import org.testng.annotations.Test;
 
 /**
  * This test case is a first attempt to communicate with a underlying AsterixDB database using AQL.
@@ -20,6 +15,7 @@ import com.google.gson.Gson;
  * @author Jules Testard
  * 
  */
+@Test
 public class TestAsterixDBFixedAQL extends AbstractQueryTestCase
 {
     @SuppressWarnings("unused")
@@ -33,49 +29,31 @@ public class TestAsterixDBFixedAQL extends AbstractQueryTestCase
     /**
      * Test that we can send a Hello World style AQL query to the AsterixDB instance.
      */
-    public void testHelloWorld()
+    public void testHelloWorldSimple() throws Exception
     {
+        //Create a AsterixDB wrapper.
+        AsterixSourceWrapper wrapper = new AsterixSourceWrapper("localhost",19002);
         
+        //Create a AQL request.
+        String helloWorldAQLString = "let $message := 'Hello World!'\nreturn $message";
+        AQLRequest request = new AQLRequest(AQLRequest.RequestType.QUERY, helloWorldAQLString);
+        
+        //Send the request
+        String jsonOutput = wrapper.getClient().sendAQLRequest(request);
+        String expectedOutput = "{\"results\":[\"\\\"Hello World!\\\"\\n\"]}";
+        
+        assertEquals(expectedOutput, jsonOutput);
+        
+        if (DEBUG) {
+            log.info("Output for the request is:\n" + jsonOutput);   
+        }
     }
     
-    public String sendAsterixRequest(String url, String body)
+    public void testHelloWorld() throws Exception
     {
-        String jsonOutput;
-        try
-        {
-            HttpClient client = new DefaultHttpClient();
-            HttpGet request = new HttpGet(url);
-            request.addHeader("content-type", "application/json");
-            HttpResponse result = client.execute(request);
-            jsonOutput = EntityUtils.toString(result.getEntity(), "UTF-8");
-        }
-        catch (IOException ex)
-        {
-            return ex.getMessage();
-        }
-        return jsonOutput;
+        String relative_file_name = "TestAsterixDBFixedAQL-testHelloWorld";
+        
+        parseTestCase(this.getClass(), relative_file_name + ".xml");
     }
     
-    /**
-     * Sends a JSON request to specified URL.
-     * 
-     * @param url
-     * @return
-     */
-    private String JSONGetRequest(String url)
-    {
-        try
-        {
-            HttpClient client = new DefaultHttpClient();
-            HttpGet request = new HttpGet(url);
-            request.addHeader("content-type", "application/json");
-            HttpResponse result = client.execute(request);
-            return EntityUtils.toString(result.getEntity(), "UTF-8");
-        }
-        catch (IOException ex)
-        {
-            return ex.getMessage();
-        }
-        
-    }    
 }

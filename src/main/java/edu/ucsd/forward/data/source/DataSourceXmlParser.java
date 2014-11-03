@@ -35,6 +35,7 @@ import edu.ucsd.forward.data.index.IndexUtil;
 import edu.ucsd.forward.data.source.DataSourceMetaData.DataModel;
 import edu.ucsd.forward.data.source.DataSourceMetaData.Site;
 import edu.ucsd.forward.data.source.DataSourceMetaData.StorageSystem;
+import edu.ucsd.forward.data.source.asterix.AsterixDataSource;
 import edu.ucsd.forward.data.source.idb.IndexedDbDataSource;
 import edu.ucsd.forward.data.source.inmemory.InMemoryDataSource;
 import edu.ucsd.forward.data.source.jdbc.JdbcDataSource;
@@ -240,6 +241,11 @@ public final class DataSourceXmlParser
                 // The default data model for remote data source is SQL++
                 data_model = (!data_model_attr.isEmpty()) ? DataModel.constantOf(data_model_attr) : DataModel.SQLPLUSPLUS;
                 data_source = new RemoteDataSource(source_name, data_model);
+                return data_source;
+            case ASTERIX:
+                String overwrite_attr = properties_elm.getAttribute(OVERWRITE_ATTR);
+                boolean overwrite = (!overwrite_attr.isEmpty()) ? Boolean.parseBoolean(overwrite_attr) : false;
+                data_source = new AsterixDataSource(source_name, null, overwrite);
                 return data_source;
             case JDBC:
                 // The default data model for JDBC data source is relational
